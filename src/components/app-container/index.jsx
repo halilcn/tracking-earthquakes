@@ -30,6 +30,7 @@ const AppContainer = () => {
       }, 1500)
     } catch (err) {
       setHasError(true)
+      setIsLoading(false)
     }
   }
 
