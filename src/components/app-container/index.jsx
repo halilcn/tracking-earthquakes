@@ -1,5 +1,5 @@
 import TrackingMap from '../tracking-map'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { getCustomPoints, getEarthquakes } from '../../api'
 import { useDispatch } from 'react-redux'
 import { earthquakeActions } from '../../store/earthquake'
@@ -11,18 +11,24 @@ import firebase from '../../service/firebase'
 import { MAP_UPDATE_MIN } from '../../constants'
 
 import './index.scss'
+import ErrorPage from '../error-page'
 
 const AppContainer = () => {
   const dispatch = useDispatch()
 
-  const handleGetEarthquakes = async () => {
-    const earthquakeResult = (await getEarthquakes()).result
-    const preparedEarthquakesData = earthquakeResult.map(earthquake => prepareEarthquake(earthquake))
+  const [hasError, setHasError] = useState(false)
 
-    // TODO: temporarily solution
-    setTimeout(() => {
-      dispatch(earthquakeActions.setEarthquakes(preparedEarthquakesData))
-    }, 1500)
+  const handleGetEarthquakes = async () => {
+    try {
+      const earthquakeResult = (await getEarthquakes()).result
+      const preparedEarthquakesData = earthquakeResult.map(earthquake => prepareEarthquake(earthquake))
+      // TODO: temporarily solution
+      setTimeout(() => {
+        dispatch(earthquakeActions.setEarthquakes(preparedEarthquakesData))
+      }, 1500)
+    } catch (err) {
+      setHasError(true)
+    }
   }
 
   const handleGetCustomPoints = async () => {
@@ -55,13 +61,19 @@ const AppContainer = () => {
 
   return (
     <div className="app-container">
-      <div className="app-container__top">
-        <PageTop />
-      </div>
-      <div className="app-container__content">
-        <EarthquakeList />
-        <TrackingMap />
-      </div>
+      {hasError ? (
+        <ErrorPage />
+      ) : (
+        <>
+          <div className="app-container__top">
+            <PageTop />
+          </div>
+          <div className="app-container__content">
+            <EarthquakeList />
+            <TrackingMap />
+          </div>
+        </>
+      )}
     </div>
   )
 }
