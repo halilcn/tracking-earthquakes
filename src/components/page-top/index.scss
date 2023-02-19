@@ -1,0 +1,13 @@
+.app-top {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    position: relative;
+
+    &__username {
+        margin-right: 20px;
+        font-weight: 500;
+        font-size: 18px;
+        color: white;
+    }
+}

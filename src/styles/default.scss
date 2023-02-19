@@ -1,0 +1,15 @@
+@import "./fonts";
+
+html,
+body,
+#root {
+    margin: 0;
+    height: 100%;
+}
+
+* {
+    box-sizing: border-box;
+    outline: none;
+    text-decoration: none;
+    font-family: "Montserrat", cursive;
+}

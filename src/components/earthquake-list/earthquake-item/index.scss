@@ -1,0 +1,57 @@
+.earthquake-raw {
+    &__button {
+        display: flex;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        border-radius: 10px !important;
+        border: 1px solid transparent !important;
+        background-color: #313133 !important;
+
+        &--new {
+            border-color: rgb(138, 138, 138) !important;
+        }
+    }
+
+    &__just-now {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        font-size: 12px;
+        color: rgb(255, 255, 255);
+        font-weight: 700;
+        border: 1px solid white;
+        border-radius: 8px;
+        padding: 2px 4px;
+    }
+
+    &__item {
+        margin: 3px 0;
+
+        &--intensity {
+            font-weight: 700;
+            font-size: 21px;
+        }
+
+        &--depth {
+            font-size: 15px;
+        }
+
+        &--date {
+            font-size: 15px;
+        }
+
+        &--title {
+            font-size: 13px;
+            font-weight: 300;
+        }
+    }
+
+    &__line {
+        display: flex;
+        align-items: center;
+    }
+
+    &__circle-character {
+        margin: 0 20px;
+    }
+}

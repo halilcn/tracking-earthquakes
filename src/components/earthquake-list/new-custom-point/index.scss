@@ -1,0 +1,26 @@
+.new-custom-point {
+    color: white;
+    padding: 20px;
+
+    &__item {
+        margin: 15px 0;
+
+        &--title {
+            font-weight: 600;
+            font-size: 19px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        &--coordinates {
+        }
+
+        &--detail {
+            width: 100% !important;
+        }
+
+        &--save-button {
+            margin-top: 30px !important;
+        }
+    }
+}
