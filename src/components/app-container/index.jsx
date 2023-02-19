@@ -9,14 +9,16 @@ import EarthquakeList from '../earthquake-list'
 import PageTop from '../page-top'
 import firebase from '../../service/firebase'
 import { MAP_UPDATE_MIN } from '../../constants'
+import ErrorPage from '../error-page'
+import Loading from '../loading'
 
 import './index.scss'
-import ErrorPage from '../error-page'
 
 const AppContainer = () => {
   const dispatch = useDispatch()
 
   const [hasError, setHasError] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   const handleGetEarthquakes = async () => {
     try {
@@ -40,6 +42,12 @@ const AppContainer = () => {
     }, 1500)
   }
 
+  const firstGetting = async () => {
+    await handleGetEarthquakes()
+    await handleGetCustomPoints()
+    setIsLoading(false)
+  }
+
   const listenFirebaseAuth = () => {
     firebase.auth().onAuthStateChanged(user => {
       dispatch(userActions.setAuth(user))
@@ -48,8 +56,7 @@ const AppContainer = () => {
   }
 
   useEffect(() => {
-    handleGetEarthquakes()
-    handleGetCustomPoints()
+    firstGetting()
     listenFirebaseAuth()
 
     const getEarthquakesInterval = setInterval(() => {
@@ -61,9 +68,9 @@ const AppContainer = () => {
 
   return (
     <div className="app-container">
-      {hasError ? (
-        <ErrorPage />
-      ) : (
+      {isLoading && <Loading />}
+      {hasError && <ErrorPage />}
+      {!hasError && !isLoading && (
         <>
           <div className="app-container__top">
             <PageTop />
