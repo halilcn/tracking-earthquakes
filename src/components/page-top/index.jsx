@@ -2,6 +2,7 @@ import Button from '@mui/material/Button'
 import Skeleton from '@mui/material/Skeleton'
 import { useSelector } from 'react-redux'
 import { signInWithGoogle, auth as authFirebase } from '../../service/firebase'
+import githubImage from '../../assets/github.png'
 
 import './index.scss'
 
@@ -16,6 +17,12 @@ const PageTop = () => {
 
   return (
     <div className="app-top">
+      <div className="app-top__github-link">
+        <a href="https://github.com/halilcn/tracking-earthquakes" target="_blank">
+          <img className="app-top__github-icon" src={githubImage} />
+          <div className="app-top__github-text">Github</div>
+        </a>
+      </div>
       {!isLoadedAuthInformation ? (
         <Skeleton variant="rectangular" width={150} height={35} />
       ) : (

@@ -3,11 +3,39 @@
     align-items: center;
     height: 100%;
     position: relative;
+    width: 100%;
 
     &__username {
         margin-right: 20px;
         font-weight: 500;
         font-size: 18px;
         color: white;
+    }
+
+    &__github-link {
+        margin-right: auto;
+
+        > a {
+            display: flex;
+            align-items: center;
+            background-color: rgb(43, 43, 43);
+            color: white;
+            padding: 11px;
+            border-radius: 5px;
+
+            &:hover {
+                background-color: rgb(54, 54, 54);
+            }
+        }
+    }
+
+    &__github-icon {
+        width: 21px;
+        height: 21px;
+    }
+
+    &__github-text {
+        font-size: 15px;
+        margin-left: 10px;
     }
 }
