@@ -36,6 +36,17 @@ export const FILTER_TIME = {
 
 export const DEFAULT_TIME_FILTER_VALUE = 6
 
+export const FILTER_MAGNITUDE = {
+  0: 'Tümü',
+  3: '>3',
+  4: '>4',
+  5: '>5',
+  6: '>6',
+  7: '>7',
+}
+
+export const DEFAULT_MAGNITUDE_FILTER_VALUE = 0
+
 export const MAP_TYPE = {
   DARK: 'mapbox://styles/mapbox/dark-v11',
   '3D': 'mapbox://styles/mapbox/satellite-streets-v12',

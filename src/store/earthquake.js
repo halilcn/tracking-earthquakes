@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { DEFAULT_TIME_FILTER_VALUE } from '../constants'
+import { DEFAULT_MAGNITUDE_FILTER_VALUE, DEFAULT_TIME_FILTER_VALUE } from '../constants'
 
 export const earthquake = createSlice({
   name: 'earthquake',
   initialState: {
     earthquakes: [],
     earthquakeTimeFilter: DEFAULT_TIME_FILTER_VALUE,
+    earthquakeMagnitudeFilter: DEFAULT_MAGNITUDE_FILTER_VALUE,
     customPoints: [],
     mapCurrent: null,
     isActiveCustomPointSelection: false,
@@ -17,6 +18,9 @@ export const earthquake = createSlice({
     },
     setEarthquakeTimeFilter: (state, actions) => {
       state.earthquakeTimeFilter = actions.payload
+    },
+    setEarthquakeMagnitudeFilter: (state, actions) => {
+      state.earthquakeMagnitudeFilter = actions.payload
     },
     setMapCurrent: (state, actions) => {
       state.mapCurrent = actions.payload
