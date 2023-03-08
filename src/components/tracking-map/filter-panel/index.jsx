@@ -1,7 +1,7 @@
-import TimeFilter from '../time-filter'
+import TimeFilter from './time-filter'
 import AddCustomPoint from './add-custom-point'
 import MapType from './map-type'
-import MagnitudeFilter from '../magnitude-filter'
+import MagnitudeFilter from './magnitude-filter'
 
 import './index.scss'
 
