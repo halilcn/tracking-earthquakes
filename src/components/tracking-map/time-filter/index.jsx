@@ -18,8 +18,10 @@ const TimeFilter = () => {
       <FormControl style={{ width: 130, zIndex: 1 }}>
         <InputLabel id="time-filter">Zaman</InputLabel>
         <Select labelId="time-filter" value={earthquakeTimeFilter} label="Zaman" onChange={handleChange}>
-          {Object.keys(FILTER_TIME).map(time => (
-            <MenuItem value={time}>{FILTER_TIME[time]}</MenuItem>
+          {Object.keys(FILTER_TIME).map((time, index) => (
+            <MenuItem key={index} value={time}>
+              {FILTER_TIME[time]}
+            </MenuItem>
           ))}
         </Select>
       </FormControl>

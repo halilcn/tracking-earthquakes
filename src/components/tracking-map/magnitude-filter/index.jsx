@@ -19,8 +19,10 @@ const MagnitudeFilter = () => {
       <FormControl style={{ width: 130, zIndex: 1 }}>
         <InputLabel id="magnitude-filter">Büyüklük</InputLabel>
         <Select labelId="magnitude-filter" value={magnitudeFilter} label="Büyüklük" onChange={handleChange}>
-          {Object.keys(FILTER_MAGNITUDE).map(magnitude => (
-            <MenuItem value={magnitude}>{FILTER_MAGNITUDE[magnitude]}</MenuItem>
+          {Object.keys(FILTER_MAGNITUDE).map((magnitude, key) => (
+            <MenuItem key={key} value={magnitude}>
+              {FILTER_MAGNITUDE[magnitude]}
+            </MenuItem>
           ))}
         </Select>
       </FormControl>
