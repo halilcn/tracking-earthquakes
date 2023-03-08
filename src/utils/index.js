@@ -19,7 +19,14 @@ export const getLevelByIntensity = intensity => {
 }
 
 export const prepareEarthquake = earthquake => {
-  const { coordinates, date, depth, earthquake_id, title, mag } = earthquake
+  const {
+    geojson: { coordinates },
+    date,
+    depth,
+    earthquake_id,
+    title,
+    mag,
+  } = earthquake
 
   const isNewEarthquake = checkIsNewEarthquake(date)
   const pointColor = getPointColorByIntensity(mag)
