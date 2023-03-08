@@ -58,7 +58,7 @@ const AppContainer = () => {
       handleGetEarthquakes()
     }, MAP_UPDATE_MIN * 1000)
 
-    // return clearInterval(getEarthquakesInterval) // TODO:
+    return () => clearInterval(getEarthquakesInterval)
   }, [])
 
   return (
