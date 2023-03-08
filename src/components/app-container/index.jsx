@@ -24,10 +24,7 @@ const AppContainer = () => {
     try {
       const earthquakeResult = (await getEarthquakes()).result
       const preparedEarthquakesData = earthquakeResult.map(earthquake => prepareEarthquake(earthquake))
-      // TODO: temporarily solution
-      setTimeout(() => {
-        dispatch(earthquakeActions.setEarthquakes(preparedEarthquakesData))
-      }, 1500)
+      dispatch(earthquakeActions.setEarthquakes(preparedEarthquakesData))
     } catch (err) {
       setHasError(true)
       setIsLoading(false)
@@ -37,10 +34,7 @@ const AppContainer = () => {
   const handleGetCustomPoints = async () => {
     const customPoints = await getCustomPoints()
 
-    // TODO: temporarily solution
-    setTimeout(() => {
-      dispatch(earthquakeActions.setCustomPoints(customPoints))
-    }, 1500)
+    dispatch(earthquakeActions.setCustomPoints(customPoints))
   }
 
   const firstGetting = async () => {
