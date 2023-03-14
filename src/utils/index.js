@@ -18,6 +18,12 @@ export const getLevelByIntensity = intensity => {
   if (intensity >= 7) return INTENSITY_LEVELS.LEVEL_6
 }
 
+// TODO: we need to have calculated healthy
+export const calculateAffectedDistance = (mag, depth) => {
+  const distance = Math.pow(10, 0.5 * mag + 1.44) * Math.pow(Math.E, 0.15 * depth)
+  return distance / 150
+}
+
 export const prepareEarthquake = earthquake => {
   const {
     geojson: { coordinates },
@@ -31,6 +37,8 @@ export const prepareEarthquake = earthquake => {
   const isNewEarthquake = checkIsNewEarthquake(date)
   const pointColor = getPointColorByIntensity(mag)
   const pointSize = getPointSizeByIntensity(mag)
+  const affectedDistance = calculateAffectedDistance(mag, depth)
+  const isActiveAffectedDistance = false
 
   return {
     type: 'Feature',
@@ -48,6 +56,8 @@ export const prepareEarthquake = earthquake => {
       isNewEarthquake,
       pointColor,
       pointSize,
+      affectedDistance,
+      isActiveAffectedDistance,
     },
   }
 }

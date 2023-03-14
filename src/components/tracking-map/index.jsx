@@ -15,6 +15,7 @@ const EARTHQUAKE_CUSTOM_POINTS_DATA = 'earthquakes-custom-points-data'
 const EARTHQUAKE_CUSTOM_POINTS_LAYER = 'earthquakes-data-custom-points-layer'
 const EARTHQUAKE_DATA_CIRCLE_LAYER = 'earthquakes-data-circle-layer'
 const EARTHQUAKE_DATA_PULSING_LAYER = 'earthquakes-data-pulsing-layer'
+const EARTHQUAKE_DATA_AFFECTED_DISTANCE_LAYER = 'earthquakes-data-affected-distance-layer'
 
 const TrackingMap = () => {
   const dispatch = useDispatch()
@@ -27,6 +28,26 @@ const TrackingMap = () => {
   const mapContainer = useRef(null)
   const map = useRef(null)
   const customPointMarker = useRef(null)
+
+  // TODO: refactor
+  const toggleAffectedDistanceLayer = earthquakeId => {
+    const copyEarthquake = [...earthquakes]
+
+    const activeEarthquakeIndex = earthquakes.findIndex(earthquake => earthquake.properties.earthquake_id === earthquakeId)
+    const deactivateEarthquakeIndex = earthquakes.findIndex(earthquake => earthquake.properties.isActiveAffectedDistance)
+
+    copyEarthquake[activeEarthquakeIndex] = {
+      ...copyEarthquake[activeEarthquakeIndex],
+      properties: { ...copyEarthquake[activeEarthquakeIndex].properties, isActiveAffectedDistance: true },
+    }
+
+    copyEarthquake[deactivateEarthquakeIndex] = {
+      ...copyEarthquake[activeEarthquakeIndex],
+      properties: { ...copyEarthquake[activeEarthquakeIndex].properties, isActiveAffectedDistance: false },
+    }
+
+    dispatch(earthquakeActions.setEarthquakes(copyEarthquake))
+  }
 
   useEffect(() => {
     if (map.current) return
@@ -126,8 +147,21 @@ const TrackingMap = () => {
         },
       })
 
+      map.current.addLayer({
+        id: EARTHQUAKE_DATA_AFFECTED_DISTANCE_LAYER,
+        source: EARTHQUAKE_DATA,
+        type: 'circle',
+        paint: {
+          'circle-radius': ['get', 'affectedDistance'],
+          'circle-color': '#D0E0F1',
+          'circle-opacity': 0.2,
+        },
+        filter: ['all', ['==', 'isActiveAffectedDistance', true]],
+      })
+
       map.current.on('click', EARTHQUAKE_DATA_CIRCLE_LAYER, e => {
         new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(getPopupForPoint(e.features[0].properties)).addTo(map.current)
+        toggleAffectedDistanceLayer(e.features[0].properties.earthquake_id)
       })
 
       map.current.on('click', EARTHQUAKE_CUSTOM_POINTS_LAYER, e => {
