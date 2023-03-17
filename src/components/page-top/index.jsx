@@ -15,18 +15,8 @@ const PageTop = () => {
     authFirebase.signOut()
   }
 
-  return (
-    <div className="app-top">
-      <div className="app-top__github-link">
-        <a href="https://github.com/halilcn/tracking-earthquakes" target="_blank">
-          <img className="app-top__github-icon" src={githubImage} />
-          <div className="app-top__github-text">Github</div>
-        </a>
-      </div>
-      {!isLoadedAuthInformation ? (
-        <Skeleton variant="rectangular" width={150} height={35} />
-      ) : (
-        <>
+  /*
+          <>
           {auth && <div className="app-top__username">{auth.displayName}</div>}
           {auth !== null && (
             <Button onClick={handleSignOut} color="error" variant="contained">
@@ -39,7 +29,17 @@ const PageTop = () => {
             </Button>
           )}
         </>
-      )}
+ */
+
+  return (
+    <div className="app-top">
+      <div className="app-top__github-link">
+        <a href="https://github.com/halilcn/tracking-earthquakes" target="_blank">
+          <img className="app-top__github-icon" src={githubImage} />
+          <div className="app-top__github-text">Github</div>
+        </a>
+      </div>
+      {!isLoadedAuthInformation ? <Skeleton variant="rectangular" width={150} height={35} /> : <div />}
     </div>
   )
 }
