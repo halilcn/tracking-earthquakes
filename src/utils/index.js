@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
-import { INTENSITY_LEVELS, POINT_COLOR, POINT_SIZE } from '../constants'
+import { DEFAULT_TIME_FORMAT, INTENSITY_LEVELS, POINT_COLOR, POINT_SIZE } from '../constants'
 
 dayjs.extend(customParseFormat)
 
@@ -10,7 +10,7 @@ export const getPointSizeByIntensity = intensity => POINT_SIZE[getLevelByIntensi
 
 export const checkIsNewEarthquake = date => dayjs().add(-15, 'minutes').isBefore(dayjs(date))
 
-export const checkDate = (date, filterTime) => dayjs().add(filterTime, 'hours').isBefore(dayjs(date, 'YYYY-MM-DD HH:mm'))
+export const checkDate = (date, filterTime) => dayjs().add(filterTime, 'hours').isBefore(dayjs(date, DEFAULT_TIME_FORMAT))
 
 export const getLevelByIntensity = intensity => {
   if (intensity < 3) return INTENSITY_LEVELS.LEVEL_1
