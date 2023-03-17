@@ -29,24 +29,16 @@ const TrackingMap = () => {
   const map = useRef(null)
   const customPointMarker = useRef(null)
 
-  // TODO: refactor
   const toggleAffectedDistanceLayer = earthquakeId => {
-    const copyEarthquake = [...earthquakes]
+    const copyEarthquakes = JSON.parse(JSON.stringify(earthquakes)) // We need to deep clone
 
-    const activeEarthquakeIndex = earthquakes.findIndex(earthquake => earthquake.properties.earthquake_id === earthquakeId)
-    const deactivateEarthquakeIndex = earthquakes.findIndex(earthquake => earthquake.properties.isActiveAffectedDistance)
+    const activeEarthquakeIndex = copyEarthquakes.findIndex(earthquake => earthquake.properties.earthquake_id === earthquakeId)
+    const deactivateEarthquakeIndex = copyEarthquakes.findIndex(earthquake => earthquake.properties.isActiveAffectedDistance === true)
 
-    copyEarthquake[activeEarthquakeIndex] = {
-      ...copyEarthquake[activeEarthquakeIndex],
-      properties: { ...copyEarthquake[activeEarthquakeIndex].properties, isActiveAffectedDistance: true },
-    }
+    copyEarthquakes[activeEarthquakeIndex].properties.isActiveAffectedDistance = true
+    if (deactivateEarthquakeIndex !== -1) copyEarthquakes[deactivateEarthquakeIndex].properties.isActiveAffectedDistance = false
 
-    copyEarthquake[deactivateEarthquakeIndex] = {
-      ...copyEarthquake[activeEarthquakeIndex],
-      properties: { ...copyEarthquake[activeEarthquakeIndex].properties, isActiveAffectedDistance: false },
-    }
-
-    dispatch(earthquakeActions.setEarthquakes(copyEarthquake))
+    dispatch(earthquakeActions.setEarthquakes(copyEarthquakes))
   }
 
   useEffect(() => {
