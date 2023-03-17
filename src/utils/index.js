@@ -35,6 +35,7 @@ export const prepareEarthquake = earthquake => {
     earthquake_id,
     title,
     mag,
+    location_properties,
   } = earthquake
 
   const isNewEarthquake = checkIsNewEarthquake(date)
@@ -54,6 +55,7 @@ export const prepareEarthquake = earthquake => {
       date,
       depth,
       earthquake_id,
+      location_properties,
       title,
       mag,
       isNewEarthquake,
