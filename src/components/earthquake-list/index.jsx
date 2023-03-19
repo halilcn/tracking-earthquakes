@@ -1,7 +1,7 @@
 import { Box, TextField } from '@mui/material'
 import { useSelector } from 'react-redux'
 import { FixedSizeList } from 'react-window'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import getEarthquakes from '../../hooks/getEarthquakes'
 import EarthquakeItem from './earthquake-item'
 import NewCustomPoint from './new-custom-point'
@@ -10,11 +10,17 @@ import './index.scss'
 
 const EarthquakeList = () => {
   const [textFilter, setTextFilter] = useState('')
+  const [listHeight, setListHeight] = useState(0)
 
   const isActiveCustomPointSelection = useSelector(state => state.earthquake.isActiveCustomPointSelection)
   const earthquakes = getEarthquakes().filter(earthquake =>
     earthquake.properties.location_properties.epiCenter.name?.toLowerCase().includes(textFilter.toLowerCase())
   )
+
+  useEffect(() => {
+    const earthquakeListHeight = document.getElementsByClassName('earthquake-list__list-container')[0]?.offsetHeight
+    setListHeight(earthquakeListHeight)
+  }, [])
 
   const handleChangeTextFilter = e => setTextFilter(e.target.value)
 
@@ -38,7 +44,7 @@ const EarthquakeList = () => {
   }
 
   const fixedSizeListProps = {
-    height: document.body.offsetHeight,
+    height: listHeight,
     width: '100%',
     itemSize: 85,
     itemCount: earthquakes.length,
