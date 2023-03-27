@@ -21,10 +21,10 @@ export const getLevelByIntensity = intensity => {
   if (intensity >= 7) return INTENSITY_LEVELS.LEVEL_6
 }
 
-// TODO: we need to have calculated healthy
 export const calculateAffectedDistance = (mag, depth) => {
-  const distance = Math.pow(10, 0.5 * mag + 1.44) * Math.pow(Math.E, 0.15 * depth)
-  return distance / 150
+  const intensity = mag - 1.5
+  const distance = Math.pow(10, (1.8 * intensity + 9.1 - 0.9 * depth) / 3)
+  return distance / 15
 }
 
 export const prepareEarthquake = earthquake => {
@@ -41,8 +41,6 @@ export const prepareEarthquake = earthquake => {
   const isNewEarthquake = checkIsNewEarthquake(date)
   const pointColor = getPointColorByIntensity(mag)
   const pointSize = getPointSizeByIntensity(mag)
-  const affectedDistance = calculateAffectedDistance(mag, depth)
-  const isActiveAffectedDistance = false
 
   return {
     type: 'Feature',
@@ -61,8 +59,6 @@ export const prepareEarthquake = earthquake => {
       isNewEarthquake,
       pointColor,
       pointSize,
-      affectedDistance,
-      isActiveAffectedDistance,
     },
   }
 }
@@ -91,3 +87,36 @@ export const getPopupForCustomPoint = customPoint => `
 <div><b>Oluşturan Kişi:</b> ${customPoint.username}</div>
 <div><b>Açıklama:</b> ${customPoint.description}</div>
 `
+// TODO: refactor
+export const calculateDistanceByUsingKm = (center, radiusInKm, points) => {
+  if (!points) points = 64
+
+  const [longitude, latitude] = center
+  var km = radiusInKm
+
+  const ret = []
+  const distanceX = km / (111.32 * Math.cos((latitude * Math.PI) / 180))
+  const distanceY = km / 110.574
+
+  let theta, x, y
+  for (let i = 0; i < points; i++) {
+    theta = (i / points) * (2 * Math.PI)
+    x = distanceX * Math.cos(theta)
+    y = distanceY * Math.sin(theta)
+
+    ret.push([longitude + x, latitude + y])
+  }
+  ret.push(ret[0])
+
+  return ret
+}
+
+export const prepareEarthquakeDistance = ({ coordinates, mag, depth }) => {
+  return {
+    type: 'Feature',
+    geometry: {
+      type: 'Polygon',
+      coordinates: [calculateDistanceByUsingKm(JSON.parse(coordinates), calculateAffectedDistance(mag, depth))],
+    },
+  }
+}

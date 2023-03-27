@@ -1,7 +1,13 @@
 import React, { useRef, useEffect } from 'react'
 import { MAP_TYPE, MAPBOX_API_KEY } from '../../constants'
 import getEarthquakes from '../../hooks/getEarthquakes'
-import { getPopupForCustomPoint, getPopupForPoint, wrapperForSourceData } from '../../utils'
+import {
+  calculateDistanceByUsingKm,
+  getPopupForCustomPoint,
+  getPopupForPoint,
+  prepareEarthquakeDistance,
+  wrapperForSourceData,
+} from '../../utils'
 import { getMapType } from '../../utils/localStorageActions'
 import UpdateTimer from './update-timer'
 import { useDispatch, useSelector } from 'react-redux'
@@ -12,6 +18,7 @@ import './index.scss'
 
 const EARTHQUAKE_DATA = 'earthquakes-data'
 const EARTHQUAKE_CUSTOM_POINTS_DATA = 'earthquakes-custom-points-data'
+const EARTHQUAKE_AFFECTED_DISTANCE_DATA = 'earthquakes-affected-distance-data'
 const EARTHQUAKE_CUSTOM_POINTS_LAYER = 'earthquakes-data-custom-points-layer'
 const EARTHQUAKE_DATA_CIRCLE_LAYER = 'earthquakes-data-circle-layer'
 const EARTHQUAKE_DATA_PULSING_LAYER = 'earthquakes-data-pulsing-layer'
@@ -21,6 +28,7 @@ const TrackingMap = () => {
   const dispatch = useDispatch()
   const isActiveCustomPointSelection = useSelector(state => state.earthquake.isActiveCustomPointSelection)
   const customPoints = useSelector(state => state.earthquake.customPoints)
+  const earthquakeAffectedDistance = useSelector(state => state.earthquake.earthquakeAffectedDistance)
 
   const mapType = MAP_TYPE[getMapType()] || MAP_TYPE.DARK
   const earthquakes = getEarthquakes()
@@ -29,17 +37,12 @@ const TrackingMap = () => {
   const map = useRef(null)
   const customPointMarker = useRef(null)
 
-  const toggleAffectedDistanceLayer = earthquakeId => {
-    const copyEarthquakes = JSON.parse(JSON.stringify(earthquakes)) // We need to deep clone
-
-    const activeEarthquakeIndex = copyEarthquakes.findIndex(earthquake => earthquake.properties.earthquake_id === earthquakeId)
-    const deactivateEarthquakeIndex = copyEarthquakes.findIndex(earthquake => earthquake.properties.isActiveAffectedDistance === true)
-
-    copyEarthquakes[activeEarthquakeIndex].properties.isActiveAffectedDistance = true
-    if (deactivateEarthquakeIndex !== -1) copyEarthquakes[deactivateEarthquakeIndex].properties.isActiveAffectedDistance = false
-
-    dispatch(earthquakeActions.setEarthquakes(copyEarthquakes))
+  const handleEarthquakeDistance = properties => {
+    const earthquakeAffectedDistance = prepareEarthquakeDistance(properties)
+    dispatch(earthquakeActions.setEarthquakeAffectedDistance(earthquakeAffectedDistance))
   }
+
+  const clearEarthquakeDistance = () => dispatch(earthquakeActions.setEarthquakeAffectedDistance({}))
 
   useEffect(() => {
     if (map.current) return
@@ -105,6 +108,7 @@ const TrackingMap = () => {
       })
 
       map.current.addSource(EARTHQUAKE_DATA, { type: 'geojson', data: wrapperForSourceData(earthquakes) })
+      map.current.addSource(EARTHQUAKE_AFFECTED_DISTANCE_DATA, { type: 'geojson', data: wrapperForSourceData(earthquakeAffectedDistance) })
       map.current.addSource(EARTHQUAKE_CUSTOM_POINTS_DATA, { type: 'geojson', data: wrapperForSourceData(customPoints) })
 
       map.current.addLayer({
@@ -141,23 +145,27 @@ const TrackingMap = () => {
 
       map.current.addLayer({
         id: EARTHQUAKE_DATA_AFFECTED_DISTANCE_LAYER,
-        source: EARTHQUAKE_DATA,
-        type: 'circle',
+        source: EARTHQUAKE_AFFECTED_DISTANCE_DATA,
+        type: 'fill',
+        layout: {},
         paint: {
-          'circle-radius': ['get', 'affectedDistance'],
-          'circle-color': '#D0E0F1',
-          'circle-opacity': 0.2,
+          'fill-color': '#D0E0F1',
+          'fill-opacity': 0.3,
         },
-        filter: ['all', ['==', 'isActiveAffectedDistance', true]],
       })
 
       map.current.on('click', EARTHQUAKE_DATA_CIRCLE_LAYER, e => {
+        e.preventDefault()
         new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(getPopupForPoint(e.features[0].properties)).addTo(map.current)
-        toggleAffectedDistanceLayer(e.features[0].properties.earthquake_id)
+        handleEarthquakeDistance(e.features[0].properties)
       })
 
       map.current.on('click', EARTHQUAKE_CUSTOM_POINTS_LAYER, e => {
         new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(getPopupForCustomPoint(e.features[0].properties)).addTo(map.current)
+      })
+
+      map.current.on('click', e => {
+        if (e.defaultPrevented === false) clearEarthquakeDistance()
       })
     })
   }, [])
@@ -183,6 +191,10 @@ const TrackingMap = () => {
   useEffect(() => {
     map.current.getSource(EARTHQUAKE_DATA)?.setData(wrapperForSourceData(earthquakes))
   }, [earthquakes])
+
+  useEffect(() => {
+    map.current.getSource(EARTHQUAKE_AFFECTED_DISTANCE_DATA)?.setData(wrapperForSourceData([earthquakeAffectedDistance])) // We need to set as an array
+  }, [earthquakeAffectedDistance])
 
   useEffect(() => {
     map.current.getSource(EARTHQUAKE_CUSTOM_POINTS_DATA)?.setData(wrapperForSourceData(customPoints))

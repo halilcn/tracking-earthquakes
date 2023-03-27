@@ -5,6 +5,7 @@ export const earthquake = createSlice({
   name: 'earthquake',
   initialState: {
     earthquakes: [],
+    earthquakeAffectedDistance: {},
     earthquakeTimeFilter: DEFAULT_TIME_FILTER_VALUE,
     earthquakeMagnitudeFilter: DEFAULT_MAGNITUDE_FILTER_VALUE,
     customPoints: [],
@@ -15,6 +16,9 @@ export const earthquake = createSlice({
   reducers: {
     setEarthquakes: (state, actions) => {
       state.earthquakes = actions.payload
+    },
+    setEarthquakeAffectedDistance: (state, actions) => {
+      state.earthquakeAffectedDistance = actions.payload
     },
     setEarthquakeTimeFilter: (state, actions) => {
       state.earthquakeTimeFilter = actions.payload
