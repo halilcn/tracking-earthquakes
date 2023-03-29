@@ -65,7 +65,7 @@ const EarthquakeList = () => {
           <div onClick={() => handleEarthquakeListEnable(true)} className="earthquake-list__mobile-icon">
             <BsListUl />
           </div>
-          <div className="earthquake-list__container" {...(isMobile && { style: { display: earthquakeListEnable ? 'block' : 'none' } })}>
+          <div className="earthquake-list__container" {...(isMobile() && !earthquakeListEnable && { style: { visibility: 'hidden' } })}>
             <div onClick={() => handleEarthquakeListEnable(false)} className="earthquake-list__mobile-close-list-btn">
               <IoMdClose />
             </div>
