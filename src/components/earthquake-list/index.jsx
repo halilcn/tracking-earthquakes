@@ -2,8 +2,10 @@ import { Box, TextField } from '@mui/material'
 import { useSelector } from 'react-redux'
 import { FixedSizeList } from 'react-window'
 import { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
 import { BsListUl } from 'react-icons/bs'
 import { IoMdClose } from 'react-icons/io'
+import { TbChevronsLeft } from 'react-icons/tb'
 import getEarthquakes from '../../hooks/getEarthquakes'
 import EarthquakeItem from './earthquake-item'
 import NewCustomPoint from './new-custom-point'
@@ -55,45 +57,80 @@ const EarthquakeList = () => {
     itemSize: 85,
     itemCount: earthquakes.length,
     overscanCount: 5,
+    className: 'earthquake-list__list',
   }
 
-  return (
-    <div className="earthquake-list">
-      {isActiveCustomPointSelection && <NewCustomPoint />}
-      {!isActiveCustomPointSelection && (
-        <>
-          <div onClick={() => handleEarthquakeListEnable(true)} className="earthquake-list__mobile-icon">
-            <BsListUl />
-          </div>
-          <div className="earthquake-list__container" {...(isMobile() && !earthquakeListEnable && { style: { visibility: 'hidden' } })}>
-            <div onClick={() => handleEarthquakeListEnable(false)} className="earthquake-list__mobile-close-list-btn">
+  const listActiveButtonProps = {
+    className: 'earthquake-list-active-button',
+    animate: earthquakeListEnable ? 'closed' : 'open',
+    variants: {
+      open: { opacity: 1, x: 0 },
+      closed: { opacity: 0, x: '-100%' },
+    },
+    transition: { duration: 0.6 },
+    onClick: () => handleEarthquakeListEnable(true),
+  }
+
+  const earthquakeListProps = {
+    className: 'earthquake-list',
+    animate: earthquakeListEnable ? 'open' : 'closed',
+    variants: {
+      open: { opacity: 1, left: 0 },
+      closed: { opacity: 0, left: '-100%' },
+    },
+    transition: { duration: 0.6 },
+  }
+
+  /*
+    <div onClick={() => handleEarthquakeListEnable(false)} className="earthquake-list__mobile-close-list-btn">
               <IoMdClose />
             </div>
-            <div className="earthquake-list__filter-text">
-              <TextField {...textFieldProps} />
+  */
+
+  //{...(!isMobile() && !earthquakeListEnable && { style: { right: '400' } })}
+
+  return (
+    <>
+      <motion.div {...listActiveButtonProps} onClick={() => handleEarthquakeListEnable(true)}>
+        <BsListUl size={30} />
+      </motion.div>
+      <motion.div {...earthquakeListProps}>
+        {isActiveCustomPointSelection && <NewCustomPoint />}
+        {!isActiveCustomPointSelection && (
+          <>
+            <div onClick={() => handleEarthquakeListEnable(true)} className="earthquake-list__mobile-icon">
+              <BsListUl />
             </div>
-            {earthquakes.length > 0 ? (
-              <div className="earthquake-list__list-container">
-                <Box {...boxProps}>
-                  <FixedSizeList {...fixedSizeListProps}>
-                    {({ index, style }) => (
-                      <EarthquakeItem
-                        handleEarthquakeListEnable={handleEarthquakeListEnable}
-                        earthquake={earthquakes[index]}
-                        index={index}
-                        style={style}
-                      />
-                    )}
-                  </FixedSizeList>
-                </Box>
+            <div onClick={() => handleEarthquakeListEnable(false)} className="earthquake-list__hide-button">
+              <TbChevronsLeft />
+            </div>
+            <div className="earthquake-list__container" {...(isMobile() && !earthquakeListEnable && { style: { visibility: 'hidden' } })}>
+              <div className="earthquake-list__filter-text">
+                <TextField {...textFieldProps} />
               </div>
-            ) : (
-              <div className="earthquake-list__no-earthquake-warning">Hiç deprem bulunamadı...</div>
-            )}
-          </div>
-        </>
-      )}
-    </div>
+              {earthquakes.length > 0 ? (
+                <div className="earthquake-list__list-container">
+                  <Box {...boxProps}>
+                    <FixedSizeList {...fixedSizeListProps}>
+                      {({ index, style }) => (
+                        <EarthquakeItem
+                          handleEarthquakeListEnable={handleEarthquakeListEnable}
+                          earthquake={earthquakes[index]}
+                          index={index}
+                          style={style}
+                        />
+                      )}
+                    </FixedSizeList>
+                  </Box>
+                </div>
+              ) : (
+                <div className="earthquake-list__no-earthquake-warning">Hiç deprem bulunamadı...</div>
+              )}
+            </div>
+          </>
+        )}
+      </motion.div>
+    </>
   )
 }
 
