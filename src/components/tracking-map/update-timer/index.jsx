@@ -18,7 +18,7 @@ const UpdateTimer = () => {
   return (
     <div className="update-timer">
       <Alert className="update-timer__content" icon={false} severity="success">
-        {time} saniye sonra harita güncellenecek
+        {time} saniye sonra güncellenecek
       </Alert>
     </div>
   )

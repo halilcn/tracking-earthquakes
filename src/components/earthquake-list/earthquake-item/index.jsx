@@ -2,15 +2,17 @@ import { ListItem, ListItemButton } from '@mui/material'
 import { useSelector } from 'react-redux'
 import dayjs from 'dayjs'
 import { DEFAULT_TIME_FORMAT } from '../../../constants'
+import { isMobile } from '../../../utils'
 
 import './index.scss'
 
 const EarthquakeItem = props => {
-  const { index, style, earthquake } = props
+  const { index, style, earthquake, handleEarthquakeListEnable } = props
 
   const mapCurrent = useSelector(state => state.earthquake.mapCurrent)
 
   const handleFocusPoint = coordinates => {
+    if (isMobile()) handleEarthquakeListEnable(false)
     mapCurrent.flyTo({
       center: coordinates,
       essential: true,

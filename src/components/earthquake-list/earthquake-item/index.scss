@@ -1,3 +1,5 @@
+@import "../../../styles/variables.scss";
+
 .earthquake-raw {
     &__button {
         display: flex;
@@ -53,5 +55,34 @@
 
     &__circle-character {
         margin: 0 20px;
+    }
+
+    @media only screen and (max-width: $mobile-width) {
+        &__just-now {
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        &__item {
+            &--intensity {
+                font-size: 15px;
+            }
+
+            &--depth {
+                font-size: 12px;
+            }
+
+            &--date {
+                font-size: 12px;
+            }
+
+            &--title {
+                font-size: 12px;
+            }
+        }
+
+        &__circle-character {
+            margin: 0 15px;
+        }
     }
 }

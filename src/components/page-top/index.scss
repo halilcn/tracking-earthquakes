@@ -1,3 +1,5 @@
+@import "../../styles/variables.scss";
+
 .app-top {
     display: flex;
     align-items: center;
@@ -37,5 +39,20 @@
     &__github-text {
         font-size: 15px;
         margin-left: 10px;
+    }
+
+    @media only screen and (max-width: $mobile-width) {
+        &__github-link > a {
+            padding: 6px;
+        }
+
+        &__github-icon {
+            width: 15px;
+            height: 15px;
+        }
+
+        &__github-text {
+            font-size: 13px;
+        }
     }
 }

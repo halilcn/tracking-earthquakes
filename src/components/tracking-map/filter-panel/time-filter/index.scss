@@ -1,2 +1,9 @@
+@import "../../../../styles/variables.scss";
+
 .time-filter {
+    @media only screen and (max-width: $mobile-width) {
+        &__select {
+            font-size: 14px !important;
+        }
+    }
 }

@@ -1,8 +1,16 @@
+@import "../../styles/variables.scss";
+
 .earthquake-list {
     width: 800px;
-    background-color: #3c3d3f;
     display: flex;
     flex-direction: column;
+
+    &__container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        background-color: #3c3d3f;
+    }
 
     &__list-container {
         width: 100%;
@@ -18,5 +26,46 @@
         color: white;
         font-weight: 300;
         font-size: 15px;
+    }
+
+    &__mobile-icon {
+        position: fixed;
+        left: 14px;
+        top: 64px;
+        z-index: 3;
+        background-color: white;
+        padding: 8px 8px 3px 8px;
+        border-radius: 5px;
+        display: none;
+    }
+
+    &__mobile-close-list-btn {
+        background-color: white;
+        right: 7px;
+        top: 7px;
+        position: absolute;
+        z-index: 4;
+        font-size: 20px;
+        padding: 7px 7px 4px;
+        border-radius: 5px;
+    }
+
+    @media only screen and (max-width: $mobile-width) {
+        position: absolute;
+
+        &__container {
+            position: fixed;
+            z-index: 4;
+            left: 0;
+            right: 0;
+        }
+
+        &__filter-text {
+            padding: 2px 10px;
+        }
+
+        &__mobile-icon {
+            display: block;
+        }
     }
 }

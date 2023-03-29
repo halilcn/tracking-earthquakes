@@ -1,3 +1,5 @@
+@import "../../../styles/variables.scss";
+
 .filter-panel {
     position: absolute;
     right: 20px;
@@ -9,5 +11,30 @@
 
     &__item {
         margin: 20px 0;
+    }
+
+    &__mobile-button {
+        position: fixed;
+        right: 14px;
+        top: 64px;
+        z-index: 3;
+        background-color: white;
+        padding: 8px 8px 3px 8px;
+        border-radius: 5px;
+        display: none;
+    }
+
+    @media only screen and (max-width: $mobile-width) {
+        right: 14px;
+        top: 60px;
+        padding: 5px;
+
+        &__mobile-button {
+            display: block;
+        }
+
+        &__item {
+            margin: 13px 0;
+        }
     }
 }
