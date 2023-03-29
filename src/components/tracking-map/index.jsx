@@ -1,13 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 import { MAP_TYPE, MAPBOX_API_KEY } from '../../constants'
 import getEarthquakes from '../../hooks/getEarthquakes'
-import {
-  calculateDistanceByUsingKm,
-  getPopupForCustomPoint,
-  getPopupForPoint,
-  prepareEarthquakeDistance,
-  wrapperForSourceData,
-} from '../../utils'
+import { getPopupForCustomPoint, getPopupForPoint, prepareEarthquakeDistance, wrapperForSourceData } from '../../utils'
 import { getMapType } from '../../utils/localStorageActions'
 import UpdateTimer from './update-timer'
 import { useDispatch, useSelector } from 'react-redux'

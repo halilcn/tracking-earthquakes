@@ -7,3 +7,29 @@
         height: 100%;
     }
 }
+
+.earthquake-popup {
+    &__mag {
+        padding: 7px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__mag-number {
+        font-size: 30px;
+        font-weight: 600;
+    }
+
+    &__mag-text {
+        font-weight: 500;
+        margin-top: 7px;
+        font-size: 10px;
+    }
+
+    &__info {
+        color: rgb(56, 56, 56);
+        font-weight: 300;
+    }
+}

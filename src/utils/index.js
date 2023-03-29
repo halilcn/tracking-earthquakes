@@ -78,10 +78,18 @@ export const prepareCustomPoint = params => {
 export const wrapperForSourceData = earthquakes => ({ type: 'FeatureCollection', features: earthquakes })
 
 export const getPopupForPoint = earthquake => `
-<div><b>Büyüklük:</b> ${earthquake.mag}</div>
-<div><b>Derinlik:</b> ${earthquake.depth} km</div>
-<div><b>Tarih:</b> ${earthquake.date}</div>
-<div><b>Adres:</b> ${earthquake.title}</div>`
+<div class="earthquake-popup">
+<div class="earthquake-popup__mag">
+ <span class="earthquake-popup__mag-number">${earthquake.mag}</span>
+ <span class="earthquake-popup__mag-text">BÜYÜKLÜK</span>
+</div>
+<div class="earthquake-popup__info">
+<div>&#x2022; ${dayjs(earthquake.date, DEFAULT_TIME_FORMAT).format('HH:mm dddd')}</div>
+<div>&#x2022; ${earthquake.depth} km derinliğinde</div>
+<div>&#x2022; ${earthquake.title.toLowerCase()}</div>
+</div>
+</div>
+`
 
 export const getPopupForCustomPoint = customPoint => `
 <div><b>Oluşturan Kişi:</b> ${customPoint.username}</div>
