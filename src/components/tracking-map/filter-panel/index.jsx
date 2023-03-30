@@ -14,11 +14,15 @@ const FilterPanel = () => {
 
   const toggleFilterPanelEnabled = () => setFilterPanelEnabled(status => !status)
 
-  return (
-    <>
-      <div className="filter-panel__mobile-button">
+  /*
+    <div className="filter-panel__mobile-button">
         <AiOutlineFilter onClick={toggleFilterPanelEnabled} />
       </div>
+      // TODO: ?
+  */
+
+  return (
+    <>
       <div className="filter-panel" {...(isMobile() && { style: { display: filterPanelEnabled ? 'block' : 'none' } })}>
         <div className="filter-panel__item">
           <TimeFilter />
