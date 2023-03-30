@@ -1,6 +1,6 @@
 import { Button } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
-import { earthquakeActions } from '../../../../store/earthquake'
+import { earthquakeActions } from '../../../../../store/earthquake'
 import './index.scss'
 
 const AddCustomPoint = () => {

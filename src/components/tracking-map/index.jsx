@@ -6,7 +6,7 @@ import { getMapType } from '../../utils/localStorageActions'
 import UpdateTimer from './update-timer'
 import { useDispatch, useSelector } from 'react-redux'
 import { earthquakeActions } from '../../store/earthquake'
-import FilterPanel from './filter-panel'
+import FilterList from './filter-list'
 
 import './index.scss'
 
@@ -198,7 +198,7 @@ const TrackingMap = () => {
     <div className="tracking-map">
       <div className="tracking-map__map-container" ref={mapContainer} />
       <UpdateTimer />
-      <FilterPanel />
+      <FilterList />
     </div>
   )
 }

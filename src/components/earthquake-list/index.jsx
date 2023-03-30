@@ -9,7 +9,6 @@ import { TbChevronsLeft } from 'react-icons/tb'
 import getEarthquakes from '../../hooks/getEarthquakes'
 import EarthquakeItem from './earthquake-item'
 import NewCustomPoint from './new-custom-point'
-import { isMobile } from '../../utils'
 import { getEarthquakeListStatus, setEarthquakeListStatus } from '../../utils/localStorageActions'
 
 import './index.scss'

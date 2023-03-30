@@ -4,7 +4,17 @@ import { collection, addDoc, getDocs } from 'firebase/firestore'
 import { db } from '../service/firebase'
 
 export const getEarthquakes = async () => {
-  const { data } = await axios.get(API_BASE_URL)
+  const { data } = await axios.get(`${API_BASE_URL}/live.php`)
+  return data
+}
+
+export const getArchiveEarthquakes = async params => {
+  const { data } = await axios.get(`${API_BASE_URL}/kandilli/archive`, {
+    params: {
+      limit: 4000000,
+      ...params,
+    },
+  })
   return data
 }
 

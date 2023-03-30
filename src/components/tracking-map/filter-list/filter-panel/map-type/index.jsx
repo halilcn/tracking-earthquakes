@@ -1,6 +1,6 @@
 import { InputLabel, MenuItem, FormControl, Select } from '@mui/material'
-import { MAP_TYPE } from '../../../../constants'
-import { getMapType, setMapType } from '../../../../utils/localStorageActions'
+import { MAP_TYPE } from '../../../../../constants'
+import { getMapType, setMapType } from '../../../../../utils/localStorageActions'
 
 import './index.scss'
 

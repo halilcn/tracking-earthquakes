@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'https://api.orhanaydogdu.com.tr/deprem/live.php'
+export const API_BASE_URL = 'https://api.orhanaydogdu.com.tr/deprem'
 
 export const INTENSITY_LEVELS = {
   LEVEL_1: 'LEVEL_1',
@@ -32,6 +32,13 @@ export const FILTER_TIME = {
   6: 'Son 6 saat',
   12: 'Son 12 saat',
   24: 'Son 24 saat',
+}
+
+export const ARCHIVE_CERTAIN_TIMES = {
+  3: 'Son 3 gün',
+  7: 'Son 7 gün',
+  15: 'Son 15 gün',
+  30: 'Son 1 ay',
 }
 
 export const DEFAULT_TIME_FILTER_VALUE = 6

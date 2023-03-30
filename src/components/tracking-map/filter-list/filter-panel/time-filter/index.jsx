@@ -1,7 +1,7 @@
 import { InputLabel, MenuItem, FormControl, Select } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
-import { FILTER_TIME } from '../../../../constants'
-import { earthquakeActions } from '../../../../store/earthquake'
+import { FILTER_TIME } from '../../../../../constants'
+import { earthquakeActions } from '../../../../../store/earthquake'
 
 import './index.scss'
 

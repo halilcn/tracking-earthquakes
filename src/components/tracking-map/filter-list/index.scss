@@ -1,0 +1,46 @@
+.filter {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    z-index: 1;
+
+    &__list {
+        display: flex;
+        font-size: 0;
+    }
+
+    &__item {
+        margin-left: 25px;
+        background-color: rgb(255, 255, 255);
+        padding: 10px;
+        border-radius: 100px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: rgb(227, 227, 227);
+        }
+    }
+
+    &__icon {
+        font-size: 25px;
+    }
+
+    &__content {
+        position: absolute;
+        background-color: white;
+        top: 60px;
+        right: 0;
+        padding: 10px;
+        width: 250px;
+    }
+
+    &__content-container {
+        margin-top: 10px;
+    }
+
+    &__title {
+        font-size: 14px;
+        font-weight: 500;
+        color: rgb(47, 47, 47);
+    }
+}
