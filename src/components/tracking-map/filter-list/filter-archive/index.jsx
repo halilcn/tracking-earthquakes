@@ -34,9 +34,11 @@ const FilterArchive = () => {
   }
 
   const handleArchiveEarthquakes = async params => {
+    dispatch(earthquakeActions.setIsLoadingData(true))
     const earthquakeResult = (await getArchiveEarthquakes(params)).result
     const preparedEarthquakesData = earthquakeResult.map(earthquake => prepareEarthquake(earthquake))
     dispatch(earthquakeActions.setEarthquakes(preparedEarthquakesData))
+    dispatch(earthquakeActions.setIsLoadingData(false))
   }
 
   const handleStartDate = async date => {
