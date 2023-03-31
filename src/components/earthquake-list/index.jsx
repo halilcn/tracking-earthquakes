@@ -70,7 +70,7 @@ const EarthquakeList = () => {
       open: { opacity: 1, left: 25 },
       closed: { opacity: 0, left: -50 },
     },
-    transition: { duration: 0.4 },
+    transition: { type: 'spring', stiffness: 80 },
     onClick: () => handleEarthquakeListEnable(true),
   }
 
@@ -79,15 +79,16 @@ const EarthquakeList = () => {
     animate: earthquakeListEnable ? 'open' : 'closed',
     variants: {
       open: { opacity: 1, left: 0 },
-      closed: { opacity: 0, left: '-100%' },
+      closed: { opacity: 0, left: -document.getElementsByClassName('earthquake-list')[0]?.offsetWidth },
     },
-    transition: { duration: 0.4 },
+    transition: { type: 'spring', stiffness: 65 },
   }
 
   return (
     <>
       <motion.div {...listActiveButtonProps}>
         <BsListUl className="earthquake-list-active-button__icon" />
+        <div className="earthquake-list-active-button__bg-filter" />
       </motion.div>
       <motion.div {...earthquakeListProps}>
         {isActiveCustomPointSelection && <NewCustomPoint />}

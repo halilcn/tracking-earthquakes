@@ -1,26 +1,54 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { MAP_UPDATE_MIN } from '../../../constants'
+import { isSelectedAnyArchiveItem } from '../../../store/earthquake'
 
 import './index.scss'
 
 const UpdateTimer = () => {
-  const [time, setTime] = useState(MAP_UPDATE_MIN)
+  const selectedArchive = useSelector(isSelectedAnyArchiveItem)
 
-  useEffect(() => {
-    const timeInterval = setInterval(() => {
+  const [time, setTime] = useState(MAP_UPDATE_MIN)
+  const timeInterval = useRef(null)
+
+  const createTimeInterval = () => {
+    if (timeInterval.current) return
+    timeInterval.current = setInterval(() => {
       setTime(time => (time === 0 ? MAP_UPDATE_MIN : time - 1))
     }, 1000)
+  }
 
-    return () => clearInterval(timeInterval)
+  const removeTimeInterval = () => {
+    clearInterval(timeInterval.current)
+    timeInterval.current = null
+    setTime(MAP_UPDATE_MIN)
+  }
+
+  useEffect(() => {
+    createTimeInterval()
+    return removeTimeInterval
   }, [])
 
+  useEffect(() => {
+    if (selectedArchive) {
+      removeTimeInterval()
+      return
+    }
+    createTimeInterval()
+    return removeTimeInterval
+  }, [selectedArchive])
+
   return (
-    <div className="update-timer">
-      <div className="update-timer__content">
-        {time} saniye sonra güncellenecek
-        <div className="update-timer__bg-filter" />
-      </div>
-    </div>
+    <>
+      {!selectedArchive && (
+        <div className="update-timer">
+          <div className="update-timer__content">
+            {time} saniye sonra güncellenecek
+            <div className="update-timer__bg-filter" />
+          </div>
+        </div>
+      )}
+    </>
   )
 }
 
