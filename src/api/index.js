@@ -11,7 +11,7 @@ export const getEarthquakes = async () => {
 export const getArchiveEarthquakes = async params => {
   const { data } = await axios.get(`${API_BASE_URL}/kandilli/archive`, {
     params: {
-      limit: 4000000,
+      limit: 1000, // API provides max 1000 limit
       ...params,
     },
   })
