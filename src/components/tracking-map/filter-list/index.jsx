@@ -14,15 +14,18 @@ const FilterList = () => {
         </div>
         <div className="filter__item filter__item--icon">
           <BsCalendarDate className="filter__icon" />
+          <div className="filter__icon-blur" />
         </div>
         <div className="filter__item filter__item--icon">
           <BiFilterAlt className="filter__icon" />
+          <div className="filter__icon-blur" />
         </div>
       </div>
       <div className="filter__content">
         <div className="filter__title">Geçmiş Depremler</div>
         <div className="filter__content-container">
           <FilterArchive />
+          <div className="filter__icon-blur" />
         </div>
       </div>
     </div>
