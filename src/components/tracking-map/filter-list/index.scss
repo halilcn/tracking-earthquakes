@@ -18,6 +18,10 @@
             background-color: rgb(227, 227, 227);
         }
 
+        &--selected {
+            background-color: rgb(227, 227, 227) !important;
+        }
+
         &--icon {
             padding: 14px;
             border-radius: 100px;
