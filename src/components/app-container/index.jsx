@@ -1,8 +1,8 @@
 import TrackingMap from '../tracking-map'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { getCustomPoints, getEarthquakes } from '../../api'
-import { useDispatch } from 'react-redux'
-import { earthquakeActions } from '../../store/earthquake'
+import { useDispatch, useSelector } from 'react-redux'
+import { earthquakeActions, isSelectedAnyArchiveItem } from '../../store/earthquake'
 import { userActions } from '../../store/user'
 import { prepareEarthquake } from '../../utils'
 import EarthquakeList from '../earthquake-list'
@@ -19,6 +19,9 @@ const AppContainer = () => {
 
   const [hasError, setHasError] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
+  const earthquakeIntervalRef = useRef(null)
+
+  const selectedArchiveItem = useSelector(isSelectedAnyArchiveItem)
 
   const handleGetEarthquakes = async () => {
     try {
@@ -50,19 +53,34 @@ const AppContainer = () => {
     })
   }
 
+  const createEarthquakesInterval = () => {
+    if (earthquakeIntervalRef.current) return
+    earthquakeIntervalRef.current = setInterval(() => {
+      handleGetEarthquakes()
+    }, MAP_UPDATE_MIN * 1000)
+  }
+
+  const removeEarthquakesInterval = () => {
+    clearInterval(earthquakeIntervalRef.current)
+    earthquakeIntervalRef.current = null
+  }
+
   useEffect(() => {
     firstGetting()
     listenFirebaseAuth()
-
-    // TODO:
-    /*
-    const getEarthquakesInterval = setInterval(() => {
-      handleGetEarthquakes()
-    }, MAP_UPDATE_MIN * 1000)
-
-    return () => clearInterval(getEarthquakesInterval)
-*/
+    createEarthquakesInterval()
+    return removeEarthquakesInterval
   }, [])
+
+  useEffect(() => {
+    if (selectedArchiveItem) {
+      removeEarthquakesInterval()
+      return
+    }
+    createEarthquakesInterval()
+    handleGetEarthquakes()
+    return removeEarthquakesInterval
+  }, [selectedArchiveItem])
 
   return (
     <div className="app-container">

@@ -41,36 +41,18 @@ const FilterArchive = () => {
 
   const handleArchiveEarthquakes = async params => {
     try {
-      //TODO: REFACTOR
-
       dispatch(earthquakeActions.setIsLoadingData(true))
 
-      let test = []
-      let skipParam = 0
-
+      const allEarthquakes = []
       while (true) {
-        const responseEarthquake = await getArchiveEarthquakes({ ...params, skip: test.length })
-        test = [...test, ...responseEarthquake.result]
+        const responseEarthquakes = await getArchiveEarthquakes({ ...params, skip: allEarthquakes.length })
+        allEarthquakes.push(...responseEarthquakes.result)
 
-        console.log('responseEarthquake', responseEarthquake)
-        console.log('responseEarthquake.metadata.total', responseEarthquake.metadata.total)
-        console.log('test.lenght', test.lenght)
-
-        if (responseEarthquake.metadata.total - 5 < test.length) {
-          break
-        }
-
-        console.log('sonsuz')
+        if (responseEarthquakes.metadata.total - 5 < allEarthquakes.length) break
       }
 
-      console.log('test', test)
-
-      const preparedEarthquakesData = test.map(earthquake => prepareEarthquake(earthquake))
-
+      const preparedEarthquakesData = allEarthquakes.map(earthquake => prepareEarthquake(earthquake))
       dispatch(earthquakeActions.setEarthquakes(preparedEarthquakesData))
-    } catch (e) {
-      console.log('e', e)
-      alert('Bir hata meydana geldi!')
     } finally {
       dispatch(earthquakeActions.setIsLoadingData(false))
     }

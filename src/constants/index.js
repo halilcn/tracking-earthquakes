@@ -35,7 +35,8 @@ export const FILTER_TIME = {
 }
 
 export const ARCHIVE_CERTAIN_TIMES = {
-  0: 'Son 1 gün',
+  0: 'Bugün',
+  1: 'Son 1 gün',
   3: 'Son 3 gün',
   7: 'Son 7 gün',
   15: 'Son 15 gün',

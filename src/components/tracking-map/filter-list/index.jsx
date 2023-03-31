@@ -42,7 +42,7 @@ const FilterList = () => {
     setFilterContentType(type)
   }
 
-  const testProp = {
+  const filterContentProp = {
     className: 'filter__content',
     animate: filterContentType ? 'open' : 'closed',
     variants: {
@@ -76,7 +76,7 @@ const FilterList = () => {
           <div className="filter__icon-blur" />
         </div>
       </div>
-      <motion.div {...testProp}>
+      <motion.div {...filterContentProp}>
         <div className="filter__title">
           <MemoizedFilterText />
         </div>
