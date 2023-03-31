@@ -54,11 +54,14 @@ const AppContainer = () => {
     firstGetting()
     listenFirebaseAuth()
 
+    // TODO:
+    /*
     const getEarthquakesInterval = setInterval(() => {
       handleGetEarthquakes()
     }, MAP_UPDATE_MIN * 1000)
 
     return () => clearInterval(getEarthquakesInterval)
+*/
   }, [])
 
   return (

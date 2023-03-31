@@ -183,6 +183,7 @@ const TrackingMap = () => {
   }, [isActiveCustomPointSelection])
 
   useEffect(() => {
+    console.log('earthquakes', earthquakes)
     map.current.getSource(EARTHQUAKE_DATA)?.setData(wrapperForSourceData(earthquakes))
   }, [earthquakes])
 

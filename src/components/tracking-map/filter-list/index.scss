@@ -30,8 +30,9 @@
         background-color: white;
         top: 60px;
         right: 0;
-        padding: 10px;
+        padding: 25px;
         width: 250px;
+        border-radius: 10px;
     }
 
     &__content-container {
@@ -39,8 +40,10 @@
     }
 
     &__title {
-        font-size: 14px;
+        font-size: 17px;
         font-weight: 500;
-        color: rgb(47, 47, 47);
+        color: rgb(60, 60, 60);
+        font-weight: 600;
+        margin-bottom: 20px;
     }
 }

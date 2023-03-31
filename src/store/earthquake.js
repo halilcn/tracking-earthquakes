@@ -12,9 +12,12 @@ export const earthquake = createSlice({
     mapCurrent: null,
     isActiveCustomPointSelection: false,
     customPointCoordinates: null,
+    isShowingArchive: false,
+    isLoadingData: false,
   },
   reducers: {
     setEarthquakes: (state, actions) => {
+      console.log('actions.payload', actions.payload)
       state.earthquakes = actions.payload
     },
     setEarthquakeAffectedDistance: (state, actions) => {
@@ -40,6 +43,12 @@ export const earthquake = createSlice({
     },
     addCustomPoints: (state, actions) => {
       state.customPoints = [...state.customPoints, actions.payload]
+    },
+    setIsShowingArchive: (state, actions) => {
+      state.isShowingArchive = actions.payload
+    },
+    setIsLoadingData: (state, actions) => {
+      state.isLoadingData = actions.payload
     },
   },
 })
