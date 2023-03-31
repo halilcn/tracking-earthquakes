@@ -16,7 +16,7 @@ const MagnitudeFilter = () => {
 
   return (
     <div className="magnitude-filter">
-      <FormControl style={{ width: 130, zIndex: 1 }}>
+      <FormControl fullWidth>
         <InputLabel id="magnitude-filter">Büyüklük</InputLabel>
         <Select
           className="magnitude-filter__select"

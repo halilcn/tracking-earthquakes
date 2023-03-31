@@ -1,14 +1,6 @@
 @import "../../../../styles/variables.scss";
 
 .filter-panel {
-    position: absolute;
-    right: 20px;
-    top: 20px;
-    z-index: 0;
-    background-color: white;
-    padding: 10px;
-    border-radius: 5px;
-
     &__item {
         margin: 20px 0;
     }

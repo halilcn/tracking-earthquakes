@@ -15,7 +15,7 @@ const TimeFilter = () => {
   }
   return (
     <div className="time-filter">
-      <FormControl style={{ width: 130, zIndex: 1 }}>
+      <FormControl fullWidth>
         <InputLabel id="time-filter">Zaman</InputLabel>
         <Select className="time-filter__select" labelId="time-filter" value={earthquakeTimeFilter} label="Zaman" onChange={handleChange}>
           {Object.keys(FILTER_TIME).map((time, index) => (

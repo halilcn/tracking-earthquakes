@@ -19,7 +19,7 @@
         }
 
         &--selected {
-            background-color: rgb(227, 227, 227) !important;
+            background-color: rgb(255, 255, 255) !important;
         }
 
         &--icon {
@@ -50,7 +50,7 @@
     &__content {
         position: absolute;
         background-color: white;
-        top: 60px;
+        top: 70px;
         right: 0;
         padding: 25px;
         width: 250px;
