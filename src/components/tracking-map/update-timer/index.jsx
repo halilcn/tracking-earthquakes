@@ -1,4 +1,3 @@
-import Alert from '@mui/material/Alert'
 import { useEffect, useState } from 'react'
 import { MAP_UPDATE_MIN } from '../../../constants'
 
@@ -17,9 +16,10 @@ const UpdateTimer = () => {
 
   return (
     <div className="update-timer">
-      <Alert className="update-timer__content" icon={false} severity="success">
+      <div className="update-timer__content">
         {time} saniye sonra güncellenecek
-      </Alert>
+        <div className="update-timer__bg-filter" />
+      </div>
     </div>
   )
 }
