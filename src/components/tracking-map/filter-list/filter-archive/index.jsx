@@ -92,26 +92,40 @@ const FilterArchive = () => {
   return (
     <div className="filter-archive">
       <div className="filter-archive__certain-dates">
-        <Select
-          className="filter-archive__certain-date-input"
-          labelId="map-type"
-          value={archiveDate.certainDate || 0}
-          label="test"
-          onChange={handleCertainDate}>
-          {Object.keys(ARCHIVE_CERTAIN_TIMES).map((time, key) => (
-            <MenuItem key={key} value={time}>
-              {ARCHIVE_CERTAIN_TIMES[time]}
-            </MenuItem>
-          ))}
-        </Select>
+        <FormControl fullWidth>
+          <InputLabel id="certain-date">Zaman</InputLabel>
+          <Select
+            size="small"
+            className="filter-archive__certain-date-input"
+            value={archiveDate.certainDate || 0}
+            label="test"
+            labelId="certain-date"
+            onChange={handleCertainDate}>
+            {Object.keys(ARCHIVE_CERTAIN_TIMES).map((time, key) => (
+              <MenuItem key={key} value={time}>
+                {ARCHIVE_CERTAIN_TIMES[time]}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       </div>
       <div className="filter-archive__or-text">ya da</div>
       <div className="filter-archive__custom-dates">
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker label="Başlangıç Tarihi" className="filter-archive__custom-date-item" onChange={handleStartDate} />
+          <DatePicker
+            slotProps={{ textField: { size: 'small' } }}
+            label="Başlangıç Tarihi"
+            className="filter-archive__custom-date-item"
+            onChange={handleStartDate}
+          />
         </LocalizationProvider>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker label="Bitiş Tarihi" className="filter-archive__custom-date-item" onChange={handleEndDate} />
+          <DatePicker
+            slotProps={{ textField: { size: 'small' } }}
+            label="Bitiş Tarihi"
+            className="filter-archive__custom-date-item"
+            onChange={handleEndDate}
+          />
         </LocalizationProvider>
       </div>
       {selectedFilterItem && (

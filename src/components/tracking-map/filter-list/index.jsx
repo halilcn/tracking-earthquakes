@@ -1,4 +1,5 @@
 import { BsCalendarDate } from 'react-icons/bs'
+import { motion } from 'framer-motion'
 import { BiFilterAlt } from 'react-icons/bi'
 import FilterArchive from './filter-archive'
 import FilterPanel from './filter-panel'
@@ -27,8 +28,8 @@ const FilterList = () => {
   }, [filterContentType])
 
   const MemoizedFilterText = useCallback(() => {
-    if (filterContentType === FILTER_CONTENT_TYPE.ARCHIVE) return 'Geçmiş Depremler'
-    if (filterContentType === FILTER_CONTENT_TYPE.FILTER_PANEL) return 'Filtreler'
+    if (filterContentType === FILTER_CONTENT_TYPE.ARCHIVE) return 'GEÇMİŞ DEPREMLER'
+    if (filterContentType === FILTER_CONTENT_TYPE.FILTER_PANEL) return 'FİLTRELER'
   }, [filterContentType])
 
   const isSelectedType = type => type === filterContentType
@@ -39,6 +40,15 @@ const FilterList = () => {
       return
     }
     setFilterContentType(type)
+  }
+
+  const testProp = {
+    className: 'filter__content',
+    animate: filterContentType ? 'open' : 'closed',
+    variants: {
+      open: { opacity: 1, top: 70 },
+      closed: { opacity: 0, top: 100 },
+    },
   }
 
   return (
@@ -66,16 +76,14 @@ const FilterList = () => {
           <div className="filter__icon-blur" />
         </div>
       </div>
-      {filterContentType && (
-        <div className="filter__content">
-          <div className="filter__title">
-            <MemoizedFilterText />
-          </div>
-          <div className="filter__content-container">
-            <MemoizedFilterContent />
-          </div>
+      <motion.div {...testProp}>
+        <div className="filter__title">
+          <MemoizedFilterText />
         </div>
-      )}
+        <div className="filter__content-container">
+          <MemoizedFilterContent />
+        </div>
+      </motion.div>
     </div>
   )
 }

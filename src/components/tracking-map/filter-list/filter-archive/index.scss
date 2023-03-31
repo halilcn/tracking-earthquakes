@@ -4,16 +4,18 @@
     }
 
     &__or-text {
-        margin: 15px 0;
-        font-weight: 500;
+        margin: 20px 0;
+        font-weight: 400;
         text-align: center;
+        font-size: 15px;
+        color: rgb(88, 88, 88);
     }
 
     &__custom-dates {
     }
 
-    &__custom-date-item {
-        margin: 5px 0 !important;
+    &__custom-date-item:last-child {
+        margin-top: 15px;
     }
 
     &__clear-filters {
