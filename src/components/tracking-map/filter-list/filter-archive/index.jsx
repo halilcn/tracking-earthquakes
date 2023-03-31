@@ -10,14 +10,14 @@ import { getArchiveEarthquakes, getEarthquakes } from '../../../../api'
 import './index.scss'
 import { isNull, prepareEarthquake } from '../../../../utils'
 import { useDispatch, useSelector } from 'react-redux'
-import { earthquakeActions } from '../../../../store/earthquake'
+import { earthquakeActions, isSelectedAnyArchiveItem } from '../../../../store/earthquake'
 import dayjs from 'dayjs'
 
 const FilterArchive = () => {
   const dispatch = useDispatch()
 
   const archiveDate = useSelector(state => state.earthquake.archiveDate)
-  const isSelectedAnyFilterItem = !isNull(Object.values(archiveDate))
+  const selectedFilterItem = useSelector(isSelectedAnyArchiveItem)
 
   const clearArchiveDate = () => {
     dispatch(earthquakeActions.updateArchiveDate({ certainDate: null, startDate: null, endDate: null }))
@@ -114,7 +114,7 @@ const FilterArchive = () => {
           <DatePicker label="Bitiş Tarihi" className="filter-archive__custom-date-item" onChange={handleEndDate} />
         </LocalizationProvider>
       </div>
-      {isSelectedAnyFilterItem && (
+      {selectedFilterItem && (
         <div onClick={clearArchiveDate} className="filter-archive__clear-filters">
           <Button className="filter-archive__clear-button" variant="contained" color="error">
             TEMİZLE

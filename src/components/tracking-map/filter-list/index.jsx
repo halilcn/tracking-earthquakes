@@ -4,11 +4,17 @@ import FilterArchive from './filter-archive'
 import FilterPanel from './filter-panel'
 import LoadingData from './loading-data'
 import { useCallback, useMemo, useState } from 'react'
+import cx from 'classnames'
 
 import './index.scss'
+import { useSelector } from 'react-redux'
+import { isSelectedAnyArchiveItem, isSelectedAnyFilterPanelItem } from '../../../store/earthquake'
 
 const FilterList = () => {
   const [filterContentType, setFilterContentType] = useState(null)
+
+  const selectedArchiveFilterItem = useSelector(isSelectedAnyArchiveItem)
+  const selectedFilterPanelItem = useSelector(isSelectedAnyFilterPanelItem)
 
   const FILTER_CONTENT_TYPE = {
     ARCHIVE: 'archive',
@@ -43,13 +49,19 @@ const FilterList = () => {
         </div>
         <div
           onClick={() => handleSetFilterContentType(FILTER_CONTENT_TYPE.ARCHIVE)}
-          className={`filter__item filter__item--icon ${isSelectedType(FILTER_CONTENT_TYPE.ARCHIVE) && 'filter__item--selected'}`}>
+          className={cx('filter__item', 'filter__item--icon', {
+            'filter__item--selected': isSelectedType(FILTER_CONTENT_TYPE.ARCHIVE),
+            'filter__item--active': selectedArchiveFilterItem,
+          })}>
           <BsCalendarDate className="filter__icon" />
           <div className="filter__icon-blur" />
         </div>
         <div
           onClick={() => handleSetFilterContentType(FILTER_CONTENT_TYPE.FILTER_PANEL)}
-          className={`filter__item filter__item--icon ${isSelectedType(FILTER_CONTENT_TYPE.FILTER_PANEL) && 'filter__item--selected'}`}>
+          className={cx('filter__item', 'filter__item--icon', {
+            'filter__item--selected': isSelectedType(FILTER_CONTENT_TYPE.FILTER_PANEL),
+            'filter__item--active': selectedFilterPanelItem,
+          })}>
           <BiFilterAlt className="filter__icon" />
           <div className="filter__icon-blur" />
         </div>

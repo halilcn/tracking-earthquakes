@@ -56,5 +56,13 @@ export const earthquake = createSlice({
   },
 })
 
+export const isSelectedAnyArchiveItem = state => Object.values(state.earthquake.archiveDate).some(item => item !== null)
+export const isSelectedAnyFilterPanelItem = state => {
+  return (
+    state.earthquake.earthquakeTimeFilter !== DEFAULT_TIME_FILTER_VALUE ||
+    state.earthquake.earthquakeMagnitudeFilter !== DEFAULT_MAGNITUDE_FILTER_VALUE
+  )
+}
+
 export const earthquakeActions = earthquake.actions
 export default earthquake.reducer
