@@ -16,6 +16,7 @@ import './index.scss'
 const EarthquakeList = () => {
   const [textFilter, setTextFilter] = useState('')
   const [listHeight, setListHeight] = useState(0)
+  const [earthquakeListWidth, setListWidth] = useState(0)
   const [earthquakeListEnable, setEarthquakeListEnable] = useState(getEarthquakeListStatus() === 'true')
 
   const isActiveCustomPointSelection = useSelector(state => state.earthquake.isActiveCustomPointSelection)
@@ -33,6 +34,9 @@ const EarthquakeList = () => {
   useEffect(() => {
     const earthquakeListHeight = document.getElementsByClassName('earthquake-list__list-container')[0]?.offsetHeight
     setListHeight(earthquakeListHeight)
+
+    const earthquakeListWidth = document.getElementsByClassName('earthquake-list')[0]?.offsetWidth
+    setListWidth(earthquakeListWidth)
   }, [])
 
   const boxProps = {
@@ -76,12 +80,13 @@ const EarthquakeList = () => {
 
   const earthquakeListProps = {
     className: 'earthquake-list',
+    initial: earthquakeListEnable ? 'open' : 'closed',
     animate: earthquakeListEnable ? 'open' : 'closed',
     variants: {
       open: { opacity: 1, left: 0 },
-      closed: { opacity: 0, left: -document.getElementsByClassName('earthquake-list')[0]?.offsetWidth },
+      closed: { opacity: 0, left: -earthquakeListWidth },
     },
-    transition: { type: 'spring', stiffness: 65 },
+    transition: { ease: 'easeOut', duration: 0.3 },
   }
 
   return (
