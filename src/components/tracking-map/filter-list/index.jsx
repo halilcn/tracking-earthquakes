@@ -63,39 +63,39 @@ const FilterList = () => {
     },
   }
 
-  // TODO: list array haline getirme ?
+  const FILTER_LIST = [
+    {
+      type: FILTER_CONTENT_TYPE.ARCHIVE,
+      icon: <BsCalendarDate className="filter__icon" />,
+      itemCustomClasses: selectedArchiveFilterItem && 'filter__item--active',
+    },
+    {
+      type: FILTER_CONTENT_TYPE.FILTER_PANEL,
+      icon: <BiFilterAlt className="filter__icon" />,
+      itemCustomClasses: selectedFilterPanelItem && 'filter__item--active',
+    },
+    {
+      type: FILTER_CONTENT_TYPE.SETTINGS,
+      icon: <FiSettings className="filter__icon" />,
+    },
+  ]
+
   return (
     <div className="filter">
       <div className="filter__list">
         <div className="filter__item">
           <LoadingData />
         </div>
-        <div
-          onClick={() => handleSetFilterContentType(FILTER_CONTENT_TYPE.ARCHIVE)}
-          className={cx('filter__item', 'filter__item--icon', {
-            'filter__item--selected': isSelectedType(FILTER_CONTENT_TYPE.ARCHIVE),
-            'filter__item--active': selectedArchiveFilterItem,
-          })}>
-          <BsCalendarDate className="filter__icon" />
-          <div className="filter__icon-blur" />
-        </div>
-        <div
-          onClick={() => handleSetFilterContentType(FILTER_CONTENT_TYPE.FILTER_PANEL)}
-          className={cx('filter__item', 'filter__item--icon', {
-            'filter__item--selected': isSelectedType(FILTER_CONTENT_TYPE.FILTER_PANEL),
-            'filter__item--active': selectedFilterPanelItem,
-          })}>
-          <BiFilterAlt className="filter__icon" />
-          <div className="filter__icon-blur" />
-        </div>
-        <div
-          onClick={() => handleSetFilterContentType(FILTER_CONTENT_TYPE.SETTINGS)}
-          className={cx('filter__item', 'filter__item--icon', {
-            'filter__item--selected': isSelectedType(FILTER_CONTENT_TYPE.SETTINGS),
-          })}>
-          <FiSettings className="filter__icon" />
-          <div className="filter__icon-blur" />
-        </div>
+        {FILTER_LIST.map(filterItem => (
+          <div
+            onClick={() => handleSetFilterContentType(filterItem.type)}
+            className={cx('filter__item', 'filter__item--icon', filterItem.itemCustomClasses || '', {
+              'filter__item--selected': isSelectedType(filterItem.type),
+            })}>
+            {filterItem.icon}
+            <div className="filter__icon-blur" />
+          </div>
+        ))}
       </div>
       <motion.div {...filterContentProp}>
         <div className="filter__title">
