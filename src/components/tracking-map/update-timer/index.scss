@@ -15,6 +15,12 @@
         margin-top: 30px;
         position: relative;
         color: rgb(44, 44, 44);
+        display: flex;
+        align-items: center;
+    }
+
+    &__icon {
+        margin-right: 7px;
     }
 
     &__bg-filter {
@@ -34,7 +40,7 @@
         &__content {
             font-size: 10px !important;
             padding: 4px !important;
-            margin-top: 15px;
+            margin-top: 23px;
         }
     }
 }

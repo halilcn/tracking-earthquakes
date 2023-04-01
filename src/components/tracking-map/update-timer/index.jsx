@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { GrUpdate } from 'react-icons/gr'
 import { MAP_UPDATE_MIN } from '../../../constants'
 import { isSelectedAnyArchiveItem } from '../../../store/earthquake'
 
@@ -43,7 +44,7 @@ const UpdateTimer = () => {
       {!selectedArchive && (
         <div className="update-timer">
           <div className="update-timer__content">
-            {time} saniye sonra güncellenecek
+            <GrUpdate className="update-timer__icon" /> <span>{time} saniye</span>
             <div className="update-timer__bg-filter" />
           </div>
         </div>

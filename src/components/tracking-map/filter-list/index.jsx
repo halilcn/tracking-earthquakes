@@ -1,9 +1,11 @@
 import { BsCalendarDate } from 'react-icons/bs'
 import { motion } from 'framer-motion'
 import { BiFilterAlt } from 'react-icons/bi'
+import { FiSettings } from 'react-icons/fi'
 import FilterArchive from './filter-archive'
 import FilterPanel from './filter-panel'
 import LoadingData from './loading-data'
+import Settings from './settings'
 import { useCallback, useMemo, useState } from 'react'
 import cx from 'classnames'
 
@@ -22,16 +24,19 @@ const FilterList = () => {
   const FILTER_CONTENT_TYPE = {
     ARCHIVE: 'archive',
     FILTER_PANEL: 'filterPanel',
+    SETTINGS: 'settings',
   }
 
   const MemoizedFilterContent = useCallback(() => {
     if (filterContentType === FILTER_CONTENT_TYPE.ARCHIVE) return <FilterArchive />
     if (filterContentType === FILTER_CONTENT_TYPE.FILTER_PANEL) return <FilterPanel />
+    if (filterContentType === FILTER_CONTENT_TYPE.SETTINGS) return <Settings />
   }, [filterContentType])
 
   const MemoizedFilterText = useCallback(() => {
     if (filterContentType === FILTER_CONTENT_TYPE.ARCHIVE) return 'GEÇMİŞ DEPREMLER'
     if (filterContentType === FILTER_CONTENT_TYPE.FILTER_PANEL) return 'FİLTRELER'
+    if (filterContentType === FILTER_CONTENT_TYPE.SETTINGS) return 'AYARLAR'
   }, [filterContentType])
 
   const isSelectedType = type => type === filterContentType && filterContentEnable
@@ -58,6 +63,7 @@ const FilterList = () => {
     },
   }
 
+  // TODO: list array haline getirme ?
   return (
     <div className="filter">
       <div className="filter__list">
@@ -80,6 +86,14 @@ const FilterList = () => {
             'filter__item--active': selectedFilterPanelItem,
           })}>
           <BiFilterAlt className="filter__icon" />
+          <div className="filter__icon-blur" />
+        </div>
+        <div
+          onClick={() => handleSetFilterContentType(FILTER_CONTENT_TYPE.SETTINGS)}
+          className={cx('filter__item', 'filter__item--icon', {
+            'filter__item--selected': isSelectedType(FILTER_CONTENT_TYPE.SETTINGS),
+          })}>
+          <FiSettings className="filter__icon" />
           <div className="filter__icon-blur" />
         </div>
       </div>
