@@ -1,3 +1,5 @@
+@import "../../../styles/variables.scss";
+
 .filter {
     position: absolute;
     top: 25px;
@@ -63,10 +65,6 @@
         box-shadow: 0px 0px 15px -3px rgb(255, 255, 255);
     }
 
-    &__content-container {
-        margin-top: 10px;
-    }
-
     &__title {
         font-size: 16px;
         font-weight: 500;
@@ -74,5 +72,32 @@
         font-weight: 600;
         margin-bottom: 20px;
         text-align: center;
+    }
+
+    @media only screen and (max-width: $mobile-width) {
+        top: 15px;
+        right: 15px;
+
+        &__icon {
+            font-size: 20px;
+        }
+
+        &__item {
+            margin-left: 15px;
+
+            &--icon {
+                padding: 7px;
+            }
+        }
+
+        &__content {
+            padding: 15px;
+            width: 200px;
+        }
+
+        &__title {
+            font-size: 13px;
+            margin-bottom: 17px;
+        }
     }
 }

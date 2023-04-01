@@ -10,6 +10,7 @@ import cx from 'classnames'
 import './index.scss'
 import { useSelector } from 'react-redux'
 import { isSelectedAnyArchiveItem, isSelectedAnyFilterPanelItem } from '../../../store/earthquake'
+import { isMobile } from '../../../utils'
 
 const FilterList = () => {
   const [filterContentType, setFilterContentType] = useState(null)
@@ -49,8 +50,11 @@ const FilterList = () => {
     className: 'filter__content',
     animate: filterContentEnable ? 'open' : 'closed',
     variants: {
-      open: { opacity: 1, top: 70 },
-      closed: { opacity: 0, top: 110 },
+      open: { opacity: 1, top: isMobile() ? 50 : 70 },
+      closed: {
+        opacity: 0,
+        top: 110,
+      },
     },
   }
 

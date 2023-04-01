@@ -1,5 +1,3 @@
-@import "../../../../styles/variables.scss";
-
 .filter-panel {
     &__item {
         margin: 20px 0;
@@ -18,19 +16,5 @@
 
     &__clear-button {
         width: 100%;
-    }
-
-    @media only screen and (max-width: $mobile-width) {
-        right: 14px;
-        top: 60px;
-        padding: 5px;
-
-        &__mobile-button {
-            display: block;
-        }
-
-        &__item {
-            margin: 13px 0;
-        }
     }
 }

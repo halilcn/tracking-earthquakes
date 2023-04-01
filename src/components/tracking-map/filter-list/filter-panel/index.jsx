@@ -33,7 +33,7 @@ const FilterPanel = () => {
 
   return (
     <>
-      <div className="filter-panel" {...(isMobile() && { style: { display: filterPanelEnabled ? 'block' : 'none' } })}>
+      <div className="filter-panel">
         {!selectedArchive && (
           <div className="filter-panel__item">
             <TimeFilter />
