@@ -53,6 +53,13 @@ export const earthquake = createSlice({
     updateArchiveDate: (state, actions) => {
       state.archiveDate = { ...state.archiveDate, ...actions.payload }
     },
+    clearArchiveDate: (state, _) => {
+      state.archiveDate = { certainDate: null, startDate: null, endDate: null }
+    },
+    clearFilterPanelItems: (state, _) => {
+      state.earthquakeTimeFilter = DEFAULT_TIME_FILTER_VALUE
+      state.earthquakeMagnitudeFilter = DEFAULT_MAGNITUDE_FILTER_VALUE
+    },
   },
 })
 

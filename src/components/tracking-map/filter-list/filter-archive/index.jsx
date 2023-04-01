@@ -19,10 +19,7 @@ const FilterArchive = () => {
   const archiveDate = useSelector(state => state.earthquake.archiveDate)
   const selectedFilterItem = useSelector(isSelectedAnyArchiveItem)
 
-  const clearArchiveDate = () => {
-    dispatch(earthquakeActions.updateArchiveDate({ certainDate: null, startDate: null, endDate: null }))
-    // live data TODO:
-  }
+  const clearArchiveDate = () => dispatch(earthquakeActions.clearArchiveDate())
 
   const convertDateFormat = date => date.format('YYYY-MM-DD')
 

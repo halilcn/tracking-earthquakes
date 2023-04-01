@@ -23,6 +23,7 @@ const MagnitudeFilter = () => {
           labelId="magnitude-filter"
           value={magnitudeFilter}
           label="Büyüklük"
+          size="small"
           onChange={handleChange}>
           {Object.keys(FILTER_MAGNITUDE).map((magnitude, key) => (
             <MenuItem key={key} value={magnitude}>

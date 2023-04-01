@@ -16,7 +16,7 @@ const MapType = () => {
     <div className="map-type">
       <FormControl fullWidth>
         <InputLabel id="map-type">Harita Tipi</InputLabel>
-        <Select className="map-type__select" labelId="map-type" value={mapType} label="Harita Tipi" onChange={handleChange}>
+        <Select size="small" className="map-type__select" labelId="map-type" value={mapType} label="Harita Tipi" onChange={handleChange}>
           {Object.keys(MAP_TYPE).map((type, key) => (
             <MenuItem key={key} value={type}>
               {type}

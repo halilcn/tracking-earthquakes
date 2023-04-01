@@ -16,6 +16,10 @@
         display: none;
     }
 
+    &__clear-button {
+        width: 100%;
+    }
+
     @media only screen and (max-width: $mobile-width) {
         right: 14px;
         top: 60px;
