@@ -13,6 +13,7 @@ import { isSelectedAnyArchiveItem, isSelectedAnyFilterPanelItem } from '../../..
 
 const FilterList = () => {
   const [filterContentType, setFilterContentType] = useState(null)
+  const [filterContentEnable, setFilterContentEnable] = useState(false)
 
   const selectedArchiveFilterItem = useSelector(isSelectedAnyArchiveItem)
   const selectedFilterPanelItem = useSelector(isSelectedAnyFilterPanelItem)
@@ -32,22 +33,24 @@ const FilterList = () => {
     if (filterContentType === FILTER_CONTENT_TYPE.FILTER_PANEL) return 'FİLTRELER'
   }, [filterContentType])
 
-  const isSelectedType = type => type === filterContentType
+  const isSelectedType = type => type === filterContentType && filterContentEnable
 
   const handleSetFilterContentType = type => {
     if (isSelectedType(type)) {
-      setFilterContentType(null)
+      setFilterContentEnable(false)
       return
     }
+
     setFilterContentType(type)
+    setFilterContentEnable(true)
   }
 
   const filterContentProp = {
     className: 'filter__content',
-    animate: filterContentType ? 'open' : 'closed',
+    animate: filterContentEnable ? 'open' : 'closed',
     variants: {
       open: { opacity: 1, top: 70 },
-      closed: { opacity: 0, top: 100 },
+      closed: { opacity: 0, top: 110 },
     },
   }
 
