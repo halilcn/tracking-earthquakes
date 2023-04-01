@@ -55,11 +55,8 @@ const FilterList = () => {
     className: 'filter__content',
     animate: filterContentEnable ? 'open' : 'closed',
     variants: {
-      open: { opacity: 1, top: isMobile() ? 50 : 70 },
-      closed: {
-        opacity: 0,
-        top: 110,
-      },
+      open: { opacity: 1, top: isMobile() ? 50 : 70, display: 'block' },
+      closed: { opacity: 0, top: 110, transitionEnd: { display: 'none' } },
     },
   }
 
