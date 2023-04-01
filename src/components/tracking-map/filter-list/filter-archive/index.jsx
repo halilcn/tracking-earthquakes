@@ -96,6 +96,7 @@ const FilterArchive = () => {
             label="Başlangıç Tarihi"
             className="filter-archive__custom-date-item"
             onChange={handleStartDate}
+            value={archiveDate.startDate ? dayjs(archiveDate.startDate) : null}
           />
         </LocalizationProvider>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -104,6 +105,7 @@ const FilterArchive = () => {
             label="Bitiş Tarihi"
             className="filter-archive__custom-date-item"
             onChange={handleEndDate}
+            value={archiveDate.endDate ? dayjs(archiveDate.endDate) : null}
           />
         </LocalizationProvider>
       </div>
