@@ -47,11 +47,11 @@ export const DEFAULT_TIME_FILTER_VALUE = 6
 
 export const FILTER_MAGNITUDE = {
   0: 'Tümü',
-  3: '>3',
-  4: '>4',
-  5: '>5',
-  6: '>6',
-  7: '>7',
+  3: '> 3',
+  4: '> 4',
+  5: '> 5',
+  6: '> 6',
+  7: '> 7',
 }
 
 export const DEFAULT_MAGNITUDE_FILTER_VALUE = 0

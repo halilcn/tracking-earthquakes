@@ -16,22 +16,17 @@ import './index.scss'
 
 const AppContainer = () => {
   const dispatch = useDispatch()
+  const earthquakeIntervalRef = useRef(null)
 
   const [hasError, setHasError] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
-  const earthquakeIntervalRef = useRef(null)
 
   const selectedArchiveItem = useSelector(isSelectedAnyArchiveItem)
 
   const handleGetEarthquakes = async () => {
-    try {
-      const earthquakeResult = (await getEarthquakes()).result
-      const preparedEarthquakesData = earthquakeResult.map(earthquake => prepareEarthquake(earthquake))
-      dispatch(earthquakeActions.setEarthquakes(preparedEarthquakesData))
-    } catch (err) {
-      setHasError(true)
-      setIsLoading(false)
-    }
+    const earthquakeResult = (await getEarthquakes()).result
+    const preparedEarthquakesData = earthquakeResult.map(earthquake => prepareEarthquake(earthquake))
+    dispatch(earthquakeActions.setEarthquakes(preparedEarthquakesData))
   }
 
   const handleGetCustomPoints = async () => {
@@ -41,9 +36,14 @@ const AppContainer = () => {
   }
 
   const firstGetting = async () => {
-    await handleGetEarthquakes()
-    await handleGetCustomPoints()
-    setIsLoading(false)
+    try {
+      await handleGetEarthquakes()
+      await handleGetCustomPoints()
+    } catch (err) {
+      setHasError(true)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const listenFirebaseAuth = () => {
@@ -77,8 +77,8 @@ const AppContainer = () => {
       removeEarthquakesInterval()
       return
     }
-    createEarthquakesInterval()
     handleGetEarthquakes()
+    createEarthquakesInterval()
     return removeEarthquakesInterval
   }, [selectedArchiveItem])
 

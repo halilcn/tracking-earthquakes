@@ -6,26 +6,26 @@ import FilterArchive from './filter-archive'
 import FilterPanel from './filter-panel'
 import LoadingData from './loading-data'
 import Settings from './settings'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useState } from 'react'
 import cx from 'classnames'
-
-import './index.scss'
 import { useSelector } from 'react-redux'
 import { isSelectedAnyArchiveItem, isSelectedAnyFilterPanelItem } from '../../../store/earthquake'
 import { isMobile } from '../../../utils'
 
+import './index.scss'
+
 const FilterList = () => {
-  const [filterContentType, setFilterContentType] = useState(null)
-  const [filterContentEnable, setFilterContentEnable] = useState(false)
-
-  const selectedArchiveFilterItem = useSelector(isSelectedAnyArchiveItem)
-  const selectedFilterPanelItem = useSelector(isSelectedAnyFilterPanelItem)
-
   const FILTER_CONTENT_TYPE = {
     ARCHIVE: 'archive',
     FILTER_PANEL: 'filterPanel',
     SETTINGS: 'settings',
   }
+
+  const [filterContentType, setFilterContentType] = useState(null)
+  const [filterContentEnable, setFilterContentEnable] = useState(false)
+
+  const selectedArchiveFilterItem = useSelector(isSelectedAnyArchiveItem)
+  const selectedFilterPanelItem = useSelector(isSelectedAnyFilterPanelItem)
 
   const MemoizedFilterContent = useCallback(() => {
     if (filterContentType === FILTER_CONTENT_TYPE.ARCHIVE) return <FilterArchive />
@@ -83,13 +83,13 @@ const FilterList = () => {
         <div className="filter__item">
           <LoadingData />
         </div>
-        {FILTER_LIST.map(filterItem => (
+        {FILTER_LIST.map(filter => (
           <div
-            onClick={() => handleSetFilterContentType(filterItem.type)}
-            className={cx('filter__item', 'filter__item--icon', filterItem.itemCustomClasses || '', {
-              'filter__item--selected': isSelectedType(filterItem.type),
+            onClick={() => handleSetFilterContentType(filter.type)}
+            className={cx('filter__item', 'filter__item--icon', filter.itemCustomClasses || '', {
+              'filter__item--selected': isSelectedType(filter.type),
             })}>
-            {filterItem.icon}
+            {filter.icon}
             <div className="filter__icon-blur" />
           </div>
         ))}

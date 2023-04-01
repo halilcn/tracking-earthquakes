@@ -3,15 +3,14 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import Button from '@mui/material/Button'
-import { useEffect, useState } from 'react'
 import { ARCHIVE_CERTAIN_TIMES } from '../../../../constants'
-import { getArchiveEarthquakes, getEarthquakes } from '../../../../api'
-
-import './index.scss'
-import { isNull, prepareEarthquake } from '../../../../utils'
+import { getArchiveEarthquakes } from '../../../../api'
+import { prepareEarthquake } from '../../../../utils'
 import { useDispatch, useSelector } from 'react-redux'
 import { earthquakeActions, isSelectedAnyArchiveItem } from '../../../../store/earthquake'
 import dayjs from 'dayjs'
+
+import './index.scss'
 
 const FilterArchive = () => {
   const dispatch = useDispatch()
@@ -20,18 +19,16 @@ const FilterArchive = () => {
   const selectedFilterItem = useSelector(isSelectedAnyArchiveItem)
 
   const clearArchiveDate = () => dispatch(earthquakeActions.clearArchiveDate())
-
   const convertDateFormat = date => date.format('YYYY-MM-DD')
 
   const handleCertainDate = async e => {
-    const certainBackDay = e.target.value
+    const certainDate = e.target.value
     const params = {
       date_end: convertDateFormat(dayjs()),
-      date: convertDateFormat(dayjs().add(-certainBackDay, 'days')),
+      date: convertDateFormat(dayjs().add(-certainDate, 'days')),
     }
 
-    dispatch(earthquakeActions.updateArchiveDate({ ...archiveDate, certainDate: certainBackDay }))
-    //setCertainDate(certainBackDay)
+    dispatch(earthquakeActions.updateArchiveDate({ ...archiveDate, certainDate }))
 
     await handleArchiveEarthquakes(params)
   }
@@ -45,11 +42,13 @@ const FilterArchive = () => {
         const responseEarthquakes = await getArchiveEarthquakes({ ...params, skip: allEarthquakes.length })
         allEarthquakes.push(...responseEarthquakes.result)
 
-        if (responseEarthquakes.metadata.total - 5 < allEarthquakes.length) break
+        if (responseEarthquakes.metadata.total - 1 < allEarthquakes.length) break
       }
 
       const preparedEarthquakesData = allEarthquakes.map(earthquake => prepareEarthquake(earthquake))
       dispatch(earthquakeActions.setEarthquakes(preparedEarthquakesData))
+    } catch (err) {
+      alert('Bir hata meydana geldi...')
     } finally {
       dispatch(earthquakeActions.setIsLoadingData(false))
     }
@@ -58,7 +57,6 @@ const FilterArchive = () => {
   const handleStartDate = async date => {
     const startDate = convertDateFormat(date)
     dispatch(earthquakeActions.updateArchiveDate({ ...archiveDate, startDate }))
-
     if (archiveDate.endDate) await handleArchiveEarthquakes({ date_end: archiveDate.endDate, date: startDate })
   }
 
@@ -77,7 +75,6 @@ const FilterArchive = () => {
             size="small"
             className="filter-archive__certain-date-input"
             value={archiveDate.certainDate || 0}
-            label="test"
             labelId="certain-date"
             onChange={handleCertainDate}>
             {Object.keys(ARCHIVE_CERTAIN_TIMES).map((time, key) => (

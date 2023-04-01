@@ -1,14 +1,11 @@
 import TimeFilter from './time-filter'
 import MagnitudeFilter from './magnitude-filter'
-import { isMobile } from '../../../../utils/index'
-import { AiOutlineFilter } from 'react-icons/ai'
 import Button from '@mui/material/Button'
-
-import './index.scss'
 import { useState } from 'react'
-import { display } from '@mui/system'
 import { useDispatch, useSelector } from 'react-redux'
 import { earthquakeActions, isSelectedAnyArchiveItem, isSelectedAnyFilterPanelItem } from '../../../../store/earthquake'
+
+import './index.scss'
 
 const FilterPanel = () => {
   const dispatch = useDispatch()
@@ -19,7 +16,6 @@ const FilterPanel = () => {
   const selectedFilterPanelItem = useSelector(isSelectedAnyFilterPanelItem)
 
   const toggleFilterPanelEnabled = () => setFilterPanelEnabled(status => !status)
-
   const clearFilter = () => dispatch(earthquakeActions.clearFilterPanelItems())
 
   return (

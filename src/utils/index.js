@@ -130,5 +130,3 @@ export const prepareEarthquakeDistance = ({ coordinates, mag, depth }) => {
 }
 
 export const isMobile = () => window.innerWidth < 1100
-
-export const isNull = items => items.every(date => date == null)
