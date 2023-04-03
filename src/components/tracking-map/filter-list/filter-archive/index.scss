@@ -12,10 +12,8 @@
     }
 
     &__custom-dates {
-    }
-
-    &__custom-date-item:last-child {
-        margin-top: 15px;
+        display: flex;
+        align-items: center;
     }
 
     &__clear-filters {
@@ -24,5 +22,9 @@
 
     &__clear-button {
         width: 100%;
+    }
+
+    &__hyphen {
+        margin: 0 5px;
     }
 }

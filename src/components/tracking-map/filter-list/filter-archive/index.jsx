@@ -1,7 +1,7 @@
 import { InputLabel, MenuItem, FormControl, Select } from '@mui/material'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
-import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker'
 import Button from '@mui/material/Button'
 import { ARCHIVE_CERTAIN_TIMES } from '../../../../constants'
 import { getArchiveEarthquakes } from '../../../../api'
@@ -88,7 +88,7 @@ const FilterArchive = () => {
       <div className="filter-archive__or-text">ya da</div>
       <div className="filter-archive__custom-dates">
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
+          <MobileDatePicker
             slotProps={{ textField: { size: 'small' } }}
             label="Başlangıç Tarihi"
             className="filter-archive__custom-date-item"
@@ -96,9 +96,8 @@ const FilterArchive = () => {
             value={archiveDate.startDate ? dayjs(archiveDate.startDate) : null}
             maxDate={archiveDate.endDate ? dayjs(archiveDate.endDate) : dayjs()}
           />
-        </LocalizationProvider>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
+          <div className="filter-archive__hyphen">-</div>
+          <MobileDatePicker
             slotProps={{ textField: { size: 'small' } }}
             label="Bitiş Tarihi"
             className="filter-archive__custom-date-item"
