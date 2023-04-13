@@ -4,13 +4,14 @@ import { getCustomPoints, getEarthquakesInTurkey, getEarthquakesInWorld } from '
 import { useDispatch, useSelector } from 'react-redux'
 import { earthquakeActions, isSelectedAnyArchiveItem } from '../../store/earthquake'
 import { userActions } from '../../store/user'
-import { prepareEarthquake, prepareEarthquakeV2 } from '../../utils'
+import { prepareEarthquakeKandilli, prepareEarthquakeUsgs } from '../../utils'
 import EarthquakeList from '../earthquake-list'
 import PageTop from '../page-top'
 import firebase from '../../service/firebase'
 import { MAP_UPDATE_MIN } from '../../constants'
 import ErrorPage from '../error-page'
 import Loading from '../loading'
+import dayjs from 'dayjs'
 
 import './index.scss'
 
@@ -25,14 +26,18 @@ const AppContainer = () => {
 
   const handleEarthquakesInTurkey = async () => {
     const earthquakeResult = (await getEarthquakesInTurkey()).result
-    const preparedEarthquakesData = earthquakeResult.map(earthquake => prepareEarthquake(earthquake))
-    console.log('preparedEarthquakesData', preparedEarthquakesData)
+    const preparedEarthquakesData = earthquakeResult.map(earthquake => prepareEarthquakeKandilli(earthquake))
     dispatch(earthquakeActions.addEarthquakes(preparedEarthquakesData))
   }
 
+  // TODO: maybe common function for archive data?
   const handleEarthquakesInWorld = async () => {
-    const { features } = await getEarthquakesInWorld()
-    const preparedEarthquakesData = features.map(earthquake => prepareEarthquakeV2(earthquake))
+    const requestParams = {
+      starttime: dayjs().format('YYYY-MM-DD'),
+      endtime: dayjs().add(1, 'day').format('YYYY-MM-DD'),
+    }
+    const { features } = await getEarthquakesInWorld(requestParams)
+    const preparedEarthquakesData = features.map(earthquake => prepareEarthquakeUsgs(earthquake))
     dispatch(earthquakeActions.addEarthquakes(preparedEarthquakesData))
   }
 

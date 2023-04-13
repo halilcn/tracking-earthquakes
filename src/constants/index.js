@@ -1,4 +1,5 @@
-export const API_BASE_URL = 'https://api.orhanaydogdu.com.tr/deprem'
+export const KANDILLI_EARTHQUAKES_API_BASE_URL = 'https://api.orhanaydogdu.com.tr/deprem'
+export const USGS_EARTHQUAKES_API_BASE_URL = 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson'
 
 export const INTENSITY_LEVELS = {
   LEVEL_1: 'LEVEL_1',

@@ -27,7 +27,24 @@ export const calculateAffectedDistance = (mag, depth) => {
   return distance / 15
 }
 
-export const prepareEarthquake = earthquake => {
+const earthquakeDataStructure = earthquake => ({
+  type: 'Feature',
+  geometry: {
+    type: 'Point',
+    coordinates: earthquake.coordinates,
+  },
+  properties: {
+    location_properties: {
+      epiCenter: {
+        name: 'Unknown City',
+      },
+    },
+    source: 'unknown',
+    ...earthquake,
+  },
+})
+
+export const prepareEarthquakeKandilli = earthquake => {
   const {
     geojson: { coordinates },
     date,
@@ -42,61 +59,46 @@ export const prepareEarthquake = earthquake => {
   const pointColor = getPointColorByIntensity(mag)
   const pointSize = getPointSizeByIntensity(mag)
 
-  return {
-    type: 'Feature',
-    geometry: {
-      type: 'Point',
-      coordinates,
-    },
-    properties: {
-      coordinates,
-      date,
-      depth,
-      earthquake_id,
-      location_properties,
-      title,
-      mag,
-      isNewEarthquake,
-      pointColor,
-      pointSize,
-    },
-  }
+  return earthquakeDataStructure({
+    coordinates,
+    date,
+    depth,
+    earthquake_id,
+    location_properties,
+    title,
+    mag,
+    isNewEarthquake,
+    pointColor,
+    pointSize,
+    source: 'kandilli',
+  })
 }
 
-export const prepareEarthquakeV2 = earthquake => {
+export const prepareEarthquakeUsgs = earthquake => {
   const {
     id,
     geometry: { coordinates },
     properties,
   } = earthquake
 
-  const isNewEarthquake = true //checkIsNewEarthquake(date)
-  const pointColor = getPointColorByIntensity(properties.mag)
-  const pointSize = getPointSizeByIntensity(properties.mag)
+  const date = dayjs(properties.time).format()
+  const mag = properties.mag.toFixed(1)
+  const isNewEarthquake = checkIsNewEarthquake(date)
+  const pointColor = getPointColorByIntensity(mag)
+  const pointSize = getPointSizeByIntensity(mag)
 
-  return {
-    type: 'Feature',
-    geometry: {
-      type: 'Point',
-      coordinates,
-    },
-    properties: {
-      coordinates,
-      date: '2022-03-03',
-      depth: 40,
-      earthquake_id: id,
-      location_properties: {
-        epiCenter: {
-          name: 'Ankara',
-        },
-      },
-      title: properties.title,
-      mag: properties.mag,
-      isNewEarthquake,
-      pointColor,
-      pointSize,
-    },
-  }
+  return earthquakeDataStructure({
+    date,
+    mag,
+    coordinates,
+    depth: 40,
+    earthquake_id: id,
+    title: properties.title,
+    isNewEarthquake,
+    pointColor,
+    pointSize,
+    source: 'usgs',
+  })
 }
 
 export const prepareCustomPoint = params => {

@@ -5,7 +5,7 @@ import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker'
 import Button from '@mui/material/Button'
 import { ARCHIVE_CERTAIN_TIMES } from '../../../../constants'
 import { getArchiveEarthquakesInTurkey } from '../../../../api'
-import { prepareEarthquake } from '../../../../utils'
+import { prepareEarthquakeKandilli } from '../../../../utils'
 import { useDispatch, useSelector } from 'react-redux'
 import { earthquakeActions, isSelectedAnyArchiveItem } from '../../../../store/earthquake'
 import dayjs from 'dayjs'
@@ -45,7 +45,7 @@ const FilterArchive = () => {
         if (responseEarthquakes.metadata.total - 1 < allEarthquakes.length) break
       }
 
-      const preparedEarthquakesData = allEarthquakes.map(earthquake => prepareEarthquake(earthquake))
+      const preparedEarthquakesData = allEarthquakes.map(earthquake => prepareEarthquakeKandilli(earthquake))
       dispatch(earthquakeActions.setEarthquakes(preparedEarthquakesData))
     } catch (err) {
       alert('Bir hata meydana geldi...')
