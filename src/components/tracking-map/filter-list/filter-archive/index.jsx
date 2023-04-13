@@ -4,11 +4,12 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker'
 import Button from '@mui/material/Button'
 import { ARCHIVE_CERTAIN_TIMES } from '../../../../constants'
-import { prepareEarthquakeKandilli } from '../../../../utils'
+import { convertDateFormatForAPI, prepareEarthquakeKandilli, prepareEarthquakeUsgs } from '../../../../utils'
 import { useDispatch, useSelector } from 'react-redux'
 import { earthquakeActions, isSelectedAnyArchiveItem } from '../../../../store/earthquake'
 import dayjs from 'dayjs'
 import { getAllEarthquakesByUsingKandilliAPI } from '../../../../service/earthquakes'
+import { getEarthquakesInWorld } from '../../../../api'
 
 import './index.scss'
 
@@ -19,26 +20,42 @@ const FilterArchive = () => {
   const selectedFilterItem = useSelector(isSelectedAnyArchiveItem)
 
   const clearArchiveDate = () => dispatch(earthquakeActions.clearArchiveDate())
-  const convertDateFormat = date => date.format('YYYY-MM-DD')
 
   const handleCertainDate = async e => {
     const certainDate = e.target.value
     const params = {
-      date_end: convertDateFormat(dayjs()),
-      date: convertDateFormat(dayjs().add(-certainDate, 'days')),
+      endDate: convertDateFormatForAPI(dayjs()),
+      startDate: convertDateFormatForAPI(dayjs().add(-certainDate, 'days')),
     }
 
     dispatch(earthquakeActions.updateArchiveDate({ ...archiveDate, certainDate }))
 
-    await handleArchiveEarthquakes(params)
+    await handleGetArchiveEarthquakes(params)
   }
 
-  const handleArchiveEarthquakes = async params => {
+  const handleEarthquakesInTurkey = async params => {
+    const requestParams = { date_end: params.endDate, date: params.startDate }
+    const allEarthquakes = await getAllEarthquakesByUsingKandilliAPI(requestParams)
+    const preparedEarthquakesData = allEarthquakes.map(earthquake => prepareEarthquakeKandilli(earthquake))
+    dispatch(earthquakeActions.addEarthquakes(preparedEarthquakesData))
+  }
+
+  const handleEarthquakesInWorld = async params => {
+    const requestParams = {
+      endtime: params.endDate,
+      starttime: params.startDate,
+    }
+    const { features } = await getEarthquakesInWorld(requestParams)
+    const preparedEarthquakesData = features.map(earthquake => prepareEarthquakeUsgs(earthquake))
+    dispatch(earthquakeActions.addEarthquakes(preparedEarthquakesData))
+  }
+
+  const handleGetArchiveEarthquakes = async params => {
     try {
       dispatch(earthquakeActions.setIsLoadingData(true))
-      const allEarthquakes = await getAllEarthquakesByUsingKandilliAPI(params)
-      const preparedEarthquakesData = allEarthquakes.map(earthquake => prepareEarthquakeKandilli(earthquake))
-      dispatch(earthquakeActions.setEarthquakes(preparedEarthquakesData))
+      dispatch(earthquakeActions.setEarthquakes([]))
+      await handleEarthquakesInTurkey(params)
+      await handleEarthquakesInWorld(params)
     } catch (err) {
       alert('Bir hata meydana geldi...')
     } finally {
@@ -49,13 +66,13 @@ const FilterArchive = () => {
   const handleStartDate = async date => {
     const startDate = convertDateFormat(date)
     dispatch(earthquakeActions.updateArchiveDate({ ...archiveDate, startDate }))
-    if (archiveDate.endDate) await handleArchiveEarthquakes({ date_end: archiveDate.endDate, date: startDate })
+    if (archiveDate.endDate) await handleGetArchiveEarthquakes({ endDate: archiveDate.endDate, startDate })
   }
 
   const handleEndDate = async date => {
     const endDate = convertDateFormat(date)
     dispatch(earthquakeActions.updateArchiveDate({ ...archiveDate, endDate }))
-    if (archiveDate.startDate) await handleArchiveEarthquakes({ date_end: endDate, date: archiveDate.startDate })
+    if (archiveDate.startDate) await handleGetArchiveEarthquakes({ endDate, startDate: archiveDate.startDate })
   }
 
   return (
