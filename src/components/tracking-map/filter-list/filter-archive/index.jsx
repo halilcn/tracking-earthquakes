@@ -64,13 +64,13 @@ const FilterArchive = () => {
   }
 
   const handleStartDate = async date => {
-    const startDate = convertDateFormat(date)
+    const startDate = convertDateFormatForAPI(date)
     dispatch(earthquakeActions.updateArchiveDate({ ...archiveDate, startDate }))
     if (archiveDate.endDate) await handleGetArchiveEarthquakes({ endDate: archiveDate.endDate, startDate })
   }
 
   const handleEndDate = async date => {
-    const endDate = convertDateFormat(date)
+    const endDate = convertDateFormatForAPI(date)
     dispatch(earthquakeActions.updateArchiveDate({ ...archiveDate, endDate }))
     if (archiveDate.startDate) await handleGetArchiveEarthquakes({ endDate, startDate: archiveDate.startDate })
   }

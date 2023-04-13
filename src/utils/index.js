@@ -124,6 +124,7 @@ export const getPopupForPoint = earthquake => `
 <div class="earthquake-popup__info">
 <div>&#x2022; ${dayjs(earthquake.date, DEFAULT_TIME_FORMAT).format('HH:mm dddd')}</div>
 <div>&#x2022; ${earthquake.depth} km derinliğinde</div>
+<div>&#x2022; ${earthquake.source} kaynağıdan</div>
 <div>&#x2022; ${earthquake.title.toLowerCase()}</div>
 </div>
 </div>
