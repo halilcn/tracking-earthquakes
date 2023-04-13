@@ -45,7 +45,7 @@ const TrackingMap = () => {
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: mapType,
-      zoom: 5.4,
+      zoom: 2.5,
       center: [35.163262, 39.431293],
     })
 

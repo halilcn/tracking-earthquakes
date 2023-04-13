@@ -22,6 +22,7 @@ export const getArchiveEarthquakesInTurkey = async params => {
 export const getEarthquakesInWorld = async params => {
   const { data } = await axios.get(USGS_EARTHQUAKES_API_BASE_URL, {
     params: {
+      minmagnitude: 1,
       starttime: dayjs().add(-1, 'day').format('YYYY-MM-DD'),
       endtime: dayjs().format('YYYY-MM-DD'),
       ...params,

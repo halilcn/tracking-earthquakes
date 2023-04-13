@@ -91,7 +91,7 @@ export const prepareEarthquakeUsgs = earthquake => {
     date,
     mag,
     coordinates,
-    depth: 40,
+    depth: coordinates[coordinates.length - 1],
     earthquake_id: id,
     title: properties.title,
     isNewEarthquake,

@@ -73,6 +73,7 @@ const AppContainer = () => {
   const createEarthquakesInterval = () => {
     if (earthquakeIntervalRef.current) return
     earthquakeIntervalRef.current = setInterval(() => {
+      dispatch(earthquakeActions.setEarthquakes([]))
       handleGetEarthquakes()
     }, MAP_UPDATE_MIN * 1000)
   }
