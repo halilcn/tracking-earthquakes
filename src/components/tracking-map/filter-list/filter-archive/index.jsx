@@ -4,7 +4,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker'
 import Button from '@mui/material/Button'
 import { ARCHIVE_CERTAIN_TIMES } from '../../../../constants'
-import { getArchiveEarthquakes } from '../../../../api'
+import { getArchiveEarthquakesInTurkey } from '../../../../api'
 import { prepareEarthquake } from '../../../../utils'
 import { useDispatch, useSelector } from 'react-redux'
 import { earthquakeActions, isSelectedAnyArchiveItem } from '../../../../store/earthquake'
@@ -39,7 +39,7 @@ const FilterArchive = () => {
 
       const allEarthquakes = []
       while (true) {
-        const responseEarthquakes = await getArchiveEarthquakes({ ...params, skip: allEarthquakes.length })
+        const responseEarthquakes = await getArchiveEarthquakesInTurkey({ ...params, skip: allEarthquakes.length })
         allEarthquakes.push(...responseEarthquakes.result)
 
         if (responseEarthquakes.metadata.total - 1 < allEarthquakes.length) break

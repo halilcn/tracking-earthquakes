@@ -10,7 +10,7 @@ const getEarthquakes = () => {
     const dateFilter = checkDate(earthquake.properties.date, -earthquakeTimeFilter)
     const magnitudeFilter = earthquake.properties.mag > earthquakeMagnitudeFilter
 
-    return (selectedArchiveDate || dateFilter) && magnitudeFilter
+    return true //(selectedArchiveDate || dateFilter) && magnitudeFilter
   })
 }
 

@@ -1,10 +1,10 @@
 import TrackingMap from '../tracking-map'
 import { useEffect, useRef, useState } from 'react'
-import { getCustomPoints, getEarthquakes } from '../../api'
+import { getCustomPoints, getEarthquakesInTurkey, getEarthquakesInWorld } from '../../api'
 import { useDispatch, useSelector } from 'react-redux'
 import { earthquakeActions, isSelectedAnyArchiveItem } from '../../store/earthquake'
 import { userActions } from '../../store/user'
-import { prepareEarthquake } from '../../utils'
+import { prepareEarthquake, prepareEarthquakeV2 } from '../../utils'
 import EarthquakeList from '../earthquake-list'
 import PageTop from '../page-top'
 import firebase from '../../service/firebase'
@@ -23,10 +23,22 @@ const AppContainer = () => {
 
   const selectedArchiveItem = useSelector(isSelectedAnyArchiveItem)
 
-  const handleGetEarthquakes = async () => {
-    const earthquakeResult = (await getEarthquakes()).result
+  const handleEarthquakesInTurkey = async () => {
+    const earthquakeResult = (await getEarthquakesInTurkey()).result
     const preparedEarthquakesData = earthquakeResult.map(earthquake => prepareEarthquake(earthquake))
-    dispatch(earthquakeActions.setEarthquakes(preparedEarthquakesData))
+    console.log('preparedEarthquakesData', preparedEarthquakesData)
+    dispatch(earthquakeActions.addEarthquakes(preparedEarthquakesData))
+  }
+
+  const handleEarthquakesInWorld = async () => {
+    const { features } = await getEarthquakesInWorld()
+    const preparedEarthquakesData = features.map(earthquake => prepareEarthquakeV2(earthquake))
+    dispatch(earthquakeActions.addEarthquakes(preparedEarthquakesData))
+  }
+
+  const handleGetEarthquakes = async () => {
+    await handleEarthquakesInTurkey()
+    await handleEarthquakesInWorld()
   }
 
   const handleGetCustomPoints = async () => {

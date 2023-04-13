@@ -63,6 +63,42 @@ export const prepareEarthquake = earthquake => {
   }
 }
 
+export const prepareEarthquakeV2 = earthquake => {
+  const {
+    id,
+    geometry: { coordinates },
+    properties,
+  } = earthquake
+
+  const isNewEarthquake = true //checkIsNewEarthquake(date)
+  const pointColor = getPointColorByIntensity(properties.mag)
+  const pointSize = getPointSizeByIntensity(properties.mag)
+
+  return {
+    type: 'Feature',
+    geometry: {
+      type: 'Point',
+      coordinates,
+    },
+    properties: {
+      coordinates,
+      date: '2022-03-03',
+      depth: 40,
+      earthquake_id: id,
+      location_properties: {
+        epiCenter: {
+          name: 'Ankara',
+        },
+      },
+      title: properties.title,
+      mag: properties.mag,
+      isNewEarthquake,
+      pointColor,
+      pointSize,
+    },
+  }
+}
+
 export const prepareCustomPoint = params => {
   const { coordinates, ...otherParams } = params
   return {

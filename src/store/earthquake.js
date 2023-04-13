@@ -23,6 +23,9 @@ export const earthquake = createSlice({
     setEarthquakes: (state, actions) => {
       state.earthquakes = actions.payload
     },
+    addEarthquakes: (state, actions) => {
+      state.earthquakes = [...state.earthquakes, ...actions.payload]
+    },
     setEarthquakeAffectedDistance: (state, actions) => {
       state.earthquakeAffectedDistance = actions.payload
     },
