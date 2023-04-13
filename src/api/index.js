@@ -2,15 +2,9 @@ import axios from 'axios'
 import { KANDILLI_EARTHQUAKES_API_BASE_URL, USGS_EARTHQUAKES_API_BASE_URL, FIREBASE_CUSTOM_POINTS_DB_NAME } from '../constants'
 import { collection, addDoc, getDocs } from 'firebase/firestore'
 import { db } from '../service/firebase'
-import dayjs from 'dayjs'
 
-export const getEarthquakesInTurkey = async () => {
-  const { data } = await axios.get(`${KANDILLI_EARTHQUAKES_API_BASE_URL}/live.php`)
-  return data
-}
-
-export const getArchiveEarthquakesInTurkey = async params => {
-  const { data } = await axios.get(`${DARPHANE_EARTHQUAKES_API_BASE_URL}/kandilli/archive`, {
+export const getEarthquakesInTurkey = async params => {
+  const { data } = await axios.get(`${KANDILLI_EARTHQUAKES_API_BASE_URL}/kandilli/archive`, {
     params: {
       limit: 1000, // API provides max 1000 limit
       ...params,
@@ -23,8 +17,6 @@ export const getEarthquakesInWorld = async params => {
   const { data } = await axios.get(USGS_EARTHQUAKES_API_BASE_URL, {
     params: {
       minmagnitude: 1,
-      starttime: dayjs().add(-1, 'day').format('YYYY-MM-DD'),
-      endtime: dayjs().format('YYYY-MM-DD'),
       ...params,
     },
   })

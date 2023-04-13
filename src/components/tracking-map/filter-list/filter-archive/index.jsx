@@ -4,11 +4,11 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker'
 import Button from '@mui/material/Button'
 import { ARCHIVE_CERTAIN_TIMES } from '../../../../constants'
-import { getArchiveEarthquakesInTurkey } from '../../../../api'
 import { prepareEarthquakeKandilli } from '../../../../utils'
 import { useDispatch, useSelector } from 'react-redux'
 import { earthquakeActions, isSelectedAnyArchiveItem } from '../../../../store/earthquake'
 import dayjs from 'dayjs'
+import { getAllEarthquakesByUsingKandilliAPI } from '../../../../service/earthquakes'
 
 import './index.scss'
 
@@ -36,15 +36,7 @@ const FilterArchive = () => {
   const handleArchiveEarthquakes = async params => {
     try {
       dispatch(earthquakeActions.setIsLoadingData(true))
-
-      const allEarthquakes = []
-      while (true) {
-        const responseEarthquakes = await getArchiveEarthquakesInTurkey({ ...params, skip: allEarthquakes.length })
-        allEarthquakes.push(...responseEarthquakes.result)
-
-        if (responseEarthquakes.metadata.total - 1 < allEarthquakes.length) break
-      }
-
+      const allEarthquakes = await getAllEarthquakesByUsingKandilliAPI(params)
       const preparedEarthquakesData = allEarthquakes.map(earthquake => prepareEarthquakeKandilli(earthquake))
       dispatch(earthquakeActions.setEarthquakes(preparedEarthquakesData))
     } catch (err) {

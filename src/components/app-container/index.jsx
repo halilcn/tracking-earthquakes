@@ -1,10 +1,10 @@
 import TrackingMap from '../tracking-map'
 import { useEffect, useRef, useState } from 'react'
-import { getCustomPoints, getEarthquakesInTurkey, getEarthquakesInWorld } from '../../api'
+import { getCustomPoints, getEarthquakesInWorld } from '../../api'
 import { useDispatch, useSelector } from 'react-redux'
 import { earthquakeActions, isSelectedAnyArchiveItem } from '../../store/earthquake'
 import { userActions } from '../../store/user'
-import { prepareEarthquakeKandilli, prepareEarthquakeUsgs } from '../../utils'
+import { convertDateFormatForAPI, prepareEarthquakeKandilli, prepareEarthquakeUsgs } from '../../utils'
 import EarthquakeList from '../earthquake-list'
 import PageTop from '../page-top'
 import firebase from '../../service/firebase'
@@ -12,6 +12,7 @@ import { MAP_UPDATE_MIN } from '../../constants'
 import ErrorPage from '../error-page'
 import Loading from '../loading'
 import dayjs from 'dayjs'
+import { getAllEarthquakesByUsingKandilliAPI } from '../../service/earthquakes'
 
 import './index.scss'
 
@@ -25,16 +26,20 @@ const AppContainer = () => {
   const selectedArchiveItem = useSelector(isSelectedAnyArchiveItem)
 
   const handleEarthquakesInTurkey = async () => {
-    const earthquakeResult = (await getEarthquakesInTurkey()).result
-    const preparedEarthquakesData = earthquakeResult.map(earthquake => prepareEarthquakeKandilli(earthquake))
+    const params = {
+      date_end: convertDateFormatForAPI(dayjs()),
+      date: convertDateFormatForAPI(dayjs().add(-1, 'day')),
+    }
+    const earthquakes = await getAllEarthquakesByUsingKandilliAPI(params)
+    const preparedEarthquakesData = earthquakes.map(earthquake => prepareEarthquakeKandilli(earthquake))
     dispatch(earthquakeActions.addEarthquakes(preparedEarthquakesData))
   }
 
   // TODO: maybe common function for archive data?
   const handleEarthquakesInWorld = async () => {
     const requestParams = {
-      starttime: dayjs().format('YYYY-MM-DD'),
-      endtime: dayjs().add(1, 'day').format('YYYY-MM-DD'),
+      starttime: convertDateFormatForAPI(dayjs()),
+      endtime: convertDateFormatForAPI(dayjs().add(1, 'day')),
     }
     const { features } = await getEarthquakesInWorld(requestParams)
     const preparedEarthquakesData = features.map(earthquake => prepareEarthquakeUsgs(earthquake))

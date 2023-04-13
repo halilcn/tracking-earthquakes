@@ -168,3 +168,5 @@ export const prepareEarthquakeDistance = ({ coordinates, mag, depth }) => {
 }
 
 export const isMobile = () => window.innerWidth < 1100
+
+export const convertDateFormatForAPI = date => date.format('YYYY-MM-DD')
