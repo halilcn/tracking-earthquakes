@@ -116,7 +116,6 @@ const AppContainer = () => {
           </div>
           <div className="app-container__content">
             <TrackingMap />
-            <EarthquakeList />
           </div>
         </>
       )}

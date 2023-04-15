@@ -7,6 +7,7 @@ import UpdateTimer from './update-timer'
 import { useDispatch, useSelector } from 'react-redux'
 import { earthquakeActions } from '../../store/earthquake'
 import FilterList from './filter-list'
+import ActionList from './action-list'
 
 import './index.scss'
 
@@ -197,6 +198,7 @@ const TrackingMap = () => {
   return (
     <div className="tracking-map">
       <div className="tracking-map__map-container" ref={mapContainer} />
+      <ActionList />
       <UpdateTimer />
       <FilterList />
     </div>

@@ -7,12 +7,12 @@ import { isMobile } from '../../../utils'
 import './index.scss'
 
 const EarthquakeItem = props => {
-  const { index, style, earthquake, handleEarthquakeListEnable } = props
+  const { index, style, earthquake, handleActionListDisable } = props
 
   const mapCurrent = useSelector(state => state.earthquake.mapCurrent)
 
   const handleFocusPoint = coordinates => {
-    if (isMobile()) handleEarthquakeListEnable(false)
+    if (isMobile()) handleActionListDisable()
     mapCurrent.flyTo({
       center: coordinates,
       essential: true,
