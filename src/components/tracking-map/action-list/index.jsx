@@ -1,16 +1,31 @@
 import EarthquakeList from '../../earthquake-list'
+import Search from '../../search'
 import { motion } from 'framer-motion'
 import { BsListUl, BsSearch } from 'react-icons/bs'
 import { IoMdClose } from 'react-icons/io'
 import './index.scss'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
+import { getLeftPanelStatus, getLeftPanelType, setLeftPanelStatus, setLeftPanelType } from '../../../utils/localStorageActions'
 
 const ActionList = () => {
-  const [actionListEnable, setActionListEnable] = useState(false)
-  // const [earthquakeListEnable, setEarthquakeListEnable] = useState(getEarthquakeListStatus() === 'true')
+  const CONTENT_TYPES = {
+    EARTHQUAKE_LIST: 'EARTHQUAKE_LIST',
+    SEARCH: 'SEARCH',
+  }
 
-  const handleActionListEnable = type => {
-    setActionListEnable(type)
+  const [actionListEnable, setActionListEnable] = useState(getLeftPanelStatus() === 'true')
+  const [activeContentType, setActiveContentType] = useState(getLeftPanelType())
+
+  const handleActiveList = type => {
+    setActiveContentType(type)
+    setActionListEnable(true)
+    setLeftPanelStatus(true)
+    setLeftPanelType(type)
+  }
+
+  const handleDisableList = () => {
+    setActionListEnable(false)
+    setLeftPanelStatus(false)
   }
 
   const actionListProps = {
@@ -25,34 +40,43 @@ const ActionList = () => {
 
   const earthquakeListProps = {
     className: 'action-list__content',
-    //initial: earthquakeListEnable ? 'open' : 'closed',
+    initial: actionListEnable ? 'open' : 'closed',
     animate: actionListEnable ? 'open' : 'closed',
     variants: {
       open: { opacity: 1, left: 0 },
-      closed: { opacity: 0, left: -550 },
+      closed: { opacity: 0, left: -450 },
     },
     transition: { ease: 'easeOut', duration: 0.3 },
   }
 
-  console.log('actionListEnable', actionListEnable)
+  const memoizedContent = useMemo(() => {
+    switch (activeContentType) {
+      case CONTENT_TYPES.EARTHQUAKE_LIST:
+        return <EarthquakeList handleActionListDisable={() => handleDisableList()} />
+      case CONTENT_TYPES.SEARCH:
+        return <Search />
+    }
+  }, [activeContentType])
 
   return (
     <div className="action-list">
       <motion.div {...actionListProps}>
-        <div onClick={() => handleActionListEnable(true)} className="action-list__item action-list__item--search">
+        <div onClick={() => handleActiveList(CONTENT_TYPES.SEARCH)} className="action-list__item action-list__item--search">
           <BsSearch className="action-list__item-icon" />
           <div className="action-list__item-bg-filter" />
         </div>
-        <div onClick={() => handleActionListEnable(true)} className="action-list__item action-list__item--earthquake-list">
+        <div
+          onClick={() => handleActiveList(CONTENT_TYPES.EARTHQUAKE_LIST)}
+          className="action-list__item action-list__item--earthquake-list">
           <BsListUl className="action-list__item-icon" />
           <div className="action-list__item-bg-filter" />
         </div>
       </motion.div>
       <motion.div {...earthquakeListProps}>
         <div className="action-list__close-button">
-          <IoMdClose onClick={() => handleActionListEnable(false)} className="action-list__close-button-icon" />
+          <IoMdClose onClick={() => handleDisableList()} className="action-list__close-button-icon" />
         </div>
-        <EarthquakeList handleActionListDisable={() => handleActionListEnable(false)} />
+        {memoizedContent}
       </motion.div>
     </div>
   )
