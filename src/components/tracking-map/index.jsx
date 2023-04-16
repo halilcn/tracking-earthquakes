@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useMemo } from 'react'
 import { MAP_TYPE, MAPBOX_API_KEY } from '../../constants'
 import getEarthquakes from '../../hooks/getEarthquakes'
 import { getPopupForCustomPoint, getPopupForPoint, prepareEarthquakeDistance, wrapperForSourceData } from '../../utils'
@@ -195,12 +195,20 @@ const TrackingMap = () => {
     map.current.getSource(EARTHQUAKE_CUSTOM_POINTS_DATA)?.setData(wrapperForSourceData(customPoints))
   }, [customPoints])
 
+  const memoizedComponents = useMemo(() => {
+    return (
+      <>
+        <ActionList />
+        <UpdateTimer />
+        <FilterList />
+      </>
+    )
+  }, [])
+
   return (
     <div className="tracking-map">
       <div className="tracking-map__map-container" ref={mapContainer} />
-      <ActionList />
-      <UpdateTimer />
-      <FilterList />
+      {memoizedComponents}
     </div>
   )
 }
