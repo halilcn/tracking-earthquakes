@@ -20,14 +20,8 @@ const ChooseLanguage = () => {
   return (
     <div>
       <FormControl fullWidth>
-        <InputLabel id="map-type">{t('Language')}</InputLabel>
-        <Select
-          size="small"
-          className="map-type__select"
-          labelId="map-type"
-          value={selectedLanguage}
-          label={t('Language')}
-          onChange={handleChange}>
+        <InputLabel id="language">{t('Language')}</InputLabel>
+        <Select size="small" labelId="language" value={selectedLanguage} label={t('Language')} onChange={handleChange}>
           {Object.keys(LANGUAGES).map((languageKey, key) => (
             <MenuItem key={key} value={languageKey}>
               {LANGUAGES[languageKey]}
