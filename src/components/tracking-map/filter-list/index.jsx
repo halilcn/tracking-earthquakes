@@ -11,6 +11,7 @@ import cx from 'classnames'
 import { useSelector } from 'react-redux'
 import { isSelectedAnyArchiveItem, isSelectedAnyFilterPanelItem } from '../../../store/earthquake'
 import { isMobile } from '../../../utils'
+import { useTranslation } from 'react-i18next'
 
 import './index.scss'
 
@@ -20,6 +21,8 @@ const FilterList = () => {
     FILTER_PANEL: 'filterPanel',
     SETTINGS: 'settings',
   }
+
+  const { t } = useTranslation()
 
   const [filterContentType, setFilterContentType] = useState(null)
   const [filterContentEnable, setFilterContentEnable] = useState(false)
@@ -34,9 +37,9 @@ const FilterList = () => {
   }, [filterContentType])
 
   const MemoizedFilterText = useCallback(() => {
-    if (filterContentType === FILTER_CONTENT_TYPE.ARCHIVE) return 'GEÇMİŞ DEPREMLER'
-    if (filterContentType === FILTER_CONTENT_TYPE.FILTER_PANEL) return 'FİLTRELER'
-    if (filterContentType === FILTER_CONTENT_TYPE.SETTINGS) return 'AYARLAR'
+    if (filterContentType === FILTER_CONTENT_TYPE.ARCHIVE) return t('PAST EARTHQUAKES')
+    if (filterContentType === FILTER_CONTENT_TYPE.FILTER_PANEL) return t('FILTERS')
+    if (filterContentType === FILTER_CONTENT_TYPE.SETTINGS) return t('SETTINGS')
   }, [filterContentType])
 
   const isSelectedType = type => type === filterContentType && filterContentEnable

@@ -1,6 +1,7 @@
 const LOCAL_STORAGE_MAP_TYPE = 'MAP_TYPE'
 const LOCAL_STORAGE_LEFT_PANEL_STATUS = 'LEFT_PANEL_STATUS'
 const LOCAL_STORAGE_LEFT_PANEL_TYPE = 'LEFT_PANEL_TYPE'
+const LOCAL_STORAGE_LANGUAGE = 'LANGUAGE'
 
 export const setMapType = mapType => localStorage.setItem(LOCAL_STORAGE_MAP_TYPE, mapType)
 export const getMapType = () => localStorage.getItem(LOCAL_STORAGE_MAP_TYPE)
@@ -10,3 +11,6 @@ export const getLeftPanelStatus = () => localStorage.getItem(LOCAL_STORAGE_LEFT_
 
 export const setLeftPanelType = type => localStorage.setItem(LOCAL_STORAGE_LEFT_PANEL_TYPE, type)
 export const getLeftPanelType = () => localStorage.getItem(LOCAL_STORAGE_LEFT_PANEL_TYPE)
+
+export const setLanguage = lang => localStorage.setItem(LOCAL_STORAGE_LANGUAGE, lang)
+export const getLanguage = () => localStorage.getItem(LOCAL_STORAGE_LANGUAGE)

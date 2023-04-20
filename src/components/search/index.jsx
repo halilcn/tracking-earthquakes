@@ -1,16 +1,18 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { MAPBOX_API_KEY } from '../../constants'
+import { useTranslation } from 'react-i18next'
 import './index.scss'
 
 const Search = () => {
+  const { t } = useTranslation()
   const mapCurrent = useSelector(state => state.earthquake.mapCurrent)
 
   const setMapboxSearch = () => {
     const searchInput = document.getElementById('search-input')
     const geocoder = new MapboxGeocoder({
       accessToken: MAPBOX_API_KEY,
-      placeholder: 'Bir yer ara...',
+      placeholder: `${t('Search a place')}...`,
       mapboxgl: mapboxgl,
       marker: false,
     })

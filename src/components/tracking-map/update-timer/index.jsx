@@ -3,10 +3,12 @@ import { useSelector } from 'react-redux'
 import { GrUpdate } from 'react-icons/gr'
 import { MAP_UPDATE_MIN } from '../../../constants'
 import { isSelectedAnyArchiveItem } from '../../../store/earthquake'
+import { useTranslation } from 'react-i18next'
 
 import './index.scss'
 
 const UpdateTimer = () => {
+  const { t } = useTranslation()
   const selectedArchive = useSelector(isSelectedAnyArchiveItem)
 
   const [time, setTime] = useState(MAP_UPDATE_MIN)
@@ -44,7 +46,10 @@ const UpdateTimer = () => {
       {!selectedArchive && (
         <div className="update-timer">
           <div className="update-timer__content">
-            <GrUpdate className="update-timer__icon" /> <span>{time} saniye</span>
+            <GrUpdate className="update-timer__icon" />{' '}
+            <span>
+              {time} {t('minutes')}
+            </span>
             <div className="update-timer__bg-filter" />
           </div>
         </div>

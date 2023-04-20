@@ -10,10 +10,12 @@ import { earthquakeActions, isSelectedAnyArchiveItem } from '../../../../store/e
 import dayjs from 'dayjs'
 import { getAllEarthquakesByUsingKandilliAPI } from '../../../../service/earthquakes'
 import { getEarthquakesInWorld } from '../../../../api'
+import { useTranslation } from 'react-i18next'
 
 import './index.scss'
 
 const FilterArchive = () => {
+  const { t } = useTranslation()
   const dispatch = useDispatch()
 
   const archiveDate = useSelector(state => state.earthquake.archiveDate)
@@ -57,7 +59,7 @@ const FilterArchive = () => {
       await handleEarthquakesInTurkey(params)
       await handleEarthquakesInWorld(params)
     } catch (err) {
-      alert('Bir hata meydana geldi...')
+      alert(t('Occurred a problem'))
     } finally {
       dispatch(earthquakeActions.setIsLoadingData(false))
     }
@@ -79,7 +81,7 @@ const FilterArchive = () => {
     <div className="filter-archive">
       <div className="filter-archive__certain-dates">
         <FormControl fullWidth>
-          <InputLabel id="certain-date">Zaman</InputLabel>
+          <InputLabel id="certain-date">{t('Time')}</InputLabel>
           <Select
             size="small"
             className="filter-archive__certain-date-input"
@@ -94,12 +96,12 @@ const FilterArchive = () => {
           </Select>
         </FormControl>
       </div>
-      <div className="filter-archive__or-text">ya da</div>
+      <div className="filter-archive__or-text">{t('or')}</div>
       <div className="filter-archive__custom-dates">
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <MobileDatePicker
             slotProps={{ textField: { size: 'small' } }}
-            label="Başlangıç Tarihi"
+            label={t('Start of Date')}
             className="filter-archive__custom-date-item"
             onChange={handleStartDate}
             value={archiveDate.startDate ? dayjs(archiveDate.startDate) : null}
@@ -108,7 +110,7 @@ const FilterArchive = () => {
           <div className="filter-archive__hyphen">-</div>
           <MobileDatePicker
             slotProps={{ textField: { size: 'small' } }}
-            label="Bitiş Tarihi"
+            label={t('End of Date')}
             className="filter-archive__custom-date-item"
             onChange={handleEndDate}
             value={archiveDate.endDate ? dayjs(archiveDate.endDate) : null}
@@ -119,7 +121,7 @@ const FilterArchive = () => {
       {selectedFilterItem && (
         <div onClick={clearArchiveDate} className="filter-archive__clear-filters">
           <Button className="filter-archive__clear-button" variant="contained" color="error">
-            TEMİZLE
+            {t('REMOVE')}
           </Button>
         </div>
       )}

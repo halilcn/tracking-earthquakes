@@ -1,3 +1,5 @@
+import i18n from '../i18n'
+
 export const KANDILLI_EARTHQUAKES_API_BASE_URL = 'https://api.orhanaydogdu.com.tr/deprem'
 export const USGS_EARTHQUAKES_API_BASE_URL = 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson'
 
@@ -29,19 +31,19 @@ export const POINT_SIZE = {
 }
 
 export const FILTER_TIME = {
-  1: 'Son 1 saat',
-  6: 'Son 6 saat',
-  12: 'Son 12 saat',
-  24: 'Son 24 saat',
+  1: i18n.t('Last {hourCount} hour').replace('{hourCount}', '1'),
+  6: i18n.t('Last {hourCount} hour').replace('{hourCount}', '6'),
+  12: i18n.t('Last {hourCount} hour').replace('{hourCount}', '12'),
+  24: i18n.t('Last {hourCount} hour').replace('{hourCount}', '24'),
 }
 
 export const ARCHIVE_CERTAIN_TIMES = {
-  0: 'Bugün',
-  1: 'Son 1 gün',
-  3: 'Son 3 gün',
-  7: 'Son 7 gün',
-  15: 'Son 15 gün',
-  30: 'Son 1 ay',
+  0: i18n.t('Today'),
+  1: i18n.t('Last {dayCount} day').replace('{dayCount}', '1'),
+  3: i18n.t('Last {dayCount} day').replace('{dayCount}', '3'),
+  7: i18n.t('Last {dayCount} day').replace('{dayCount}', '7'),
+  15: i18n.t('Last {dayCount} day').replace('{dayCount}', '15'),
+  30: i18n.t('Last {dayMonth} month').replace('{dayMonth}', '1'),
 }
 
 export const DEFAULT_TIME_FILTER_VALUE = 6
@@ -65,6 +67,13 @@ export const MAP_TYPE = {
   LIGHT: 'mapbox://styles/mapbox/light-v11',
   OUTDOOR: 'mapbox://styles/mapbox/outdoors-v12',
 }
+
+export const LANGUAGES = {
+  tr: 'TR',
+  en: 'EN',
+}
+
+export const DEFAULT_LANGUAGE = 'en'
 
 export const MAPBOX_API_KEY = import.meta.env.VITE_MAPBOX_API_KEY
 

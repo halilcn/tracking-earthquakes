@@ -3,10 +3,13 @@ import { FixedSizeList } from 'react-window'
 import { useEffect, useState } from 'react'
 import getEarthquakes from '../../hooks/getEarthquakes'
 import EarthquakeItem from './earthquake-item'
+import { useTranslation } from 'react-i18next'
 
 import './index.scss'
 
 const EarthquakeList = ({ handleActionListDisable }) => {
+  const { t } = useTranslation()
+
   const [textFilter, setTextFilter] = useState('')
   const [listHeight, setListHeight] = useState(0)
 
@@ -26,7 +29,7 @@ const EarthquakeList = ({ handleActionListDisable }) => {
   }
 
   const textFieldProps = {
-    label: 'Şehir',
+    label: t('City'),
     variant: 'standard',
     sx: {
       input: {
@@ -70,7 +73,7 @@ const EarthquakeList = ({ handleActionListDisable }) => {
           </Box>
         </div>
       ) : (
-        <div className="earthquake-list__no-earthquake-warning">Hiç deprem bulunamadı...</div>
+        <div className="earthquake-list__no-earthquake-warning">{t("There aren't any earthquakes")}</div>
       )}
     </div>
   )

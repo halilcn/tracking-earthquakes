@@ -1,6 +1,7 @@
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import { DEFAULT_TIME_FORMAT, INTENSITY_LEVELS, POINT_COLOR, POINT_SIZE } from '../constants'
+import i18n from '../i18n'
 
 dayjs.extend(customParseFormat)
 
@@ -119,12 +120,12 @@ export const getPopupForPoint = earthquake => `
 <div class="earthquake-popup">
 <div class="earthquake-popup__mag">
  <span class="earthquake-popup__mag-number">${earthquake.mag}</span>
- <span class="earthquake-popup__mag-text">BÜYÜKLÜK</span>
+ <span class="earthquake-popup__mag-text">${i18n.t('Magnitude').toUpperCase()}</span>
 </div>
 <div class="earthquake-popup__info">
 <div>&#x2022; ${dayjs(earthquake.date, DEFAULT_TIME_FORMAT).format('HH:mm dddd')}</div>
-<div>&#x2022; ${earthquake.depth} km derinliğinde</div>
-<div>&#x2022; ${earthquake.source} kaynağıdan</div>
+<div>&#x2022; ${i18n.t('{kmCount} km deep').replace('{kmCount}', earthquake.depth)}</div>
+<div>&#x2022; ${i18n.t('from {sourceInfo}').replace('{sourceInfo}', earthquake.source)}</div>
 <div>&#x2022; ${earthquake.title.toLowerCase()}</div>
 </div>
 </div>

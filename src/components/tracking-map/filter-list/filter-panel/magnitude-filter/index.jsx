@@ -2,10 +2,12 @@ import { InputLabel, MenuItem, FormControl, Select } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { FILTER_MAGNITUDE } from '../../../../../constants'
 import { earthquakeActions } from '../../../../../store/earthquake'
+import { useTranslation } from 'react-i18next'
 
 import './index.scss'
 
 const MagnitudeFilter = () => {
+  const { t } = useTranslation()
   const dispatch = useDispatch()
   const magnitudeFilter = useSelector(state => state.earthquake.earthquakeMagnitudeFilter)
 
@@ -17,12 +19,12 @@ const MagnitudeFilter = () => {
   return (
     <div className="magnitude-filter">
       <FormControl fullWidth>
-        <InputLabel id="magnitude-filter">Büyüklük</InputLabel>
+        <InputLabel id="magnitude-filter">{t('Magnitude')}</InputLabel>
         <Select
           className="magnitude-filter__select"
           labelId="magnitude-filter"
           value={magnitudeFilter}
-          label="Büyüklük"
+          label={t('Magnitude')}
           size="small"
           onChange={handleChange}>
           {Object.keys(FILTER_MAGNITUDE).map((magnitude, key) => (

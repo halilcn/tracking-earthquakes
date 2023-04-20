@@ -5,14 +5,15 @@ import { useDispatch, useSelector } from 'react-redux'
 import { earthquakeActions, isSelectedAnyArchiveItem } from '../../store/earthquake'
 import { userActions } from '../../store/user'
 import { convertDateFormatForAPI, prepareEarthquakeKandilli, prepareEarthquakeUsgs } from '../../utils'
-import EarthquakeList from '../earthquake-list'
 import PageTop from '../page-top'
 import firebase from '../../service/firebase'
-import { MAP_UPDATE_MIN } from '../../constants'
+import { DEFAULT_LANGUAGE, MAP_UPDATE_MIN } from '../../constants'
 import ErrorPage from '../error-page'
 import Loading from '../loading'
 import dayjs from 'dayjs'
 import { getAllEarthquakesByUsingKandilliAPI } from '../../service/earthquakes'
+import { useTranslation } from 'react-i18next'
+import { getLanguage, setLanguage } from '../../utils/localStorageActions'
 
 import './index.scss'
 
@@ -24,6 +25,7 @@ const AppContainer = () => {
   const [isLoading, setIsLoading] = useState(true)
 
   const selectedArchiveItem = useSelector(isSelectedAnyArchiveItem)
+  const { i18n } = useTranslation()
 
   const handleEarthquakesInTurkey = async () => {
     const params = {
@@ -88,10 +90,21 @@ const AppContainer = () => {
     earthquakeIntervalRef.current = null
   }
 
+  const handleChangeLanguage = () => {
+    let language = getLanguage()
+    if (language) return
+
+    const browserLanguage = navigator.language.split('-')[0]
+    language = browserLanguage || DEFAULT_LANGUAGE
+    setLanguage(language)
+    i18n.changeLanguage(language)
+  }
+
   useEffect(() => {
     firstGetting()
     listenFirebaseAuth()
     createEarthquakesInterval()
+    handleChangeLanguage()
     return removeEarthquakesInterval
   }, [])
 

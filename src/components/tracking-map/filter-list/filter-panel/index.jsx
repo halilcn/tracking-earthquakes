@@ -4,18 +4,17 @@ import Button from '@mui/material/Button'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { earthquakeActions, isSelectedAnyArchiveItem, isSelectedAnyFilterPanelItem } from '../../../../store/earthquake'
+import { useTranslation } from 'react-i18next'
 
 import './index.scss'
 
 const FilterPanel = () => {
+  const { t } = useTranslation()
   const dispatch = useDispatch()
-
-  const [filterPanelEnabled, setFilterPanelEnabled] = useState(false)
 
   const selectedArchive = useSelector(isSelectedAnyArchiveItem)
   const selectedFilterPanelItem = useSelector(isSelectedAnyFilterPanelItem)
 
-  const toggleFilterPanelEnabled = () => setFilterPanelEnabled(status => !status)
   const clearFilter = () => dispatch(earthquakeActions.clearFilterPanelItems())
 
   return (
@@ -31,7 +30,7 @@ const FilterPanel = () => {
         </div>
         {selectedFilterPanelItem && (
           <Button onClick={clearFilter} className="filter-panel__clear-button" variant="contained" color="error">
-            TEMİZLE
+            {t('REMOVE')}
           </Button>
         )}
       </div>
