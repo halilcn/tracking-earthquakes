@@ -1,12 +1,11 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
-import { DEFAULT_LANGUAGE } from '../constants'
 import { getLanguage } from '../utils/localStorageActions'
 import en from './languages/en'
 import tr from './languages/tr'
 
 i18n.use(initReactI18next).init({
-  lng: getLanguage() || DEFAULT_LANGUAGE,
+  lng: getLanguage() || 'en',
   fallbackLng: 'en',
   interpolation: {
     escapeValue: false,
