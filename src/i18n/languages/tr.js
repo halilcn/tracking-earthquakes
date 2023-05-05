@@ -25,5 +25,7 @@ export default {
     Today: 'Bugün',
     'from {sourceInfo}': '{sourceInfo} kaynağından',
     Language: 'Dil',
+    Depth: 'Derinlik',
+    All: 'Tümü',
   },
 }

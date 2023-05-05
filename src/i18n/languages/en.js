@@ -26,5 +26,7 @@ export default {
     '{kmCount} km deep': '{kmCount} km deep',
     'from {sourceInfo}': 'from {sourceInfo}',
     Language: 'Language',
+    Depth: 'Depth',
+    All: 'All',
   },
 }

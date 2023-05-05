@@ -75,6 +75,17 @@ export const LANGUAGES = {
 
 export const DEFAULT_LANGUAGE = 'en'
 
+export const DEFAULT_DEPTH_FILTER = -1
+
+export const FILTER_DEPTHS = {
+  [DEFAULT_DEPTH_FILTER]: i18n.t('All'),
+  5: '< 5 km',
+  10: '< 10 km',
+  15: '< 15 km',
+  20: '< 20 km',
+  25: '< 25 km',
+}
+
 export const MAPBOX_API_KEY = import.meta.env.VITE_MAPBOX_API_KEY
 
 export const MAP_UPDATE_MIN = 60
