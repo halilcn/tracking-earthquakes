@@ -9,11 +9,10 @@ import './index.scss'
 const MagnitudeFilter = () => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const magnitudeFilter = useSelector(state => state.earthquake.earthquakeMagnitudeFilter)
+  const magnitude = useSelector(state => state.earthquake.earthquakeFilter.magnitude)
 
   const handleChange = event => {
-    const magnitudeFilterValue = event.target.value
-    dispatch(earthquakeActions.setEarthquakeMagnitudeFilter(magnitudeFilterValue))
+    dispatch(earthquakeActions.setEarthquakeFilter({ magnitude: event.target.value }))
   }
 
   return (
@@ -23,7 +22,7 @@ const MagnitudeFilter = () => {
         <Select
           className="magnitude-filter__select"
           labelId="magnitude-filter"
-          value={magnitudeFilter}
+          value={magnitude}
           label={t('Magnitude')}
           size="small"
           onChange={handleChange}>

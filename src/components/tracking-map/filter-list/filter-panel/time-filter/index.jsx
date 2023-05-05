@@ -9,23 +9,16 @@ import './index.scss'
 const TimeFilter = () => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const earthquakeTimeFilter = useSelector(state => state.earthquake.earthquakeTimeFilter)
+  const time = useSelector(state => state.earthquake.earthquakeFilter.time)
 
   const handleChange = event => {
-    const timeFilterValue = event.target.value
-    dispatch(earthquakeActions.setEarthquakeTimeFilter(timeFilterValue))
+    dispatch(earthquakeActions.setEarthquakeFilter({ time: event.target.value }))
   }
   return (
     <div className="time-filter">
       <FormControl fullWidth>
         <InputLabel id="time-filter">{t('Time')}</InputLabel>
-        <Select
-          size="small"
-          className="time-filter__select"
-          labelId="time-filter"
-          value={earthquakeTimeFilter}
-          label={t('Time')}
-          onChange={handleChange}>
+        <Select size="small" className="time-filter__select" labelId="time-filter" value={time} label={t('Time')} onChange={handleChange}>
           {Object.keys(FILTER_TIME).map((time, index) => (
             <MenuItem key={index} value={time}>
               {FILTER_TIME[time]}

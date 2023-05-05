@@ -6,9 +6,11 @@ export const earthquake = createSlice({
   initialState: {
     earthquakes: [],
     earthquakeAffectedDistance: {},
-    earthquakeTimeFilter: DEFAULT_TIME_FILTER_VALUE,
-    earthquakeMagnitudeFilter: DEFAULT_MAGNITUDE_FILTER_VALUE,
-    earthquakeDepthFilter: DEFAULT_DEPTH_FILTER,
+    earthquakeFilter: {
+      time: DEFAULT_TIME_FILTER_VALUE,
+      magnitude: DEFAULT_MAGNITUDE_FILTER_VALUE,
+      depth: DEFAULT_DEPTH_FILTER,
+    },
     customPoints: [],
     mapCurrent: null,
     isActiveCustomPointSelection: false,
@@ -30,14 +32,8 @@ export const earthquake = createSlice({
     setEarthquakeAffectedDistance: (state, actions) => {
       state.earthquakeAffectedDistance = actions.payload
     },
-    setEarthquakeTimeFilter: (state, actions) => {
-      state.earthquakeTimeFilter = actions.payload
-    },
-    setEarthquakeMagnitudeFilter: (state, actions) => {
-      state.earthquakeMagnitudeFilter = actions.payload
-    },
-    setEarthquakeDepthFilter: (state, actions) => {
-      state.earthquakeDepthFilter = actions.payload
+    setEarthquakeFilter: (state, actions) => {
+      state.earthquakeFilter = { ...state.earthquakeFilter, ...actions.payload }
     },
     setMapCurrent: (state, actions) => {
       state.mapCurrent = actions.payload
@@ -64,18 +60,18 @@ export const earthquake = createSlice({
       state.archiveDate = { certainDate: null, startDate: null, endDate: null }
     },
     clearFilterPanelItems: (state, _) => {
-      state.earthquakeTimeFilter = DEFAULT_TIME_FILTER_VALUE
-      state.earthquakeMagnitudeFilter = DEFAULT_MAGNITUDE_FILTER_VALUE
+      state.earthquakeFilter = { time: DEFAULT_TIME_FILTER_VALUE, magnitude: DEFAULT_MAGNITUDE_FILTER_VALUE, depth: DEFAULT_DEPTH_FILTER }
     },
   },
 })
 
 export const isSelectedAnyArchiveItem = state => Object.values(state.earthquake.archiveDate).some(item => item !== null)
 export const isSelectedAnyFilterPanelItem = state => {
-  return (
-    state.earthquake.earthquakeTimeFilter !== DEFAULT_TIME_FILTER_VALUE ||
-    state.earthquake.earthquakeMagnitudeFilter !== DEFAULT_MAGNITUDE_FILTER_VALUE
-  )
+  const time = state.earthquake.earthquakeFilter.time !== DEFAULT_TIME_FILTER_VALUE
+  const magnitude = state.earthquake.earthquakeFilter.magnitude !== DEFAULT_MAGNITUDE_FILTER_VALUE
+  const depth = state.earthquake.earthquakeFilter.depth !== DEFAULT_DEPTH_FILTER
+
+  return time || magnitude || depth
 }
 
 export const earthquakeActions = earthquake.actions

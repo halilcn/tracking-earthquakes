@@ -3,13 +3,13 @@ import { isSelectedAnyArchiveItem } from '../store/earthquake'
 import { checkDate } from '../utils'
 
 const getEarthquakes = () => {
-  const { earthquakes, earthquakeTimeFilter, earthquakeMagnitudeFilter, earthquakeDepthFilter } = useSelector(data => data.earthquake)
+  const { earthquakes, earthquakeFilter } = useSelector(data => data.earthquake)
   const selectedArchiveDate = useSelector(isSelectedAnyArchiveItem)
 
   return earthquakes.filter(earthquake => {
-    const dateFilter = checkDate(earthquake.properties.date, -earthquakeTimeFilter)
-    const magnitudeFilter = earthquake.properties.mag > earthquakeMagnitudeFilter
-    const depthFilter = earthquakeDepthFilter === -1 || earthquake.properties.depth < earthquakeDepthFilter
+    const dateFilter = checkDate(earthquake.properties.date, -earthquakeFilter.time)
+    const magnitudeFilter = earthquake.properties.mag > earthquakeFilter.magnitude
+    const depthFilter = earthquakeFilter.depth === -1 || earthquake.properties.depth < earthquakeFilter.depth
 
     return (selectedArchiveDate || dateFilter) && magnitudeFilter && depthFilter
   })

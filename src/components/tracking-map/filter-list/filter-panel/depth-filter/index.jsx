@@ -9,10 +9,10 @@ import './index.css'
 const DepthFilter = () => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const earthquakeDepthFilter = useSelector(state => state.earthquake.earthquakeDepthFilter)
+  const depth = useSelector(state => state.earthquake.earthquakeFilter.depth)
 
   const handleChange = e => {
-    dispatch(earthquakeActions.setEarthquakeDepthFilter(e.target.value))
+    dispatch(earthquakeActions.setEarthquakeFilter({ depth: Number(e.target.value) }))
   }
 
   return (
@@ -22,7 +22,7 @@ const DepthFilter = () => {
         <Select
           className="depth-filter__select"
           labelId="depth-filter"
-          value={earthquakeDepthFilter}
+          value={depth}
           label={t('Depth')}
           size="small"
           onChange={handleChange}>
