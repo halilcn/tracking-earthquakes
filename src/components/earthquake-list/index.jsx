@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import getEarthquakes from '../../hooks/getEarthquakes'
 import EarthquakeItem from './earthquake-item'
 import { useTranslation } from 'react-i18next'
+import dayjs from 'dayjs'
 
 import './index.scss'
 
@@ -13,9 +14,9 @@ const EarthquakeList = ({ handleActionListDisable }) => {
   const [textFilter, setTextFilter] = useState('')
   const [listHeight, setListHeight] = useState(0)
 
-  const earthquakes = getEarthquakes().filter(earthquake =>
-    earthquake.properties.location_properties.epiCenter.name?.toLowerCase().includes(textFilter.toLowerCase())
-  )
+  const earthquakes = getEarthquakes()
+    .filter(earthquake => earthquake.properties.location_properties.epiCenter.name?.toLowerCase().includes(textFilter.toLowerCase()))
+    .sort((a, b) => (dayjs(a.properties.date).isAfter(b.properties.date) ? -1 : 1))
 
   const handleChangeTextFilter = e => setTextFilter(e.target.value)
 
