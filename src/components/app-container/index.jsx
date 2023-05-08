@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next'
 import { getLanguage, setLanguage } from '../../utils/localStorageActions'
 
 import './index.scss'
+import useEffectIgnoreFirstRender from '../../hooks/useEffectIgnoreFirstRender'
 
 const AppContainer = () => {
   const dispatch = useDispatch()
@@ -49,6 +50,7 @@ const AppContainer = () => {
   }
 
   const handleGetEarthquakes = async () => {
+    dispatch(earthquakeActions.setEarthquakes([]))
     await handleEarthquakesInTurkey()
     await handleEarthquakesInWorld()
   }
@@ -108,7 +110,8 @@ const AppContainer = () => {
     return removeEarthquakesInterval
   }, [])
 
-  useEffect(() => {
+  // TODO: should it be in filter-archive comp. ?
+  useEffectIgnoreFirstRender(() => {
     if (selectedArchiveItem) {
       removeEarthquakesInterval()
       return

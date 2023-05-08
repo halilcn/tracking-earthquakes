@@ -65,6 +65,7 @@ const FilterArchive = () => {
     }
   }
 
+  // TODO: duplicate code
   const handleStartDate = async date => {
     const startDate = convertDateFormatForAPI(date)
     dispatch(earthquakeActions.updateArchiveDate({ ...archiveDate, startDate }))
