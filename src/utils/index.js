@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
-import { DEFAULT_TIME_FORMAT, INTENSITY_LEVELS, POINT_COLOR, POINT_SIZE } from '../constants'
+import { DEFAULT_TIME_FORMAT, INTENSITY_LEVELS, KANDILLI_SOURCE, POINT_COLOR, POINT_SIZE, USGS_SOURCE } from '../constants'
 import i18n from '../i18n'
 
 dayjs.extend(customParseFormat)
@@ -61,17 +61,17 @@ export const prepareEarthquakeKandilli = earthquake => {
   const pointSize = getPointSizeByIntensity(mag)
 
   return earthquakeDataStructure({
+    source: KANDILLI_SOURCE,
+    depth: depth.toFixed(2),
+    mag: mag.toFixed(1),
+    date: dayjs(date).format(),
     coordinates,
-    date,
-    depth,
     earthquake_id,
     location_properties,
     title,
-    mag,
     isNewEarthquake,
     pointColor,
     pointSize,
-    source: 'kandilli',
   })
 }
 
@@ -89,16 +89,16 @@ export const prepareEarthquakeUsgs = earthquake => {
   const pointSize = getPointSizeByIntensity(mag)
 
   return earthquakeDataStructure({
+    source: USGS_SOURCE,
+    depth: coordinates[coordinates.length - 1].toFixed(2),
+    earthquake_id: id,
+    title: properties.title,
     date,
     mag,
     coordinates,
-    depth: coordinates[coordinates.length - 1],
-    earthquake_id: id,
-    title: properties.title,
     isNewEarthquake,
     pointColor,
     pointSize,
-    source: 'usgs',
   })
 }
 

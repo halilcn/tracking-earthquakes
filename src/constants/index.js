@@ -102,3 +102,7 @@ export const FIREBASE_CONFIG = {
 export const FIREBASE_CUSTOM_POINTS_DB_NAME = 'custom-points'
 
 export const DEFAULT_TIME_FORMAT = 'YYYY-MM-DD HH:mm'
+
+export const KANDILLI_SOURCE = 'kandilli'
+
+export const USGS_SOURCE = 'usgs'
