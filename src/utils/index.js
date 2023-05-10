@@ -45,7 +45,6 @@ const earthquakeDataStructure = earthquake => ({
   },
 })
 
-// TODO: better prepare functions?
 export const prepareEarthquakeKandilli = earthquake => {
   const {
     geojson: { coordinates },

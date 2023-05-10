@@ -31,7 +31,6 @@ const FilterArchive = () => {
     }
 
     dispatch(earthquakeActions.updateArchiveDate({ ...archiveDate, certainDate }))
-
     await handleGetArchiveEarthquakes(params)
   }
 
@@ -65,17 +64,12 @@ const FilterArchive = () => {
     }
   }
 
-  // TODO: duplicate code
-  const handleStartDate = async date => {
-    const startDate = convertDateFormatForAPI(date)
-    dispatch(earthquakeActions.updateArchiveDate({ ...archiveDate, startDate }))
-    if (archiveDate.endDate) await handleGetArchiveEarthquakes({ endDate: archiveDate.endDate, startDate })
-  }
+  const handleChooseDate = async (date, type) => {
+    const convertedDate = convertDateFormatForAPI(date)
+    const payload = { ...archiveDate, [type]: convertedDate }
 
-  const handleEndDate = async date => {
-    const endDate = convertDateFormatForAPI(date)
-    dispatch(earthquakeActions.updateArchiveDate({ ...archiveDate, endDate }))
-    if (archiveDate.startDate) await handleGetArchiveEarthquakes({ endDate, startDate: archiveDate.startDate })
+    dispatch(earthquakeActions.updateArchiveDate(payload))
+    if (payload.startDate && payload.endDate) await handleGetArchiveEarthquakes(payload)
   }
 
   return (
@@ -104,7 +98,7 @@ const FilterArchive = () => {
             slotProps={{ textField: { size: 'small' } }}
             label={t('Start of Date')}
             className="filter-archive__custom-date-item"
-            onChange={handleStartDate}
+            onChange={e => handleChooseDate(e, 'startDate')}
             value={archiveDate.startDate ? dayjs(archiveDate.startDate) : null}
             maxDate={archiveDate.endDate ? dayjs(archiveDate.endDate) : dayjs()}
           />
@@ -113,7 +107,7 @@ const FilterArchive = () => {
             slotProps={{ textField: { size: 'small' } }}
             label={t('End of Date')}
             className="filter-archive__custom-date-item"
-            onChange={handleEndDate}
+            onChange={e => handleChooseDate(e, 'endDate')}
             value={archiveDate.endDate ? dayjs(archiveDate.endDate) : null}
             maxDate={dayjs()}
           />
