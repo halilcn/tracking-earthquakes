@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import getEarthquakes from '../../hooks/getEarthquakes'
 import EarthquakeItem from './earthquake-item'
 import { useTranslation } from 'react-i18next'
-import dayjs from 'dayjs'
+import dayjs from './../../utils/dayjs'
 
 import './index.scss'
 

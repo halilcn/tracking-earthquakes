@@ -69,11 +69,9 @@ export const MAP_TYPE = {
 }
 
 export const LANGUAGES = {
-  tr: 'TR',
-  en: 'EN',
+  'tr-TR': 'TR',
+  'en-US': 'EN',
 }
-
-export const DEFAULT_LANGUAGE = 'en'
 
 export const DEFAULT_DEPTH_FILTER = -1
 
@@ -100,8 +98,6 @@ export const FIREBASE_CONFIG = {
 }
 
 export const FIREBASE_CUSTOM_POINTS_DB_NAME = 'custom-points'
-
-export const DEFAULT_TIME_FORMAT = 'YYYY-MM-DD HH:mm'
 
 export const KANDILLI_SOURCE = 'kandilli'
 

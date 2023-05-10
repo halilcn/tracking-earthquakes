@@ -1,8 +1,7 @@
 import { ListItem, ListItemButton } from '@mui/material'
 import { useSelector } from 'react-redux'
-import dayjs from 'dayjs'
-import { DEFAULT_TIME_FORMAT } from '../../../constants'
 import { isMobile } from '../../../utils'
+import dayjs from '../../../utils/dayjs'
 
 import './index.scss'
 
@@ -32,7 +31,7 @@ const EarthquakeItem = props => {
           <div className="earthquake-raw__item earthquake-raw__item--depth">{earthquake.properties.depth} km</div>
           <div className="earthquake-raw__circle-character">&#9679;</div>
           <div className="earthquake-raw__item earthquake-raw__item--date">
-            {dayjs(earthquake.properties.date, DEFAULT_TIME_FORMAT).format('HH:mm dddd')}
+            {dayjs(earthquake.properties.date).format('HH:mm ddd (UTCZ)')}
           </div>
         </div>
         <div className="earthquake-raw__item earthquake-raw__item--title">{earthquake.properties.title}</div>

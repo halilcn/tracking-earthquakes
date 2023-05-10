@@ -1,13 +1,14 @@
 import { InputLabel, MenuItem, FormControl, Select } from '@mui/material'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DEFAULT_LANGUAGE, LANGUAGES } from '../../../../../constants'
-import { getLanguage, setLanguage } from '../../../../../utils/localStorageActions'
+import { LANGUAGES } from '../../../../../constants'
+import { setLanguage } from '../../../../../utils/localStorageActions'
+import { getCurrentLanguage } from '../../../../../utils'
 
 import './index.scss'
 
 const ChooseLanguage = () => {
-  const [selectedLanguage, setSelectedLanguage] = useState(getLanguage() || DEFAULT_LANGUAGE)
+  const [selectedLanguage, setSelectedLanguage] = useState(getCurrentLanguage())
   const { t, i18n } = useTranslation()
 
   const handleChange = e => {

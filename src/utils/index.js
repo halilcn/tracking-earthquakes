@@ -1,9 +1,9 @@
-import dayjs from 'dayjs'
-import customParseFormat from 'dayjs/plugin/customParseFormat'
-import { DEFAULT_TIME_FORMAT, INTENSITY_LEVELS, KANDILLI_SOURCE, POINT_COLOR, POINT_SIZE, USGS_SOURCE } from '../constants'
+import dayjs from './dayjs'
+import { INTENSITY_LEVELS, KANDILLI_SOURCE, POINT_COLOR, POINT_SIZE, USGS_SOURCE } from '../constants'
 import i18n from '../i18n'
+import { getLanguage } from './localStorageActions'
 
-dayjs.extend(customParseFormat)
+export const getCurrentLanguage = () => getLanguage() || navigator.language || navigator.userLanguage
 
 export const getPointColorByIntensity = intensity => POINT_COLOR[getLevelByIntensity(intensity)]
 
@@ -11,7 +11,7 @@ export const getPointSizeByIntensity = intensity => POINT_SIZE[getLevelByIntensi
 
 export const checkIsNewEarthquake = date => dayjs().add(-15, 'minutes').isBefore(dayjs(date))
 
-export const checkDate = (date, filterTime) => dayjs().add(filterTime, 'hours').isBefore(dayjs(date, DEFAULT_TIME_FORMAT))
+export const checkDate = (date, filterTime) => dayjs().add(filterTime, 'hours').isBefore(dayjs(date))
 
 export const getLevelByIntensity = intensity => {
   if (intensity < 3) return INTENSITY_LEVELS.LEVEL_1
@@ -45,6 +45,7 @@ const earthquakeDataStructure = earthquake => ({
   },
 })
 
+// TODO: better prepare functions?
 export const prepareEarthquakeKandilli = earthquake => {
   const {
     geojson: { coordinates },
@@ -59,12 +60,13 @@ export const prepareEarthquakeKandilli = earthquake => {
   const isNewEarthquake = checkIsNewEarthquake(date)
   const pointColor = getPointColorByIntensity(mag)
   const pointSize = getPointSizeByIntensity(mag)
+  const convertedDate = dayjs(date).format()
 
   return earthquakeDataStructure({
     source: KANDILLI_SOURCE,
     depth: depth.toFixed(2),
     mag: mag.toFixed(1),
-    date: dayjs(date).format(),
+    date: convertedDate,
     coordinates,
     earthquake_id,
     location_properties,
@@ -123,7 +125,7 @@ export const getPopupForPoint = earthquake => `
  <span class="earthquake-popup__mag-text">${i18n.t('Magnitude').toUpperCase()}</span>
 </div>
 <div class="earthquake-popup__info">
-<div>&#x2022; ${dayjs(earthquake.date, DEFAULT_TIME_FORMAT).format('HH:mm dddd')}</div>
+<div>&#x2022; ${dayjs(earthquake.date).format('HH:mm dddd (UTCZ)')}</div>
 <div>&#x2022; ${i18n.t('{kmCount} km deep').replace('{kmCount}', earthquake.depth)}</div>
 <div>&#x2022; ${i18n.t('from {sourceInfo}').replace('{sourceInfo}', earthquake.source)}</div>
 <div>&#x2022; ${earthquake.title.toLowerCase()}</div>

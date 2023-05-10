@@ -7,16 +7,14 @@ import { userActions } from '../../store/user'
 import { convertDateFormatForAPI, prepareEarthquakeKandilli, prepareEarthquakeUsgs } from '../../utils'
 import PageTop from '../page-top'
 import firebase from '../../service/firebase'
-import { DEFAULT_LANGUAGE, MAP_UPDATE_MIN } from '../../constants'
+import { MAP_UPDATE_MIN } from '../../constants'
 import ErrorPage from '../error-page'
 import Loading from '../loading'
-import dayjs from 'dayjs'
+import dayjs from './../../utils/dayjs'
 import { getAllEarthquakesByUsingKandilliAPI } from '../../service/earthquakes'
-import { useTranslation } from 'react-i18next'
-import { getLanguage, setLanguage } from '../../utils/localStorageActions'
+import useEffectIgnoreFirstRender from '../../hooks/useEffectIgnoreFirstRender'
 
 import './index.scss'
-import useEffectIgnoreFirstRender from '../../hooks/useEffectIgnoreFirstRender'
 
 const AppContainer = () => {
   const dispatch = useDispatch()
@@ -26,7 +24,6 @@ const AppContainer = () => {
   const [isLoading, setIsLoading] = useState(true)
 
   const selectedArchiveItem = useSelector(isSelectedAnyArchiveItem)
-  const { i18n } = useTranslation()
 
   const handleEarthquakesInTurkey = async () => {
     const params = {
@@ -92,21 +89,10 @@ const AppContainer = () => {
     earthquakeIntervalRef.current = null
   }
 
-  const handleChangeLanguage = () => {
-    let language = getLanguage()
-    if (language) return
-
-    const browserLanguage = navigator.language.split('-')[0]
-    language = browserLanguage || DEFAULT_LANGUAGE
-    setLanguage(language)
-    i18n.changeLanguage(language)
-  }
-
   useEffect(() => {
     firstGetting()
     listenFirebaseAuth()
     createEarthquakesInterval()
-    handleChangeLanguage()
     return removeEarthquakesInterval
   }, [])
 

@@ -1,6 +1,6 @@
 import { TextField, Button } from '@mui/material'
-import dayjs from 'dayjs'
-import { useEffect, useState } from 'react'
+import dayjs from './../../../utils/dayjs'
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { postCustomPoint } from '../../../api'
 import { earthquakeActions } from '../../../store/earthquake'
