@@ -49,6 +49,7 @@ export const ARCHIVE_CERTAIN_TIMES = {
 export const DEFAULT_TIME_FILTER_VALUE = 6
 
 export const FILTER_MAGNITUDE = {
+  '-1': i18n.t('All'),
   1: '> 1',
   2: '> 2',
   3: '> 3',
@@ -58,7 +59,7 @@ export const FILTER_MAGNITUDE = {
   7: '> 7',
 }
 
-export const DEFAULT_MAGNITUDE_FILTER_VALUE = 1
+export const DEFAULT_MAGNITUDE_FILTER_VALUE = -1
 
 export const MAP_TYPE = {
   DARK: 'mapbox://styles/mapbox/dark-v11',
