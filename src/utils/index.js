@@ -137,25 +137,21 @@ export const getPopupForCustomPoint = customPoint => `
 <div><b>Oluşturan Kişi:</b> ${customPoint.username}</div>
 <div><b>Açıklama:</b> ${customPoint.description}</div>
 `
-// TODO: refactor
 export const calculateDistanceByUsingKm = (center, radiusInKm, points) => {
-  if (!points) points = 64
-
+  const currentPoints = points || 64
   const [longitude, latitude] = center
-  var km = radiusInKm
+  const distanceX = radiusInKm / (111.32 * Math.cos((latitude * Math.PI) / 180))
+  const distanceY = radiusInKm / 110.574
 
-  const ret = []
-  const distanceX = km / (111.32 * Math.cos((latitude * Math.PI) / 180))
-  const distanceY = km / 110.574
+  const ret = Array(currentPoints)
+    .fill(0)
+    .map((_, i) => {
+      const theta = (i / currentPoints) * (2 * Math.PI)
+      const x = distanceX * Math.cos(theta)
+      const y = distanceY * Math.sin(theta)
 
-  let theta, x, y
-  for (let i = 0; i < points; i++) {
-    theta = (i / points) * (2 * Math.PI)
-    x = distanceX * Math.cos(theta)
-    y = distanceY * Math.sin(theta)
-
-    ret.push([longitude + x, latitude + y])
-  }
+      return [longitude + x, latitude + y]
+    })
   ret.push(ret[0])
 
   return ret

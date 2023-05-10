@@ -96,7 +96,6 @@ const AppContainer = () => {
     return removeEarthquakesInterval
   }, [])
 
-  // TODO: should it be in filter-archive comp. ?
   useEffectIgnoreFirstRender(() => {
     if (selectedArchiveItem) {
       removeEarthquakesInterval()
