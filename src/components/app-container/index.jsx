@@ -32,24 +32,23 @@ const AppContainer = () => {
     }
     const earthquakes = await getAllEarthquakesByUsingKandilliAPI(params)
     const preparedEarthquakesData = earthquakes.map(earthquake => prepareEarthquakeKandilli(earthquake))
-    dispatch(earthquakeActions.addEarthquakes(preparedEarthquakesData))
+    return preparedEarthquakesData
   }
 
   // TODO: maybe common function for archive data?
   const handleEarthquakesInWorld = async () => {
     const requestParams = {
-      starttime: convertDateFormatForAPI(dayjs()),
+      starttime: convertDateFormatForAPI(dayjs().add(-1, 'day')),
       endtime: convertDateFormatForAPI(dayjs().add(1, 'day')),
     }
     const { features } = await getEarthquakesInWorld(requestParams)
     const preparedEarthquakesData = features.map(earthquake => prepareEarthquakeUsgs(earthquake))
-    dispatch(earthquakeActions.addEarthquakes(preparedEarthquakesData))
+    return preparedEarthquakesData
   }
 
   const handleGetEarthquakes = async () => {
-    dispatch(earthquakeActions.setEarthquakes([]))
-    await handleEarthquakesInTurkey()
-    await handleEarthquakesInWorld()
+    const earthquakes = await Promise.all([handleEarthquakesInTurkey(), handleEarthquakesInWorld()]).then(result => result.flat())
+    dispatch(earthquakeActions.setEarthquakes(earthquakes))
   }
 
   const handleGetCustomPoints = async () => {
@@ -61,7 +60,7 @@ const AppContainer = () => {
   const firstGetting = async () => {
     try {
       await handleGetEarthquakes()
-      await handleGetCustomPoints()
+      //await handleGetCustomPoints() // for now it is disabled.
     } catch (err) {
       setHasError(true)
     } finally {
@@ -79,7 +78,6 @@ const AppContainer = () => {
   const createEarthquakesInterval = () => {
     if (earthquakeIntervalRef.current) return
     earthquakeIntervalRef.current = setInterval(() => {
-      dispatch(earthquakeActions.setEarthquakes([]))
       handleGetEarthquakes()
     }, MAP_UPDATE_MIN * 1000)
   }
