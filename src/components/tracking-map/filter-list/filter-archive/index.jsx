@@ -55,8 +55,7 @@ const FilterArchive = () => {
     try {
       dispatch(earthquakeActions.setIsLoadingData(true))
       dispatch(earthquakeActions.setEarthquakes([]))
-      await handleEarthquakesInTurkey(params)
-      await handleEarthquakesInWorld(params)
+      await Promise.all([handleEarthquakesInTurkey(params), handleEarthquakesInWorld(params)])
     } catch (err) {
       alert(t('Occurred a problem'))
     } finally {
