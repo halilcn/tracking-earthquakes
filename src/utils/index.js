@@ -59,7 +59,7 @@ export const prepareEarthquakeKandilli = earthquake => {
   const isNewEarthquake = checkIsNewEarthquake(date)
   const pointColor = getPointColorByIntensity(mag)
   const pointSize = getPointSizeByIntensity(mag)
-  const convertedDate = dayjs(date).format()
+  const convertedDate = dayjs(date, 'YYYY.MM.DD hh:mm:ss').format()
 
   return earthquakeDataStructure({
     source: KANDILLI_SOURCE,
