@@ -1,5 +1,5 @@
 import dayjs from './dayjs'
-import { INTENSITY_LEVELS, KANDILLI_SOURCE, POINT_COLOR, POINT_SIZE, USGS_SOURCE } from '../constants'
+import { INTENSITY_LEVELS, SOURCES, POINT_COLOR, POINT_SIZE } from '../constants'
 import i18n from '../i18n'
 import { getLanguage } from './localStorageActions'
 
@@ -62,7 +62,7 @@ export const prepareEarthquakeKandilli = earthquake => {
   const convertedDate = dayjs(date, 'YYYY.MM.DD hh:mm:ss').format()
 
   return earthquakeDataStructure({
-    source: KANDILLI_SOURCE,
+    source: SOURCES.KANDILLI,
     depth: depth.toFixed(2),
     mag: mag.toFixed(1),
     date: convertedDate,
@@ -90,7 +90,7 @@ export const prepareEarthquakeUsgs = earthquake => {
   const pointSize = getPointSizeByIntensity(mag)
 
   return earthquakeDataStructure({
-    source: USGS_SOURCE,
+    source: SOURCES.USGS,
     depth: coordinates[coordinates.length - 1].toFixed(2),
     earthquake_id: id,
     title: properties.title,

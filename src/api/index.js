@@ -1,10 +1,10 @@
 import axios from 'axios'
-import { KANDILLI_EARTHQUAKES_API_BASE_URL, USGS_EARTHQUAKES_API_BASE_URL, FIREBASE_CUSTOM_POINTS_DB_NAME } from '../constants'
+import { API, FIREBASE_CUSTOM_POINTS_DB_NAME } from '../constants'
 import { collection, addDoc, getDocs } from 'firebase/firestore'
 import { db } from '../service/firebase'
 
 export const getEarthquakesInTurkey = async params => {
-  const { data } = await axios.get(`${KANDILLI_EARTHQUAKES_API_BASE_URL}/kandilli/archive`, {
+  const { data } = await axios.get(`${API.KANDILLI}/kandilli/archive`, {
     params: {
       limit: 1000, // API provides max 1000 limit
       ...params,
@@ -14,7 +14,7 @@ export const getEarthquakesInTurkey = async params => {
 }
 
 export const getEarthquakesInWorld = async params => {
-  const { data } = await axios.get(USGS_EARTHQUAKES_API_BASE_URL, {
+  const { data } = await axios.get(API.USGS, {
     params: {
       minmagnitude: 1,
       ...params,

@@ -11,13 +11,15 @@ import ActionList from './action-list'
 
 import './index.scss'
 
-const EARTHQUAKE_DATA = 'earthquakes-data'
-const EARTHQUAKE_CUSTOM_POINTS_DATA = 'earthquakes-custom-points-data'
-const EARTHQUAKE_AFFECTED_DISTANCE_DATA = 'earthquakes-affected-distance-data'
-const EARTHQUAKE_CUSTOM_POINTS_LAYER = 'earthquakes-data-custom-points-layer'
-const EARTHQUAKE_DATA_CIRCLE_LAYER = 'earthquakes-data-circle-layer'
-const EARTHQUAKE_DATA_PULSING_LAYER = 'earthquakes-data-pulsing-layer'
-const EARTHQUAKE_DATA_AFFECTED_DISTANCE_LAYER = 'earthquakes-data-affected-distance-layer'
+const SOURCE = {
+  DATA_EARTHQUAKES: 'data-earthquakes',
+  DATA_CUSTOM_POINTS: 'data-earthquakes-custom-points',
+  DATA_AFFECTED_DISTANCE: 'data-earthquakes-affected-distance',
+  LAYER_CUSTOM_POINTS: 'layer-earthquakes-custom-points',
+  LAYER_DATA_CIRCLE: 'data-earthquakes-circle-layer',
+  LAYER_DATA_PULSING: 'layer-earthquakes-pulsing',
+  LAYER_DATA_AFFECTED_DISTANCE: 'layer-earthquakes-affected-distance',
+}
 
 const TrackingMap = () => {
   const dispatch = useDispatch()
@@ -102,13 +104,13 @@ const TrackingMap = () => {
         map.current.addImage('location-icon', image)
       })
 
-      map.current.addSource(EARTHQUAKE_DATA, { type: 'geojson', data: wrapperForSourceData(earthquakes) })
-      map.current.addSource(EARTHQUAKE_AFFECTED_DISTANCE_DATA, { type: 'geojson', data: wrapperForSourceData(earthquakeAffectedDistance) })
-      map.current.addSource(EARTHQUAKE_CUSTOM_POINTS_DATA, { type: 'geojson', data: wrapperForSourceData(customPoints) })
+      map.current.addSource(SOURCE.DATA_EARTHQUAKES, { type: 'geojson', data: wrapperForSourceData(earthquakes) })
+      map.current.addSource(SOURCE.DATA_AFFECTED_DISTANCE, { type: 'geojson', data: wrapperForSourceData(earthquakeAffectedDistance) })
+      map.current.addSource(SOURCE.DATA_CUSTOM_POINTS, { type: 'geojson', data: wrapperForSourceData(customPoints) })
 
       map.current.addLayer({
-        id: EARTHQUAKE_DATA_CIRCLE_LAYER,
-        source: EARTHQUAKE_DATA,
+        id: SOURCE.LAYER_DATA_CIRCLE,
+        source: SOURCE.DATA_EARTHQUAKES,
         type: 'circle',
         paint: {
           'circle-radius': ['get', 'pointSize'],
@@ -118,8 +120,8 @@ const TrackingMap = () => {
       })
 
       map.current.addLayer({
-        id: EARTHQUAKE_CUSTOM_POINTS_LAYER,
-        source: EARTHQUAKE_CUSTOM_POINTS_DATA,
+        id: SOURCE.LAYER_CUSTOM_POINTS,
+        source: SOURCE.DATA_CUSTOM_POINTS,
         type: 'symbol',
         layout: {
           'icon-image': 'location-icon',
@@ -129,8 +131,8 @@ const TrackingMap = () => {
       })
 
       map.current.addLayer({
-        id: EARTHQUAKE_DATA_PULSING_LAYER,
-        source: EARTHQUAKE_DATA,
+        id: SOURCE.LAYER_DATA_PULSING,
+        source: SOURCE.DATA_EARTHQUAKES,
         type: 'symbol',
         filter: ['all', ['==', 'isNewEarthquake', true]],
         layout: {
@@ -139,8 +141,8 @@ const TrackingMap = () => {
       })
 
       map.current.addLayer({
-        id: EARTHQUAKE_DATA_AFFECTED_DISTANCE_LAYER,
-        source: EARTHQUAKE_AFFECTED_DISTANCE_DATA,
+        id: SOURCE.LAYER_DATA_AFFECTED_DISTANCE,
+        source: SOURCE.DATA_AFFECTED_DISTANCE,
         type: 'fill',
         layout: {},
         paint: {
@@ -149,13 +151,13 @@ const TrackingMap = () => {
         },
       })
 
-      map.current.on('click', EARTHQUAKE_DATA_CIRCLE_LAYER, e => {
+      map.current.on('click', SOURCE.LAYER_DATA_CIRCLE, e => {
         e.preventDefault()
         new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(getPopupForPoint(e.features[0].properties)).addTo(map.current)
         handleEarthquakeDistance(e.features[0].properties)
       })
 
-      map.current.on('click', EARTHQUAKE_CUSTOM_POINTS_LAYER, e => {
+      map.current.on('click', SOURCE.LAYER_CUSTOM_POINTS, e => {
         new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(getPopupForCustomPoint(e.features[0].properties)).addTo(map.current)
       })
 
@@ -184,15 +186,15 @@ const TrackingMap = () => {
   }, [isActiveCustomPointSelection])
 
   useEffect(() => {
-    map.current.getSource(EARTHQUAKE_DATA)?.setData(wrapperForSourceData(earthquakes))
+    map.current.getSource(SOURCE.DATA_EARTHQUAKES)?.setData(wrapperForSourceData(earthquakes))
   }, [earthquakes])
 
   useEffect(() => {
-    map.current.getSource(EARTHQUAKE_AFFECTED_DISTANCE_DATA)?.setData(wrapperForSourceData([earthquakeAffectedDistance])) // We need to set as an array
+    map.current.getSource(SOURCE.DATA_AFFECTED_DISTANCE)?.setData(wrapperForSourceData([earthquakeAffectedDistance])) // We need to set as an array
   }, [earthquakeAffectedDistance])
 
   useEffect(() => {
-    map.current.getSource(EARTHQUAKE_CUSTOM_POINTS_DATA)?.setData(wrapperForSourceData(customPoints))
+    map.current.getSource(SOURCE.DATA_CUSTOM_POINTS)?.setData(wrapperForSourceData(customPoints))
   }, [customPoints])
 
   const memoizedComponents = useMemo(() => {

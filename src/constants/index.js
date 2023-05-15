@@ -1,7 +1,9 @@
 import i18n from '../i18n'
 
-export const KANDILLI_EARTHQUAKES_API_BASE_URL = 'https://api.orhanaydogdu.com.tr/deprem'
-export const USGS_EARTHQUAKES_API_BASE_URL = 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson'
+export const API = {
+  KANDILLI: 'https://api.orhanaydogdu.com.tr/deprem',
+  USGS: 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson',
+}
 
 export const INTENSITY_LEVELS = {
   LEVEL_1: 'LEVEL_1',
@@ -100,6 +102,7 @@ export const FIREBASE_CONFIG = {
 
 export const FIREBASE_CUSTOM_POINTS_DB_NAME = 'custom-points'
 
-export const KANDILLI_SOURCE = 'kandilli'
-
-export const USGS_SOURCE = 'usgs'
+export const SOURCES = {
+  KANDILLI: 'kandilli',
+  USGS: 'usgs',
+}
