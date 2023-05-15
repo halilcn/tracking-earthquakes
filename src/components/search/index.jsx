@@ -23,12 +23,7 @@ const Search = () => {
   }
 
   useEffect(() => {
-    setMapboxSearch()
-  }, [])
-
-  // TODO: we have to find better solution..
-  useEffect(() => {
-    setMapboxSearch()
+    if (mapCurrent) setMapboxSearch()
   }, [mapCurrent])
 
   return (

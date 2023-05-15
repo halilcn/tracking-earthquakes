@@ -35,7 +35,6 @@ const AppContainer = () => {
     return preparedEarthquakesData
   }
 
-  // TODO: maybe common function for archive data?
   const handleEarthquakesInWorld = async () => {
     const requestParams = {
       starttime: convertDateFormatForAPI(dayjs().add(-1, 'day')),
