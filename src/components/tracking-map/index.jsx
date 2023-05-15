@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useMemo } from 'react'
+import React, { useRef, useEffect, useMemo, useCallback } from 'react'
 import { MAP_TYPE, MAPBOX_API_KEY } from '../../constants'
 import getEarthquakes from '../../hooks/getEarthquakes'
 import { getPopupForCustomPoint, getPopupForPoint, prepareEarthquakeDistance, wrapperForSourceData } from '../../utils'
@@ -41,7 +41,7 @@ const TrackingMap = () => {
 
   const clearEarthquakeDistance = () => dispatch(earthquakeActions.setEarthquakeAffectedDistance({}))
 
-  useEffect(() => {
+  const initialMapbox = useCallback(() => {
     if (map.current) return
 
     mapboxgl.accessToken = MAPBOX_API_KEY
@@ -53,9 +53,9 @@ const TrackingMap = () => {
     })
 
     dispatch(earthquakeActions.setMapCurrent(map.current))
-  }, [])
+  })
 
-  useEffect(() => {
+  const handleMapbox = useCallback(() => {
     const size = 150
     const pulsingDot = {
       width: size,
@@ -165,6 +165,11 @@ const TrackingMap = () => {
         if (e.defaultPrevented === false) clearEarthquakeDistance()
       })
     })
+  })
+
+  useEffect(() => {
+    initialMapbox()
+    handleMapbox()
   }, [])
 
   useEffect(() => {
