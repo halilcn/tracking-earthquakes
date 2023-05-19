@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { earthquakeActions, isSelectedAnyArchiveItem, isSelectedAnyFilterPanelItem } from '../../../../store/earthquake'
 import { useTranslation } from 'react-i18next'
 import DepthFilter from './depth-filter'
+import SourceFilter from './source-filter'
 
 import './index.scss'
 
@@ -30,6 +31,9 @@ const FilterPanel = () => {
         </div>
         <div className="filter-panel__item">
           <DepthFilter />
+        </div>
+        <div className="filter-panel__item">
+          <SourceFilter />
         </div>
         {selectedFilterPanelItem && (
           <Button onClick={clearFilter} className="filter-panel__clear-button" variant="contained" color="error">

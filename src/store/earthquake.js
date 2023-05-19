@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { DEFAULT_DEPTH_FILTER, DEFAULT_MAGNITUDE_FILTER_VALUE, DEFAULT_TIME_FILTER_VALUE } from '../constants'
+import { DEFAULT_DEPTH_FILTER, DEFAULT_MAGNITUDE_FILTER_VALUE, DEFAULT_SOURCE_FILTER, DEFAULT_TIME_FILTER_VALUE } from '../constants'
 
 export const earthquake = createSlice({
   name: 'earthquake',
@@ -10,6 +10,7 @@ export const earthquake = createSlice({
       time: DEFAULT_TIME_FILTER_VALUE,
       magnitude: DEFAULT_MAGNITUDE_FILTER_VALUE,
       depth: DEFAULT_DEPTH_FILTER,
+      sources: DEFAULT_SOURCE_FILTER,
     },
     customPoints: [],
     mapCurrent: null,
@@ -60,18 +61,26 @@ export const earthquake = createSlice({
       state.archiveDate = { certainDate: null, startDate: null, endDate: null }
     },
     clearFilterPanelItems: (state, _) => {
-      state.earthquakeFilter = { time: DEFAULT_TIME_FILTER_VALUE, magnitude: DEFAULT_MAGNITUDE_FILTER_VALUE, depth: DEFAULT_DEPTH_FILTER }
+      state.earthquakeFilter = {
+        ...state.earthquakeFilter,
+        time: DEFAULT_TIME_FILTER_VALUE,
+        magnitude: DEFAULT_MAGNITUDE_FILTER_VALUE,
+        depth: DEFAULT_DEPTH_FILTER,
+        sources: DEFAULT_SOURCE_FILTER,
+      }
     },
   },
 })
 
 export const isSelectedAnyArchiveItem = state => Object.values(state.earthquake.archiveDate).some(item => item !== null)
 export const isSelectedAnyFilterPanelItem = state => {
-  const time = state.earthquake.earthquakeFilter.time !== DEFAULT_TIME_FILTER_VALUE
-  const magnitude = state.earthquake.earthquakeFilter.magnitude !== DEFAULT_MAGNITUDE_FILTER_VALUE
-  const depth = state.earthquake.earthquakeFilter.depth !== DEFAULT_DEPTH_FILTER
+  const earthquakeFilter = state.earthquake.earthquakeFilter
+  const time = earthquakeFilter.time !== DEFAULT_TIME_FILTER_VALUE
+  const magnitude = earthquakeFilter.magnitude !== DEFAULT_MAGNITUDE_FILTER_VALUE
+  const depth = earthquakeFilter.depth !== DEFAULT_DEPTH_FILTER
+  const sources = earthquakeFilter.sources.filter(source => DEFAULT_SOURCE_FILTER.includes(source)).length !== DEFAULT_SOURCE_FILTER.length
 
-  return time || magnitude || depth
+  return time || magnitude || depth || sources
 }
 
 export const earthquakeActions = earthquake.actions

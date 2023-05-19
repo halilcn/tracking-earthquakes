@@ -28,5 +28,6 @@ export default {
     Language: 'Language',
     Depth: 'Depth',
     All: 'All',
+    Sources: 'Sources',
   },
 }
