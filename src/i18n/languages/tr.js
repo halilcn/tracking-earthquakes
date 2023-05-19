@@ -27,5 +27,6 @@ export default {
     Language: 'Dil',
     Depth: 'Derinlik',
     All: 'Tümü',
+    Sources: 'Kaynaklar',
   },
 }

@@ -106,3 +106,5 @@ export const SOURCES = {
   KANDILLI: 'kandilli',
   USGS: 'usgs',
 }
+
+export const DEFAULT_SOURCE_FILTER = Object.values(SOURCES)

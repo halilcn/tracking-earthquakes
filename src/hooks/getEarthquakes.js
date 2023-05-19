@@ -10,8 +10,9 @@ const getEarthquakes = () => {
     const dateFilter = checkDate(earthquake.properties.date, -earthquakeFilter.time)
     const magnitudeFilter = earthquake.properties.mag > earthquakeFilter.magnitude
     const depthFilter = earthquakeFilter.depth === -1 || earthquake.properties.depth < earthquakeFilter.depth
+    const sourceFilter = earthquakeFilter.sources.includes(earthquake.properties.source)
 
-    return (selectedArchiveDate || dateFilter) && magnitudeFilter && depthFilter
+    return (selectedArchiveDate || dateFilter) && magnitudeFilter && depthFilter && sourceFilter
   })
 }
 

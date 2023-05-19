@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { DEFAULT_DEPTH_FILTER, DEFAULT_MAGNITUDE_FILTER_VALUE, DEFAULT_TIME_FILTER_VALUE } from '../constants'
+import { DEFAULT_DEPTH_FILTER, DEFAULT_MAGNITUDE_FILTER_VALUE, DEFAULT_SOURCE_FILTER, DEFAULT_TIME_FILTER_VALUE } from '../constants'
 
 export const earthquake = createSlice({
   name: 'earthquake',
@@ -10,6 +10,7 @@ export const earthquake = createSlice({
       time: DEFAULT_TIME_FILTER_VALUE,
       magnitude: DEFAULT_MAGNITUDE_FILTER_VALUE,
       depth: DEFAULT_DEPTH_FILTER,
+      sources: DEFAULT_SOURCE_FILTER,
     },
     customPoints: [],
     mapCurrent: null,
@@ -60,7 +61,13 @@ export const earthquake = createSlice({
       state.archiveDate = { certainDate: null, startDate: null, endDate: null }
     },
     clearFilterPanelItems: (state, _) => {
-      state.earthquakeFilter = { time: DEFAULT_TIME_FILTER_VALUE, magnitude: DEFAULT_MAGNITUDE_FILTER_VALUE, depth: DEFAULT_DEPTH_FILTER }
+      state.earthquakeFilter = {
+        ...state.earthquakeFilter,
+        time: DEFAULT_TIME_FILTER_VALUE,
+        magnitude: DEFAULT_MAGNITUDE_FILTER_VALUE,
+        depth: DEFAULT_DEPTH_FILTER,
+        sources: DEFAULT_SOURCE_FILTER,
+      }
     },
   },
 })
