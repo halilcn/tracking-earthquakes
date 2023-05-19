@@ -16,7 +16,9 @@ const SourceFilter = () => {
   return (
     <div className="source-filter">
       <FormControl className="source-filter__container">
-        <InputLabel id="source-filter-label">{t('Sources')}</InputLabel>
+        <InputLabel size="small" id="source-filter-label">
+          {t('Sources')}
+        </InputLabel>
         <Select
           labelId="source-filter-label"
           label={t('Sources')}
