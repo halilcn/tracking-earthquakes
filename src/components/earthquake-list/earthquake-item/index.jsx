@@ -24,7 +24,7 @@ const EarthquakeItem = props => {
       <ListItemButton
         onClick={() => handleFocusPoint(earthquake.properties.coordinates)}
         className={`earthquake-raw__button ${earthquake.properties.isNewEarthquake && 'earthquake-raw__button--new'}`}>
-        {earthquake.properties.isNewEarthquake && <div className="earthquake-raw__just-now">now</div>}
+        {earthquake.properties.isNewEarthquake && <div className="earthquake-raw__just-now">&#8226;</div>}
         <div className="earthquake-raw__line">
           <div className="earthquake-raw__item earthquake-raw__item--intensity">{earthquake.properties.mag}</div>
           <div className="earthquake-raw__circle-character">&#9679;</div>
