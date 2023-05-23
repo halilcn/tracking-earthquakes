@@ -4,13 +4,17 @@ import { useSelector } from 'react-redux'
 import { signInWithGoogle, auth as authFirebase } from '../../service/firebase'
 import githubImage from '../../assets/github.png'
 import { BiHelpCircle } from 'react-icons/bi'
+import Popup from '../popup'
 
 import './index.scss'
+import { useState } from 'react'
 
 const PageTop = () => {
   const user = useSelector(state => state.user)
   const auth = user.auth
   const isLoadedAuthInformation = user.isLoadedAuthInformation
+
+  const [popupEnabled, setPopupEnabled] = useState(false)
 
   const handleSignOut = () => {
     authFirebase.signOut()
@@ -41,8 +45,11 @@ const PageTop = () => {
         </a>
       </div>
       <div className="app-top__action-list">
-        <BiHelpCircle className="app-top__action-item" />
+        <BiHelpCircle onClick={() => setPopupEnabled(true)} className="app-top__action-item" />
       </div>
+      <Popup title="Test Title Hey" enabled={popupEnabled} disableHandle={() => setPopupEnabled(false)}>
+        popup içeriği!
+      </Popup>
       {!isLoadedAuthInformation ? <Skeleton variant="rectangular" width={150} height={35} /> : <div />}
     </div>
   )
