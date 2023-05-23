@@ -1,40 +1,19 @@
-import Button from '@mui/material/Button'
-import Skeleton from '@mui/material/Skeleton'
-import { useSelector } from 'react-redux'
-import { signInWithGoogle, auth as authFirebase } from '../../service/firebase'
 import githubImage from '../../assets/github.png'
 import { BiHelpCircle } from 'react-icons/bi'
-import Popup from '../popup'
+import { useState } from 'react'
+import InfoPopup from '../popups/info-popup'
 
 import './index.scss'
-import { useState } from 'react'
 
 const PageTop = () => {
-  const user = useSelector(state => state.user)
-  const auth = user.auth
-  const isLoadedAuthInformation = user.isLoadedAuthInformation
-
-  const [popupEnabled, setPopupEnabled] = useState(false)
-
-  const handleSignOut = () => {
-    authFirebase.signOut()
+  const POPUP_CONTENT_TYPES = {
+    INFO: 'info',
   }
 
-  /*
-          <>
-          {auth && <div className="app-top__username">{auth.displayName}</div>}
-          {auth !== null && (
-            <Button onClick={handleSignOut} color="error" variant="contained">
-              Logout
-            </Button>
-          )}
-          {auth === null && (
-            <Button onClick={signInWithGoogle} variant="contained">
-              Login
-            </Button>
-          )}
-        </>
- */
+  const [activePopupContentType, setActivePopupContentType] = useState(null)
+
+  const disablePopup = () => setActivePopupContentType(null)
+  const isActivePopup = type => activePopupContentType === type
 
   return (
     <div className="app-top">
@@ -45,12 +24,9 @@ const PageTop = () => {
         </a>
       </div>
       <div className="app-top__action-list">
-        <BiHelpCircle onClick={() => setPopupEnabled(true)} className="app-top__action-item" />
+        <BiHelpCircle onClick={() => setActivePopupContentType(POPUP_CONTENT_TYPES.INFO)} className="app-top__action-item" />
       </div>
-      <Popup title="Test Title Hey" enabled={popupEnabled} disableHandle={() => setPopupEnabled(false)}>
-        popup içeriği!
-      </Popup>
-      {!isLoadedAuthInformation ? <Skeleton variant="rectangular" width={150} height={35} /> : <div />}
+      <InfoPopup enabled={isActivePopup(POPUP_CONTENT_TYPES.INFO)} disableHandle={disablePopup} />
     </div>
   )
 }
