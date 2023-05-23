@@ -26,11 +26,13 @@ const DepthFilter = () => {
           label={t('Depth')}
           size="small"
           onChange={handleChange}>
-          {Object.keys(FILTER_DEPTHS).map((depth, key) => (
-            <MenuItem key={key} value={depth}>
-              {FILTER_DEPTHS[depth]}
-            </MenuItem>
-          ))}
+          {Object.keys(FILTER_DEPTHS)
+            .sort((a, b) => a - b)
+            .map((depth, key) => (
+              <MenuItem key={key} value={depth}>
+                {FILTER_DEPTHS[depth]}
+              </MenuItem>
+            ))}
         </Select>
       </FormControl>
     </div>
