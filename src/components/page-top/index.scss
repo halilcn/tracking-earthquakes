@@ -41,6 +41,20 @@
         margin-left: 10px;
     }
 
+    &__action-list {
+        display: flex;
+    }
+
+    &__action-item {
+        font-size: 33px;
+        color: rgb(182, 182, 182);
+        cursor: pointer;
+
+        &:hover {
+            color: rgb(166, 166, 166);
+        }
+    }
+
     @media only screen and (max-width: $mobile-width) {
         &__github-link > a {
             padding: 6px;

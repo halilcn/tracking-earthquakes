@@ -3,6 +3,7 @@ import Skeleton from '@mui/material/Skeleton'
 import { useSelector } from 'react-redux'
 import { signInWithGoogle, auth as authFirebase } from '../../service/firebase'
 import githubImage from '../../assets/github.png'
+import { BiHelpCircle } from 'react-icons/bi'
 
 import './index.scss'
 
@@ -38,6 +39,9 @@ const PageTop = () => {
           <img className="app-top__github-icon" src={githubImage} />
           <div className="app-top__github-text">Github</div>
         </a>
+      </div>
+      <div className="app-top__action-list">
+        <BiHelpCircle className="app-top__action-item" />
       </div>
       {!isLoadedAuthInformation ? <Skeleton variant="rectangular" width={150} height={35} /> : <div />}
     </div>
