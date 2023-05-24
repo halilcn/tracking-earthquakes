@@ -1,0 +1,39 @@
+.info-popup {
+    &__item {
+        margin: 10px 0;
+    }
+
+    &__label {
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+
+    &__magnitude {
+        display: flex;
+        align-items: center;
+
+        &-item {
+            border-radius: 100%;
+            background-color: red;
+            margin: 0 2px;
+        }
+    }
+
+    &__magnitude-title {
+        font-weight: 500;
+        font-size: 18px;
+        color: rgb(103, 103, 103);
+
+        &--first {
+            margin-right: 10px;
+        }
+
+        &--last {
+            margin-left: 10px;
+        }
+    }
+
+    &__live-earthquake {
+        border-radius: 4px;
+    }
+}

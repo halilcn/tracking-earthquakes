@@ -28,5 +28,8 @@ export default {
     Depth: 'Derinlik',
     All: 'Tümü',
     Sources: 'Kaynaklar',
+    'Earthquake Magnitude': 'Deprem Büyüklüğü',
+    'Live Earthquake': 'Canlı Deprem',
+    Info: 'Bilgi',
   },
 }

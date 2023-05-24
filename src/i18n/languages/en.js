@@ -29,5 +29,8 @@ export default {
     Depth: 'Depth',
     All: 'All',
     Sources: 'Sources',
+    'Earthquake Magnitude': 'Earthquake Magnitude',
+    'Live Earthquake': 'Live Earthquake',
+    Info: 'Info',
   },
 }
