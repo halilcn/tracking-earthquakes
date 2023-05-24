@@ -32,5 +32,6 @@ export default {
     'Live Earthquake': 'Canlı Deprem',
     Info: 'Bilgi',
     Anywhere: 'Herhangi bir yer',
+    'Fault Line Active': 'Fay Hattı Aktif',
   },
 }

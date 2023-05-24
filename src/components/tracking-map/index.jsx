@@ -26,9 +26,10 @@ const SOURCE = {
 
 const TrackingMap = () => {
   const dispatch = useDispatch()
-  const isActiveCustomPointSelection = useSelector(state => state.earthquake.isActiveCustomPointSelection)
-  const customPoints = useSelector(state => state.earthquake.customPoints)
-  const earthquakeAffectedDistance = useSelector(state => state.earthquake.earthquakeAffectedDistance)
+  const { isActiveCustomPointSelection, customPoints, earthquakeAffectedDistance, faultLineActive } = useSelector(state => {
+    const { isActiveCustomPointSelection, customPoints, earthquakeAffectedDistance, faultLineActive } = state.earthquake
+    return { isActiveCustomPointSelection, customPoints, earthquakeAffectedDistance, faultLineActive }
+  })
 
   const mapType = MAP_TYPE[getMapType()] || MAP_TYPE.DARK
   const earthquakes = getEarthquakes()
@@ -110,7 +111,10 @@ const TrackingMap = () => {
       map.current.addSource(SOURCE.DATA_EARTHQUAKES, { type: 'geojson', data: wrapperForSourceData(earthquakes) })
       map.current.addSource(SOURCE.DATA_AFFECTED_DISTANCE, { type: 'geojson', data: wrapperForSourceData(earthquakeAffectedDistance) })
       map.current.addSource(SOURCE.DATA_CUSTOM_POINTS, { type: 'geojson', data: wrapperForSourceData(customPoints) })
-      map.current.addSource(SOURCE.DATA_FAULT_LINE, { type: 'geojson', data: faultLines })
+      map.current.addSource(SOURCE.DATA_FAULT_LINE, {
+        type: 'geojson',
+        data: faultLineActive ? faultLines : { type: 'FeatureCollection', features: [] },
+      })
 
       map.current.addLayer({
         id: SOURCE.LAYER_DATA_CIRCLE,
@@ -219,6 +223,11 @@ const TrackingMap = () => {
   useEffect(() => {
     map.current.getSource(SOURCE.DATA_CUSTOM_POINTS)?.setData(wrapperForSourceData(customPoints))
   }, [customPoints])
+
+  useEffect(() => {
+    const currentData = faultLineActive ? faultLines : { type: 'FeatureCollection', features: [] }
+    map.current.getSource(SOURCE.DATA_FAULT_LINE)?.setData(currentData)
+  }, [faultLineActive])
 
   const memoizedComponents = useMemo(() => {
     return (

@@ -3,6 +3,7 @@ import './index.scss'
 import MapType from './map-type'
 import ChooseLanguage from './choose-language'
 import { isMobile } from '../../../../utils/index'
+import FaultLine from './fault-line'
 
 const Settings = () => {
   return (
@@ -12,6 +13,9 @@ const Settings = () => {
       </div>
       <div className="settings__item">
         <ChooseLanguage />
+      </div>
+      <div className="settings__item">
+        <FaultLine />
       </div>
       {!isMobile() && (
         <div className="settings__item">

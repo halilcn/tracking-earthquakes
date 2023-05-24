@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { DEFAULT_DEPTH_FILTER, DEFAULT_MAGNITUDE_FILTER_VALUE, DEFAULT_SOURCE_FILTER, DEFAULT_TIME_FILTER_VALUE } from '../constants'
+import { getFaultLineActive } from '../utils/localStorageActions'
 
 export const earthquake = createSlice({
   name: 'earthquake',
@@ -22,6 +23,7 @@ export const earthquake = createSlice({
       startDate: null,
       endDate: null,
     },
+    faultLineActive: !(getFaultLineActive() === 'false'),
   },
   reducers: {
     setEarthquakes: (state, actions) => {
@@ -68,6 +70,9 @@ export const earthquake = createSlice({
         depth: DEFAULT_DEPTH_FILTER,
         sources: DEFAULT_SOURCE_FILTER,
       }
+    },
+    setFaultLineActive: (state, actions) => {
+      state.faultLineActive = actions.payload
     },
   },
 })

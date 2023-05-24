@@ -3,6 +3,7 @@ const KEY = {
   LEFT_PANEL_STATUS: 'LEFT_PANEL_STATUS',
   LEFT_PANEL_TYPE: 'LEFT_PANEL_TYPE',
   LANGUAGE: 'LANGUAGE',
+  FAULT_LINE: 'FAULT_LINE',
 }
 
 export const setMapType = mapType => localStorage.setItem(KEY.MAP_TYPE, mapType)
@@ -16,3 +17,6 @@ export const getLeftPanelType = () => localStorage.getItem(KEY.LEFT_PANEL_TYPE)
 
 export const setLanguage = lang => localStorage.setItem(KEY.LANGUAGE, lang)
 export const getLanguage = () => localStorage.getItem(KEY.LANGUAGE)
+
+export const setFaultLineActive = status => localStorage.setItem(KEY.FAULT_LINE, status)
+export const getFaultLineActive = () => localStorage.getItem(KEY.FAULT_LINE)
