@@ -94,6 +94,11 @@ export const prepareEarthquakeUsgs = earthquake => {
     depth: coordinates[coordinates.length - 1].toFixed(2),
     earthquake_id: id,
     title: properties.title,
+    location_properties: {
+      epiCenter: {
+        name: properties.title,
+      },
+    },
     date,
     mag,
     coordinates,

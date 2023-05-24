@@ -30,7 +30,7 @@ const EarthquakeList = ({ handleActionListDisable }) => {
   }
 
   const textFieldProps = {
-    label: t('City'),
+    label: t('Anywhere'),
     variant: 'standard',
     sx: {
       input: {

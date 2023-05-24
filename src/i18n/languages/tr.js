@@ -31,5 +31,6 @@ export default {
     'Earthquake Magnitude': 'Deprem Büyüklüğü',
     'Live Earthquake': 'Canlı Deprem',
     Info: 'Bilgi',
+    Anywhere: 'Herhangi bir yer',
   },
 }

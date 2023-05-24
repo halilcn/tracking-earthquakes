@@ -32,5 +32,6 @@ export default {
     'Earthquake Magnitude': 'Earthquake Magnitude',
     'Live Earthquake': 'Live Earthquake',
     Info: 'Info',
+    Anywhere: 'Anywhere'
   },
 }
