@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { earthquakeActions } from '../../store/earthquake'
 import FilterList from './filter-list'
 import ActionList from './action-list'
+import faultLines from '../../assets/static-data/fault-lines.json'
 
 import './index.scss'
 
@@ -15,10 +16,12 @@ const SOURCE = {
   DATA_EARTHQUAKES: 'data-earthquakes',
   DATA_CUSTOM_POINTS: 'data-earthquakes-custom-points',
   DATA_AFFECTED_DISTANCE: 'data-earthquakes-affected-distance',
+  DATA_FAULT_LINE: 'data-fault-line',
   LAYER_CUSTOM_POINTS: 'layer-earthquakes-custom-points',
   LAYER_DATA_CIRCLE: 'data-earthquakes-circle-layer',
   LAYER_DATA_PULSING: 'layer-earthquakes-pulsing',
   LAYER_DATA_AFFECTED_DISTANCE: 'layer-earthquakes-affected-distance',
+  LAYER_FAULT_LINE: 'layer-fault-line',
 }
 
 const TrackingMap = () => {
@@ -107,6 +110,7 @@ const TrackingMap = () => {
       map.current.addSource(SOURCE.DATA_EARTHQUAKES, { type: 'geojson', data: wrapperForSourceData(earthquakes) })
       map.current.addSource(SOURCE.DATA_AFFECTED_DISTANCE, { type: 'geojson', data: wrapperForSourceData(earthquakeAffectedDistance) })
       map.current.addSource(SOURCE.DATA_CUSTOM_POINTS, { type: 'geojson', data: wrapperForSourceData(customPoints) })
+      map.current.addSource(SOURCE.DATA_FAULT_LINE, { type: 'geojson', data: faultLines })
 
       map.current.addLayer({
         id: SOURCE.LAYER_DATA_CIRCLE,
@@ -148,6 +152,20 @@ const TrackingMap = () => {
         paint: {
           'fill-color': '#D0E0F1',
           'fill-opacity': 0.3,
+        },
+      })
+
+      map.current.addLayer({
+        id: SOURCE.LAYER_FAULT_LINE,
+        source: SOURCE.DATA_FAULT_LINE,
+        type: 'line',
+        layout: {
+          'line-join': 'round',
+          'line-cap': 'round',
+        },
+        paint: {
+          'line-color': '#e62e00',
+          'line-width': 3,
         },
       })
 
