@@ -141,6 +141,15 @@ export const getPopupForCustomPoint = customPoint => `
 <div><b>Oluşturan Kişi:</b> ${customPoint.username}</div>
 <div><b>Açıklama:</b> ${customPoint.description}</div>
 `
+
+export const getPopupForFaultLine = faultLine => `
+<div><b>${i18n.t('Layer')}:</b> ${faultLine.LAYER}</div>
+<div><b>${i18n.t('Name')}:</b> ${faultLine.Name}</div>
+<div><b>${i18n.t('Plate A')}:</b> ${faultLine.PlateA}</div>
+<div><b>${i18n.t('Plate B')}:</b> ${faultLine.PlateB}</div>
+<div><b>${i18n.t('Source')}:</b> ${faultLine.Source}</div>
+`
+
 export const calculateDistanceByUsingKm = (center, radiusInKm, points) => {
   const currentPoints = points || 64
   const [longitude, latitude] = center

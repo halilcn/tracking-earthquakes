@@ -34,5 +34,10 @@ export default {
     Info: 'Info',
     Anywhere: 'Anywhere',
     'Fault Line Active': 'Fault Line Active',
+    Layer: 'Layer',
+    Name: 'Name',
+    'Plate A': 'Plate A',
+    'Plate B': 'Plate B',
+    Source: 'Source',
   },
 }

@@ -1,7 +1,13 @@
 import React, { useRef, useEffect, useMemo, useCallback } from 'react'
 import { MAP_TYPE, MAPBOX_API_KEY } from '../../constants'
 import getEarthquakes from '../../hooks/getEarthquakes'
-import { getPopupForCustomPoint, getPopupForPoint, prepareEarthquakeDistance, wrapperForSourceData } from '../../utils'
+import {
+  getPopupForCustomPoint,
+  getPopupForFaultLine,
+  getPopupForPoint,
+  prepareEarthquakeDistance,
+  wrapperForSourceData,
+} from '../../utils'
 import { getMapType } from '../../utils/localStorageActions'
 import UpdateTimer from './update-timer'
 import { useDispatch, useSelector } from 'react-redux'
@@ -24,15 +30,6 @@ const SOURCE = {
   LAYER_FAULT_LINE: 'layer-fault-line',
 }
 
-const test = faultLines.features.map((item, id) => {
-  return {
-    ...item,
-    id,
-  }
-})
-
-console.log('as', JSON.stringify(test));
-
 const TrackingMap = () => {
   const dispatch = useDispatch()
   const { isActiveCustomPointSelection, customPoints, earthquakeAffectedDistance, faultLineActive } = useSelector(state => {
@@ -46,6 +43,7 @@ const TrackingMap = () => {
   const mapContainer = useRef(null)
   const map = useRef(null)
   const customPointMarker = useRef(null)
+  const selectedFaultLineIndex = useRef(null)
 
   const handleEarthquakeDistance = properties => {
     const earthquakeAffectedDistance = prepareEarthquakeDistance(properties)
@@ -177,8 +175,9 @@ const TrackingMap = () => {
           'line-cap': 'round',
         },
         paint: {
-          'line-color': '#e62e00',
-          'line-width': 3,
+          'line-color': ['case', ['boolean', ['feature-state', 'selected'], false], '#4d4dff', '#e62e00'],
+          'line-width': ['case', ['boolean', ['feature-state', 'selected'], false], 10, 7],
+          'line-opacity': 0.7,
         },
       })
 
@@ -194,6 +193,22 @@ const TrackingMap = () => {
 
       map.current.on('click', e => {
         if (e.defaultPrevented === false) clearEarthquakeDistance()
+      })
+
+      map.current.on('click', SOURCE.LAYER_FAULT_LINE, e => {
+        e.preventDefault()
+        const { id, properties } = e.features[0]
+
+        map.current.setFeatureState({ source: SOURCE.DATA_FAULT_LINE, id }, { selected: true })
+        selectedFaultLineIndex.current = id
+        new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(getPopupForFaultLine(properties)).addTo(map.current)
+      })
+
+      map.current.on('click', e => {
+        if (e.defaultPrevented === false && selectedFaultLineIndex.current) {
+          map.current.setFeatureState({ source: SOURCE.DATA_FAULT_LINE, id: selectedFaultLineIndex.current }, { selected: false })
+          selectedFaultLineIndex.current = null
+        }
       })
     })
   })

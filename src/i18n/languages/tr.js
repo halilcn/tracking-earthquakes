@@ -33,5 +33,10 @@ export default {
     Info: 'Bilgi',
     Anywhere: 'Herhangi bir yer',
     'Fault Line Active': 'Fay Hattı Aktif',
+    Layer: 'Katman',
+    Name: 'İsim',
+    'Plate A': 'Plaka A',
+    'Plate B': 'Plaka B',
+    Source: 'Kaynak',
   },
 }
