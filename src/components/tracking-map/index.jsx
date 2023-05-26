@@ -24,6 +24,15 @@ const SOURCE = {
   LAYER_FAULT_LINE: 'layer-fault-line',
 }
 
+const test = faultLines.features.map((item, id) => {
+  return {
+    ...item,
+    id,
+  }
+})
+
+console.log('as', JSON.stringify(test));
+
 const TrackingMap = () => {
   const dispatch = useDispatch()
   const { isActiveCustomPointSelection, customPoints, earthquakeAffectedDistance, faultLineActive } = useSelector(state => {
