@@ -29,6 +29,10 @@ const InfoPopup = props => {
         <div className="info-popup__label">{t('Live Earthquake')}</div>
         <img src={LiveEarthquake} className="info-popup__live-earthquake" />
       </div>
+      <div className="info-popup__item">
+        <div className="info-popup__label">{t('Fault Line')}</div>
+        <div className="info-popup__fault-line" />
+      </div>
     </Popup>
   )
 }

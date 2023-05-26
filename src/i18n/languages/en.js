@@ -39,5 +39,6 @@ export default {
     'Plate A': 'Plate A',
     'Plate B': 'Plate B',
     Source: 'Source',
+    'Fault Line': 'Fault Line',
   },
 }

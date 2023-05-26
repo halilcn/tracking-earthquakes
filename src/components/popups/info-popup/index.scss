@@ -36,4 +36,10 @@
     &__live-earthquake {
         border-radius: 4px;
     }
+
+    &__fault-line {
+        width: 50%;
+        height: 4px;
+        background-color: #e62e00;
+    }
 }

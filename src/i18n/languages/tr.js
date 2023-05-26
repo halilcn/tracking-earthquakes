@@ -38,5 +38,6 @@ export default {
     'Plate A': 'Plaka A',
     'Plate B': 'Plaka B',
     Source: 'Kaynak',
+    'Fault Line': 'Fay Hattı',
   },
 }
