@@ -41,5 +41,6 @@ export default {
     Source: 'Source',
     'Fault Line': 'Fault Line',
     'Warn with sound when a new earthquake occurs': 'Warn with sound when a new earthquake occurs',
+    ANIMATION: 'ANIMATION',
   },
 }

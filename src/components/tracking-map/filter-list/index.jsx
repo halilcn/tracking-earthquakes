@@ -6,6 +6,7 @@ import FilterArchive from './filter-archive'
 import FilterPanel from './filter-panel'
 import LoadingData from './loading-data'
 import Settings from './settings'
+import Animation from './animation'
 import { useCallback, useState } from 'react'
 import cx from 'classnames'
 import { useSelector } from 'react-redux'
@@ -17,6 +18,7 @@ import './index.scss'
 
 const FilterList = () => {
   const FILTER_CONTENT_TYPE = {
+    ANIMATION: 'animation',
     ARCHIVE: 'archive',
     FILTER_PANEL: 'filterPanel',
     SETTINGS: 'settings',
@@ -31,12 +33,14 @@ const FilterList = () => {
   const selectedFilterPanelItem = useSelector(isSelectedAnyFilterPanelItem)
 
   const MemoizedFilterContent = useCallback(() => {
+    if (filterContentType === FILTER_CONTENT_TYPE.ANIMATION) return <Animation />
     if (filterContentType === FILTER_CONTENT_TYPE.ARCHIVE) return <FilterArchive />
     if (filterContentType === FILTER_CONTENT_TYPE.FILTER_PANEL) return <FilterPanel />
     if (filterContentType === FILTER_CONTENT_TYPE.SETTINGS) return <Settings />
   }, [filterContentType])
 
   const MemoizedFilterText = useCallback(() => {
+    if (filterContentType === FILTER_CONTENT_TYPE.ANIMATION) return t('ANIMATION')
     if (filterContentType === FILTER_CONTENT_TYPE.ARCHIVE) return t('PAST EARTHQUAKES')
     if (filterContentType === FILTER_CONTENT_TYPE.FILTER_PANEL) return t('FILTERS')
     if (filterContentType === FILTER_CONTENT_TYPE.SETTINGS) return t('SETTINGS')
@@ -64,6 +68,11 @@ const FilterList = () => {
   }
 
   const FILTER_LIST = [
+    {
+      type: FILTER_CONTENT_TYPE.ANIMATION,
+      icon: <BsCalendarDate className="filter__icon" />,
+      itemCustomClasses: 'filter__item--active',
+    },
     {
       type: FILTER_CONTENT_TYPE.ARCHIVE,
       icon: <BsCalendarDate className="filter__icon" />,

@@ -40,5 +40,6 @@ export default {
     Source: 'Kaynak',
     'Fault Line': 'Fay Hattı',
     'Warn with sound when a new earthquake occurs': 'Yeni bir deprem meydana geldiğinden ses ile uyar',
+    ANIMATION: 'ANİMASYON',
   },
 }
