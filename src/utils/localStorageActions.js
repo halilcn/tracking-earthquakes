@@ -4,6 +4,7 @@ const KEY = {
   LEFT_PANEL_TYPE: 'LEFT_PANEL_TYPE',
   LANGUAGE: 'LANGUAGE',
   FAULT_LINE: 'FAULT_LINE',
+  NEW_EARTHQUAKE_SOUND_NOTIFICATION: 'NEW_EARTHQUAKE_SOUND_NOTIFICATION',
 }
 
 export const setMapType = mapType => localStorage.setItem(KEY.MAP_TYPE, mapType)
@@ -20,3 +21,6 @@ export const getLanguage = () => localStorage.getItem(KEY.LANGUAGE)
 
 export const setFaultLineActive = status => localStorage.setItem(KEY.FAULT_LINE, status)
 export const getFaultLineActive = () => localStorage.getItem(KEY.FAULT_LINE)
+
+export const setNewEarthquakeSoundNotification = status => localStorage.setItem(KEY.NEW_EARTHQUAKE_SOUND_NOTIFICATION, status)
+export const getNewEarthquakeSoundNotification = () => localStorage.getItem(KEY.NEW_EARTHQUAKE_SOUND_NOTIFICATION)

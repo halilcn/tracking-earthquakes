@@ -4,6 +4,7 @@ import MapType from './map-type'
 import ChooseLanguage from './choose-language'
 import { isMobile } from '../../../../utils/index'
 import FaultLine from './fault-line'
+import NewEarthquakeSoundNotification from './new-earthquake-sound-notification'
 
 const Settings = () => {
   return (
@@ -16,6 +17,9 @@ const Settings = () => {
       </div>
       <div className="settings__item">
         <FaultLine />
+      </div>
+      <div className="settings__item">
+        <NewEarthquakeSoundNotification />
       </div>
       {!isMobile() && (
         <div className="settings__item">

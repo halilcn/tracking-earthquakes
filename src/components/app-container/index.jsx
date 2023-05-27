@@ -13,6 +13,7 @@ import Loading from '../loading'
 import dayjs from './../../utils/dayjs'
 import { getAllEarthquakesByUsingKandilliAPI } from '../../service/earthquakes'
 import useEffectIgnoreFirstRender from '../../hooks/useEffectIgnoreFirstRender'
+import audio from '../../assets/sounds/new-earthquake.mp3'
 
 import './index.scss'
 
@@ -24,6 +25,7 @@ const AppContainer = () => {
   const [isLoading, setIsLoading] = useState(true)
 
   const selectedArchiveItem = useSelector(isSelectedAnyArchiveItem)
+  const newEarthquakeSound = useSelector(state => state.earthquake.earthquakeNotification.newEarthquakeSound)
 
   const handleEarthquakesInTurkey = async () => {
     const params = {
@@ -48,6 +50,15 @@ const AppContainer = () => {
   const handleGetEarthquakes = async () => {
     const earthquakes = await Promise.all([handleEarthquakesInTurkey(), handleEarthquakesInWorld()]).then(result => result.flat())
     dispatch(earthquakeActions.setEarthquakes(earthquakes))
+    if (newEarthquakeSound) handleNewEarthquakeNotification(earthquakes)
+  }
+
+  const handleNewEarthquakeNotification = earthquakes => {
+    const hasNewEarthquakes = earthquakes.some(earthquake => earthquake.properties.isNewEarthquake)
+    if (hasNewEarthquakes) {
+      const sound = new Audio(audio)
+      sound.play()
+    }
   }
 
   const handleGetCustomPoints = async () => {

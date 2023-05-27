@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { DEFAULT_DEPTH_FILTER, DEFAULT_MAGNITUDE_FILTER_VALUE, DEFAULT_SOURCE_FILTER, DEFAULT_TIME_FILTER_VALUE } from '../constants'
-import { getFaultLineActive } from '../utils/localStorageActions'
+import { getFaultLineActive, getNewEarthquakeSoundNotification } from '../utils/localStorageActions'
 
 export const earthquake = createSlice({
   name: 'earthquake',
@@ -12,6 +12,9 @@ export const earthquake = createSlice({
       magnitude: DEFAULT_MAGNITUDE_FILTER_VALUE,
       depth: DEFAULT_DEPTH_FILTER,
       sources: DEFAULT_SOURCE_FILTER,
+    },
+    earthquakeNotification: {
+      newEarthquakeSound: getNewEarthquakeSoundNotification() === 'true',
     },
     customPoints: [],
     mapCurrent: null,
@@ -37,6 +40,9 @@ export const earthquake = createSlice({
     },
     setEarthquakeFilter: (state, actions) => {
       state.earthquakeFilter = { ...state.earthquakeFilter, ...actions.payload }
+    },
+    setEarthquakeNotification: (state, actions) => {
+      state.earthquakeNotification = { ...state.earthquakeNotification, ...actions.payload }
     },
     setMapCurrent: (state, actions) => {
       state.mapCurrent = actions.payload
