@@ -1,7 +1,7 @@
 import { BsCalendarDate } from 'react-icons/bs'
 import { motion } from 'framer-motion'
 import { BiFilterAlt } from 'react-icons/bi'
-import { FiSettings } from 'react-icons/fi'
+import { FiSettings, FiPlay } from 'react-icons/fi'
 import FilterArchive from './filter-archive'
 import FilterPanel from './filter-panel'
 import LoadingData from './loading-data'
@@ -31,6 +31,7 @@ const FilterList = () => {
 
   const selectedArchiveFilterItem = useSelector(isSelectedAnyArchiveItem)
   const selectedFilterPanelItem = useSelector(isSelectedAnyFilterPanelItem)
+  const isAnimationActive = useSelector(state => state.earthquake.animation.currentDate)
 
   const MemoizedFilterContent = useCallback(() => {
     if (filterContentType === FILTER_CONTENT_TYPE.ANIMATION) return <Animation />
@@ -70,8 +71,8 @@ const FilterList = () => {
   const FILTER_LIST = [
     {
       type: FILTER_CONTENT_TYPE.ANIMATION,
-      icon: <BsCalendarDate className="filter__icon" />,
-      itemCustomClasses: 'filter__item--active',
+      icon: <FiPlay className="filter__icon" />,
+      itemCustomClasses: isAnimationActive && 'filter__item--active',
     },
     {
       type: FILTER_CONTENT_TYPE.ARCHIVE,

@@ -10,9 +10,12 @@ import './index.scss'
 const UpdateTimer = () => {
   const { t } = useTranslation()
   const selectedArchive = useSelector(isSelectedAnyArchiveItem)
+  const isAnimationActive = useSelector(state => state.earthquake.animation.currentDate)
 
   const [time, setTime] = useState(MAP_UPDATE_MIN)
   const timeInterval = useRef(null)
+
+  const isEnableTimer = !selectedArchive && !isAnimationActive
 
   const createTimeInterval = () => {
     if (timeInterval.current) return
@@ -27,23 +30,31 @@ const UpdateTimer = () => {
     setTime(MAP_UPDATE_MIN)
   }
 
+  const triggerFreshTime = status => {
+    if (status) {
+      removeTimeInterval()
+      return
+    }
+    createTimeInterval()
+    return removeTimeInterval
+  }
+
   useEffect(() => {
     createTimeInterval()
     return removeTimeInterval
   }, [])
 
   useEffect(() => {
-    if (selectedArchive) {
-      removeTimeInterval()
-      return
-    }
-    createTimeInterval()
-    return removeTimeInterval
+    return triggerFreshTime(selectedArchive)
   }, [selectedArchive])
+
+  useEffect(() => {
+    return triggerFreshTime(isAnimationActive)
+  }, [isAnimationActive])
 
   return (
     <>
-      {!selectedArchive && (
+      {isEnableTimer && (
         <div className="update-timer">
           <div className="update-timer__content">
             <GrUpdate className="update-timer__icon" />{' '}

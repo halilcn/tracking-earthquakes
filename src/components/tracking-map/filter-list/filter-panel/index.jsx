@@ -15,13 +15,16 @@ const FilterPanel = () => {
 
   const selectedArchive = useSelector(isSelectedAnyArchiveItem)
   const selectedFilterPanelItem = useSelector(isSelectedAnyFilterPanelItem)
+  const isAnimationActive = useSelector(state => state.earthquake.animation.currentDate)
+
+  const isActiveTimeFilter = !selectedArchive && !isAnimationActive
 
   const clearFilter = () => dispatch(earthquakeActions.clearFilterPanelItems())
 
   return (
     <>
       <div className="filter-panel">
-        {!selectedArchive && (
+        {isActiveTimeFilter && (
           <div className="filter-panel__item">
             <TimeFilter />
           </div>

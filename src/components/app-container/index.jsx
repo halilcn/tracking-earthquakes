@@ -49,9 +49,11 @@ const AppContainer = () => {
   }
 
   const handleGetEarthquakes = async () => {
+    dispatch(earthquakeActions.setIsLoadingData(true))
     const earthquakes = await Promise.all([handleEarthquakesInTurkey(), handleEarthquakesInWorld()]).then(result => result.flat())
     dispatch(earthquakeActions.setEarthquakes(earthquakes))
     if (newEarthquakeSound) handleNewEarthquakeNotification(earthquakes)
+    dispatch(earthquakeActions.setIsLoadingData(false))
   }
 
   const handleNewEarthquakeNotification = earthquakes => {
