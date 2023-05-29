@@ -5,28 +5,18 @@ import { InputLabel, MenuItem, FormControl, Select } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import dayjs from '../../../../../utils/dayjs'
 import { earthquakeActions } from '../../../../../store/earthquake'
-
-import './index.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { ANIMATION_RANGES } from '../../../../../constants'
+
+import './index.scss'
 
 const FilterItems = () => {
   const dispatch = useDispatch()
   const { t } = useTranslation()
 
-  const animation = useSelector(state => state.earthquake.animation) // todo: from parent?
+  const animation = useSelector(state => state.earthquake.animation)
 
-  //TODO: Date'de sadece gün al, saat 00 olsun
-  const handleChangeAnimationFilters = (type, value) => {
-    dispatch(earthquakeActions.setAnimationFilter({ [type]: value }))
-  }
-
-  /*
-                onChange={e => handleChooseDate(e, 'startDate')}
-              value={archiveDate.startDate ? dayjs(archiveDate.startDate) : null}
-              maxDate={archiveDate.endDate ? dayjs(archiveDate.endDate) : dayjs()}
-
-  */
+  const handleChangeAnimationFilters = (type, value) => dispatch(earthquakeActions.setAnimationFilter({ [type]: value }))
 
   return (
     <div className="animation-filters">
@@ -36,7 +26,7 @@ const FilterItems = () => {
             slotProps={{ textField: { size: 'small' } }}
             label={t('Start of Date')}
             value={dayjs(animation.filters.startDate)}
-            onChange={value => handleChangeAnimationFilters('startDate', value)}
+            onChange={value => handleChangeAnimationFilters('startDate', value.startOf('day').format())}
             maxDate={dayjs(animation.filters.endDate).add(-1, 'day')}
           />
           <div className="filter-archive__hyphen">-</div>
@@ -44,7 +34,9 @@ const FilterItems = () => {
             slotProps={{ textField: { size: 'small' } }}
             label={t('End of Date')}
             value={dayjs(animation.filters.endDate)}
-            onChange={value => handleChangeAnimationFilters('endDate', value)}
+            onChange={value =>
+              handleChangeAnimationFilters('endDate', dayjs().isSame(value, 'day') ? dayjs().format() : value.endOf('day').format())
+            }
             maxDate={dayjs()}
             minDate={dayjs(animation.filters.startDate).add(1, 'day')}
           />

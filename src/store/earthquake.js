@@ -36,7 +36,7 @@ export const earthquake = createSlice({
     faultLineActive: !(getFaultLineActive() === 'false'),
     animation: {
       filters: {
-        startDate: dayjs().add(-5, 'days').format(),
+        startDate: dayjs().add(-5, 'days').startOf('day').format(),
         endDate: dayjs().format(),
         range: DEFAULT_ANIMATION_RANGE,
       },
