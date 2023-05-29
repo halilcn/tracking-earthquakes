@@ -1,6 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { DEFAULT_DEPTH_FILTER, DEFAULT_MAGNITUDE_FILTER_VALUE, DEFAULT_SOURCE_FILTER, DEFAULT_TIME_FILTER_VALUE } from '../constants'
+import {
+  DEFAULT_ANIMATION_RANGE,
+  DEFAULT_DEPTH_FILTER,
+  DEFAULT_MAGNITUDE_FILTER_VALUE,
+  DEFAULT_SOURCE_FILTER,
+  DEFAULT_TIME_FILTER_VALUE,
+} from '../constants'
 import { getFaultLineActive, getNewEarthquakeSoundNotification } from '../utils/localStorageActions'
+import dayjs from '../utils/dayjs'
 
 export const earthquake = createSlice({
   name: 'earthquake',
@@ -27,6 +34,15 @@ export const earthquake = createSlice({
       endDate: null,
     },
     faultLineActive: !(getFaultLineActive() === 'false'),
+    animation: {
+      filters: {
+        startDate: dayjs().add(-5, 'days').format(),
+        endDate: dayjs().format(),
+        range: DEFAULT_ANIMATION_RANGE,
+      },
+      currentDate: null,
+      isActive: false,
+    },
   },
   reducers: {
     setEarthquakes: (state, actions) => {
@@ -79,6 +95,15 @@ export const earthquake = createSlice({
     },
     setFaultLineActive: (state, actions) => {
       state.faultLineActive = actions.payload
+    },
+    setAnimationFilter: (state, actions) => {
+      state.animation.filters = { ...state.animation.filters, ...actions.payload }
+    },
+    setAnimationCurrentDate: (state, actions) => {
+      state.animation.currentDate = actions.payload
+    },
+    updateAnimationIsActive: (state, actions) => {
+      state.animation.isActive = actions.payload
     },
   },
 })

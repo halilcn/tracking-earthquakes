@@ -26,6 +26,7 @@ const AppContainer = () => {
 
   const selectedArchiveItem = useSelector(isSelectedAnyArchiveItem)
   const newEarthquakeSound = useSelector(state => state.earthquake.earthquakeNotification.newEarthquakeSound)
+  const animationCurrentDate = useSelector(state => state.earthquake.animation.currentDate)
 
   const handleEarthquakesInTurkey = async () => {
     const params = {
@@ -97,6 +98,16 @@ const AppContainer = () => {
     earthquakeIntervalRef.current = null
   }
 
+  const startFreshEarthquakesProcess = status => {
+    if (status) {
+      removeEarthquakesInterval()
+      return
+    }
+    handleGetEarthquakes()
+    createEarthquakesInterval()
+    return removeEarthquakesInterval
+  }
+
   useEffect(() => {
     firstGetting()
     listenFirebaseAuth()
@@ -105,14 +116,12 @@ const AppContainer = () => {
   }, [])
 
   useEffectIgnoreFirstRender(() => {
-    if (selectedArchiveItem) {
-      removeEarthquakesInterval()
-      return
-    }
-    handleGetEarthquakes()
-    createEarthquakesInterval()
-    return removeEarthquakesInterval
+    return startFreshEarthquakesProcess(selectedArchiveItem)
   }, [selectedArchiveItem])
+
+  useEffectIgnoreFirstRender(() => {
+    return startFreshEarthquakesProcess(animationCurrentDate)
+  }, [animationCurrentDate])
 
   return (
     <div className="app-container">

@@ -1,0 +1,9 @@
+.animation-actions {
+    &__decide-buttons {
+        display: flex;
+
+        & > button:first-child {
+            margin-right: 20px;
+        }
+    }
+}

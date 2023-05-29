@@ -108,3 +108,15 @@ export const SOURCES = {
 }
 
 export const DEFAULT_SOURCE_FILTER = Object.values(SOURCES)
+
+export const ANIMATION_RANGES = {
+  5: i18n.t('{minCount} minutes').replace('{minCount}', 5),
+  15: i18n.t('{minCount} minutes').replace('{minCount}', 15),
+  30: i18n.t('{minCount} minutes').replace('{minCount}', 30),
+  60: i18n.t('1 hour'),
+  [6 * 60]: i18n.t('{hoursCount} hours').replace('{hoursCount}', 6),
+  [12 * 60]: i18n.t('{hoursCount} hours').replace('{hoursCount}', 12),
+  [24 * 60]: i18n.t('1 day'),
+}
+
+export const DEFAULT_ANIMATION_RANGE = 15

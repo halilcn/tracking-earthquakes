@@ -42,5 +42,10 @@ export default {
     'Fault Line': 'Fault Line',
     'Warn with sound when a new earthquake occurs': 'Warn with sound when a new earthquake occurs',
     ANIMATION: 'ANIMATION',
+    Range: 'Range',
+    '{minCount} minutes': '{minCount} minutes',
+    '{hoursCount} hours': '{hoursCount} hours',
+    '1 hour': '1 hour',
+    '1 day': '1 day',
   },
 }

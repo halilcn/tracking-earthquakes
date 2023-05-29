@@ -41,5 +41,10 @@ export default {
     'Fault Line': 'Fay Hattı',
     'Warn with sound when a new earthquake occurs': 'Yeni bir deprem meydana geldiğinden ses ile uyar',
     ANIMATION: 'ANİMASYON',
+    Range: 'Aralık',
+    '{minCount} minutes': '{minCount} dakika',
+    '{hoursCount} hours': '{hoursCount} saat',
+    '1 hour': '1 saat',
+    "1 day": "1 gün"
   },
 }
