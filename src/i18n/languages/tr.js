@@ -45,6 +45,11 @@ export default {
     '{minCount} minutes': '{minCount} dakika',
     '{hoursCount} hours': '{hoursCount} saat',
     '1 hour': '1 saat',
-    "1 day": "1 gün"
+    '1 day': '1 gün',
+    'Occurred a problem': 'Bir hata meydana geldi',
+    start: 'başlat',
+    stop: 'durdur',
+    clear: 'temizle',
+    continue: 'devam et',
   },
 }

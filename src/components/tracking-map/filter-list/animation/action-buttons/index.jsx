@@ -1,6 +1,4 @@
 import { Button } from '@mui/material'
-
-import './index.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import dayjs from '../../../../../utils/dayjs'
 import { convertDateFormatForAPI, prepareEarthquakeKandilli, prepareEarthquakeUsgs } from '../../../../../utils'
@@ -8,12 +6,17 @@ import { getAllEarthquakesByUsingKandilliAPI } from '../../../../../service/eart
 import { getEarthquakesInWorld } from '../../../../../api'
 import { earthquakeActions } from '../../../../../store/earthquake'
 import { useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
-const ActionButtons = props => {
+import './index.scss'
+
+const ActionButtons = () => {
+  const { t } = useTranslation()
+  const dispatch = useDispatch()
+
   const [earthquakes, setEarthquakes] = useState([])
 
-  const dispatch = useDispatch()
-  const animation = useSelector(state => state.earthquake.animation)
+  const { animation, isLoadingData } = useSelector(state => state.earthquake)
   const animationLoop = useRef()
 
   const handleAnimationActive = status => dispatch(earthquakeActions.updateAnimationIsActive(status))
@@ -39,21 +42,28 @@ const ActionButtons = props => {
     return preparedEarthquakesData
   }
 
-  const handleStartAnimation = async () => {
-    handleAnimationActive(true)
-    const allEarthquakes = await Promise.all([handleEarthquakesInTurkey(), handleEarthquakesInWorld()]).then(result => result.flat())
-    setEarthquakes(allEarthquakes)
-    let currentDate = animation.currentDate
-    if (!currentDate) {
-      dispatch(earthquakeActions.setAnimationCurrentDate(animation.filters.startDate))
-      currentDate = animation.filters.startDate
+  const handleAllEarthquakes = async () => {
+    try {
+      dispatch(earthquakeActions.setEarthquakes([]))
+      dispatch(earthquakeActions.setIsLoadingData(true))
+
+      const allEarthquakes = await Promise.all([handleEarthquakesInTurkey(), handleEarthquakesInWorld()]).then(result => result.flat())
+      setEarthquakes(allEarthquakes)
+      handleAnimationActive(true)
+      return allEarthquakes
+    } catch (err) {
+      alert(t('Occurred a problem'))
+    } finally {
+      dispatch(earthquakeActions.setIsLoadingData(false))
     }
+  }
 
+  const handleStartAnimation = async () => {
+    const allEarthquakes = await handleAllEarthquakes()
+    let currentDate = animation.filters.startDate
+
+    dispatch(earthquakeActions.setAnimationCurrentDate(currentDate))
     triggerAnimationLoop(currentDate, allEarthquakes)
-
-    //dispatch(earthquakeActions.setEarthquakes(earthquakes))
-    //const currentDate = dayjs(animation.filters.startDate).add(2, 'hours')
-    //dispatch(earthquakeActions.setEarthquakes([earthquakes]))
   }
 
   const handleStopAnimation = () => {
@@ -64,16 +74,25 @@ const ActionButtons = props => {
   const triggerAnimationLoop = (date, earthquakes) => {
     let currentDate = date
     animationLoop.current = setInterval(() => {
-      const nextAnimationCurrentDate = dayjs(currentDate).add(1, 'hour')
+      let nextAnimationCurrentDate = dayjs(currentDate).add(animation.filters.range, 'minutes')
+      const checkDate = dayjs(nextAnimationCurrentDate).isAfter(dayjs(animation.filters.endDate))
+      if (checkDate) nextAnimationCurrentDate = dayjs(animation.filters.endDate)
+
       const filteredEarthquakes = earthquakes.filter(item => {
-        return (
-          dayjs(item.properties.date).isBefore(nextAnimationCurrentDate) && dayjs(dayjs(currentDate)).isBefore(dayjs(item.properties.date))
-        )
+        const isBeforeFromNextCurrentDate = dayjs(item.properties.date).isBefore(nextAnimationCurrentDate)
+        const isAfterFromCurrentDate = dayjs(dayjs(currentDate)).isBefore(dayjs(item.properties.date))
+        return isBeforeFromNextCurrentDate && isAfterFromCurrentDate
       })
-      console.log('filteredEarthquakes', filteredEarthquakes)
-      dispatch(earthquakeActions.setAnimationCurrentDate(nextAnimationCurrentDate.format()))
-      currentDate = nextAnimationCurrentDate.format()
+
       dispatch(earthquakeActions.setEarthquakes(filteredEarthquakes))
+      dispatch(earthquakeActions.setAnimationCurrentDate(nextAnimationCurrentDate.format()))
+
+      if (checkDate) {
+        // TODO: ?
+        handleStopAnimation()
+        return
+      }
+      currentDate = nextAnimationCurrentDate.format()
     }, 1000)
   }
 
@@ -91,22 +110,22 @@ const ActionButtons = props => {
   return (
     <div className="animation-actions">
       {!animation.currentDate && !animation.isActive && (
-        <Button fullWidth variant="contained" onClick={handleStartAnimation}>
-          start
+        <Button fullWidth disabled={isLoadingData} variant="contained" onClick={handleStartAnimation}>
+          {t('start')}
         </Button>
       )}
       {animation.currentDate && animation.isActive && (
         <Button fullWidth color="error" variant="contained" onClick={handleStopAnimation}>
-          stop
+          {t('stop')}
         </Button>
       )}
       {animation.currentDate && !animation.isActive && (
         <div className="animation-actions__decide-buttons">
           <Button fullWidth color="error" variant="contained" onClick={handleClear}>
-            clear
+            {t('clear')}
           </Button>
           <Button fullWidth color="info" variant="contained" onClick={handleContinue}>
-            continue
+            {t('continue')}
           </Button>
         </div>
       )}

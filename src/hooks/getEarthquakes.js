@@ -4,7 +4,7 @@ import { checkDate } from '../utils'
 
 const getEarthquakes = () => {
   const { earthquakes, earthquakeFilter, animation } = useSelector(data => data.earthquake)
-  const isAnimationActive = animation.isActive && animation.currentDate
+  const isAnimationActive = animation.currentDate
   const selectedArchiveDate = useSelector(isSelectedAnyArchiveItem)
 
   return earthquakes.filter(earthquake => {

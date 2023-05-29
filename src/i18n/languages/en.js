@@ -47,5 +47,10 @@ export default {
     '{hoursCount} hours': '{hoursCount} hours',
     '1 hour': '1 hour',
     '1 day': '1 day',
+    'Occurred a problem': 'Occurred a problem',
+    start: 'start',
+    stop: 'stop',
+    clear: 'clear',
+    continue: 'continue',
   },
 }
