@@ -4,9 +4,13 @@ import TrackTime from './track-time'
 
 import './index.scss'
 import { useSelector } from 'react-redux'
+import { useState } from 'react'
 
 const Animation = () => {
   const isActiveAnimation = useSelector(state => state.earthquake.animation.currentDate)
+  const [allEarthquakes, setAllEarthquakes] = useState([]) // TODO: render performance
+
+  const handleSetAllEarthquakes = earthquakes => setAllEarthquakes(earthquakes)
 
   return (
     <div className="animation">
@@ -14,11 +18,11 @@ const Animation = () => {
         <FilterItems />
       </div>
       <div className="animation__section">
-        <ActionButtons />
+        <ActionButtons allEarthquakes={allEarthquakes} handleSetAllEarthquakes={handleSetAllEarthquakes} />
       </div>
       {isActiveAnimation && (
         <div className="animation__section">
-          <TrackTime />
+          <TrackTime allEarthquakes={allEarthquakes} />
         </div>
       )}
     </div>
