@@ -5,11 +5,9 @@ import { earthquakeActions } from '../../../../../store/earthquake'
 
 import './index.scss'
 
-const TrackTime = props => {
+const TrackTime = () => {
   const dispatch = useDispatch()
   const animation = useSelector(state => state.earthquake.animation)
-
-  const { allEarthquakes } = props
 
   const totalAnimateMinutes = useMemo(() => {
     return dayjs(animation.filters.endDate).diff(dayjs(animation.filters.startDate), 'minutes')
@@ -20,12 +18,13 @@ const TrackTime = props => {
   const handleChangeRangeInput = e => {
     const newCurrentDate = dayjs(animation.filters.startDate).add(e.target.value, 'minutes').format()
     dispatch(earthquakeActions.setAnimationCurrentDate(newCurrentDate))
-    testHandle(newCurrentDate)
+    handleSetFilteredEarthquakes(newCurrentDate)
   }
 
-  const testHandle = currentDate => {
+  // TODO: duplicate?
+  const handleSetFilteredEarthquakes = currentDate => {
     let nextAnimationCurrentDate = dayjs(currentDate).add(animation.filters.range, 'minutes')
-    const filteredEarthquakes = allEarthquakes.filter(item => {
+    const filteredEarthquakes = animation.allEarthquakes.filter(item => {
       const isBeforeFromNextCurrentDate = dayjs(item.properties.date).isBefore(nextAnimationCurrentDate)
       const isAfterFromCurrentDate = dayjs(dayjs(currentDate)).isBefore(dayjs(item.properties.date))
       return isBeforeFromNextCurrentDate && isAfterFromCurrentDate
@@ -35,10 +34,9 @@ const TrackTime = props => {
     dispatch(earthquakeActions.setAnimationCurrentDate(nextAnimationCurrentDate.format()))
   }
 
-  console.log('currentCompletedMinutes', currentCompletedMinutes)
-
   return (
     <div className="track-time">
+      <div className="track-time__current-date">{dayjs(animation.currentDate).format('DD MMM HH:MM (UTCZ)')}</div>
       <div className="track-time__range">
         <input
           min={0}
@@ -47,11 +45,13 @@ const TrackTime = props => {
           step={animation.filters.range}
           onChange={handleChangeRangeInput}
           disabled={animation.isActive}
-          style={{ background: `linear-gradient(90deg, #308fe8 ${completedPercentageOfTime}%, #d3eaff ${completedPercentageOfTime}%)` }}
+          style={{
+            background: `linear-gradient(90deg, #308fe8 ${completedPercentageOfTime}%, #d3eaff ${completedPercentageOfTime}%)`,
+            cursor: animation.isActive && 'default',
+          }}
           className="track-time__completed-percentage"
           type="range"
         />
-        <div className="track-time__current-date">12-12-2022</div>
       </div>
       <div className="track-time__dates">
         <div className="track-time__date">{dayjs(animation.filters.startDate).format('DD MMM')}</div>

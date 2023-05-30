@@ -10,19 +10,17 @@ const Animation = () => {
   const isActiveAnimation = useSelector(state => state.earthquake.animation.currentDate)
   const [allEarthquakes, setAllEarthquakes] = useState([]) // TODO: render performance
 
-  const handleSetAllEarthquakes = earthquakes => setAllEarthquakes(earthquakes)
-
   return (
     <div className="animation">
       <div className="animation__section">
         <FilterItems />
       </div>
       <div className="animation__section">
-        <ActionButtons allEarthquakes={allEarthquakes} handleSetAllEarthquakes={handleSetAllEarthquakes} />
+        <ActionButtons />
       </div>
       {isActiveAnimation && (
         <div className="animation__section">
-          <TrackTime allEarthquakes={allEarthquakes} />
+          <TrackTime />
         </div>
       )}
     </div>

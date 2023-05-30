@@ -10,10 +10,9 @@ import { useTranslation } from 'react-i18next'
 
 import './index.scss'
 
-const ActionButtons = props => {
+const ActionButtons = () => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const { allEarthquakes, handleSetAllEarthquakes } = props
 
   const { animation, isLoadingData } = useSelector(state => state.earthquake)
   const animationLoop = useRef()
@@ -47,7 +46,7 @@ const ActionButtons = props => {
       dispatch(earthquakeActions.setIsLoadingData(true))
 
       const allEarthquakes = await Promise.all([handleEarthquakesInTurkey(), handleEarthquakesInWorld()]).then(result => result.flat())
-      handleSetAllEarthquakes(allEarthquakes)
+      dispatch(earthquakeActions.setAnimationAllEarthquakes(allEarthquakes))
       handleAnimationActive(true)
       return allEarthquakes
     } catch (err) {
@@ -96,14 +95,14 @@ const ActionButtons = props => {
   }
 
   const handleContinue = () => {
-    triggerAnimationLoop(animation.currentDate, allEarthquakes)
+    triggerAnimationLoop(animation.currentDate, animation.allEarthquakes)
     handleAnimationActive(true)
   }
 
   const handleClear = () => {
     dispatch(earthquakeActions.setAnimationCurrentDate(null))
     handleAnimationActive(false)
-    handleSetAllEarthquakes([])
+    dispatch(earthquakeActions.setAnimationAllEarthquakes([]))
   }
 
   return (
