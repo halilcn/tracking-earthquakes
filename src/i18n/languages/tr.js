@@ -51,5 +51,6 @@ export default {
     stop: 'durdur',
     clear: 'temizle',
     continue: 'devam et',
+    'again start': 'tekrar başlat',
   },
 }

@@ -8,7 +8,6 @@ import TrackTime from './track-time'
 
 const Animation = () => {
   const isActiveAnimation = useSelector(state => state.earthquake.animation.currentDate)
-  const [allEarthquakes, setAllEarthquakes] = useState([]) // TODO: render performance
 
   return (
     <div className="animation">

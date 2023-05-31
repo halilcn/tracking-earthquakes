@@ -1,5 +1,5 @@
 import { Button } from '@mui/material'
-import { useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -17,9 +17,15 @@ const ActionButtons = () => {
   const { animation, isLoadingData } = useSelector(state => state.earthquake)
   const animationLoop = useRef()
 
-  const handleAnimationActive = status => dispatch(earthquakeActions.updateAnimationIsActive(status))
+  const isCompletedAnimation = dayjs(animation.filters.endDate).isSame(dayjs(animation.currentDate))
 
-  // TODO: duplicate code?
+  const handleAnimationActive = status => dispatch(earthquakeActions.updateAnimationIsActive(status))
+  const handleSetEarthquakes = earthquakes => dispatch(earthquakeActions.setEarthquakes(earthquakes))
+  const handleSetAnimationAllEarthquakes = allEarthquakes => dispatch(earthquakeActions.setAnimationAllEarthquakes(allEarthquakes))
+  const handleSetIsLoadingData = status => dispatch(earthquakeActions.setIsLoadingData(status))
+  const handleSetAnimationCurrentDate = date => dispatch(earthquakeActions.setAnimationCurrentDate(date))
+
+  // TODO: We need to find a better way to get earthquakes from all sources
   const handleEarthquakesInTurkey = async () => {
     const params = {
       date_end: convertDateFormatForAPI(dayjs(animation.filters.endDate)),
@@ -42,26 +48,28 @@ const ActionButtons = () => {
 
   const handleAllEarthquakes = async () => {
     try {
-      dispatch(earthquakeActions.setEarthquakes([]))
-      dispatch(earthquakeActions.setIsLoadingData(true))
-
+      handleSetIsLoadingData(true)
       const allEarthquakes = await Promise.all([handleEarthquakesInTurkey(), handleEarthquakesInWorld()]).then(result => result.flat())
-      dispatch(earthquakeActions.setAnimationAllEarthquakes(allEarthquakes))
-      handleAnimationActive(true)
+      handleSetAnimationAllEarthquakes(allEarthquakes)
       return allEarthquakes
     } catch (err) {
       alert(t('Occurred a problem'))
+      throw new Error('Handle earthquakes problem')
     } finally {
-      dispatch(earthquakeActions.setIsLoadingData(false))
+      handleSetIsLoadingData(false)
     }
   }
 
   const handleStartAnimation = async () => {
-    const allEarthquakes = await handleAllEarthquakes()
-    let currentDate = animation.filters.startDate
+    try {
+      const allEarthquakes = await handleAllEarthquakes()
+      handleSetEarthquakes([])
 
-    dispatch(earthquakeActions.setAnimationCurrentDate(currentDate))
-    triggerAnimationLoop(currentDate, allEarthquakes)
+      let currentDate = animation.filters.startDate
+      handleSetAnimationCurrentDate(currentDate)
+      triggerAnimationLoop(currentDate, allEarthquakes)
+      handleAnimationActive(true)
+    } catch (err) {}
   }
 
   const handleStopAnimation = () => {
@@ -82,11 +90,10 @@ const ActionButtons = () => {
         return isBeforeFromNextCurrentDate && isAfterFromCurrentDate
       })
 
-      dispatch(earthquakeActions.setEarthquakes(filteredEarthquakes))
-      dispatch(earthquakeActions.setAnimationCurrentDate(nextAnimationCurrentDate.format()))
+      handleSetEarthquakes(filteredEarthquakes)
+      handleSetAnimationCurrentDate(nextAnimationCurrentDate.format())
 
       if (checkDate) {
-        // TODO: ?
         handleStopAnimation()
         return
       }
@@ -100,11 +107,19 @@ const ActionButtons = () => {
   }
 
   const handleClear = () => {
-    dispatch(earthquakeActions.setAnimationCurrentDate(null))
+    handleSetAnimationCurrentDate(null)
     handleAnimationActive(false)
-    dispatch(earthquakeActions.setAnimationAllEarthquakes([]))
+    handleSetAnimationAllEarthquakes([])
   }
 
+  const handleAgainStart = () => {
+    const currentDate = animation.filters.startDate
+    handleSetAnimationCurrentDate(currentDate)
+    triggerAnimationLoop(currentDate, animation.allEarthquakes)
+    handleAnimationActive(true)
+  }
+
+  // TODO: improve rerender performance
   return (
     <div className="animation-actions">
       {!animation.currentDate && !animation.isActive && (
@@ -122,9 +137,15 @@ const ActionButtons = () => {
           <Button fullWidth color="error" variant="contained" onClick={handleClear}>
             {t('clear')}
           </Button>
-          <Button fullWidth color="info" variant="contained" onClick={handleContinue}>
-            {t('continue')}
-          </Button>
+          {isCompletedAnimation ? (
+            <Button fullWidth color="inherit" variant="contained" onClick={handleAgainStart}>
+              {t('again start')}
+            </Button>
+          ) : (
+            <Button fullWidth color="info" variant="contained" onClick={handleContinue}>
+              {t('continue')}
+            </Button>
+          )}
         </div>
       )}
     </div>

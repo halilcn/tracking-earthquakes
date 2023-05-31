@@ -52,5 +52,6 @@ export default {
     stop: 'stop',
     clear: 'clear',
     continue: 'continue',
+    'again start': 'again start',
   },
 }

@@ -29,7 +29,7 @@ const FilterItems = () => {
             onChange={value => handleChangeAnimationFilters('startDate', value.startOf('day').format())}
             maxDate={dayjs(animation.filters.endDate).add(-1, 'day')}
           />
-          <div className="filter-archive__hyphen">-</div>
+          <div className="animation-filters__hyphen">-</div>
           <MobileDatePicker
             slotProps={{ textField: { size: 'small' } }}
             label={t('End of Date')}
