@@ -1,7 +1,8 @@
 import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { MAPBOX_API_KEY } from '../../constants'
 import { useTranslation } from 'react-i18next'
+import { useSelector } from 'react-redux'
+
+import { MAPBOX_API_KEY } from '../../constants'
 import './index.scss'
 
 const Search = () => {

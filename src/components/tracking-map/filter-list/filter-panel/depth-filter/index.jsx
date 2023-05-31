@@ -1,9 +1,9 @@
-import { useDispatch, useSelector } from 'react-redux'
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { earthquakeActions } from '../../../../../store/earthquake'
-import { FILTER_DEPTHS } from '../../../../../constants'
-import { InputLabel, MenuItem, FormControl, Select } from '@mui/material'
+import { useDispatch, useSelector } from 'react-redux'
 
+import { FILTER_DEPTHS } from '../../../../../constants'
+import { earthquakeActions } from '../../../../../store/earthquake'
 import './index.css'
 
 const DepthFilter = () => {

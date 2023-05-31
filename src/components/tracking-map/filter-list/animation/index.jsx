@@ -1,10 +1,10 @@
+import { useState } from 'react'
+import { useSelector } from 'react-redux'
+
 import ActionButtons from './action-buttons'
 import FilterItems from './filter-items'
-import TrackTime from './track-time'
-
 import './index.scss'
-import { useSelector } from 'react-redux'
-import { useState } from 'react'
+import TrackTime from './track-time'
 
 const Animation = () => {
   const isActiveAnimation = useSelector(state => state.earthquake.animation.currentDate)

@@ -1,11 +1,11 @@
-import { TextField, Button } from '@mui/material'
-import dayjs from './../../../utils/dayjs'
+import { Button, TextField } from '@mui/material'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+
 import { postCustomPoint } from '../../../api'
 import { earthquakeActions } from '../../../store/earthquake'
 import { prepareCustomPoint } from '../../../utils'
-
+import dayjs from './../../../utils/dayjs'
 import './index.scss'
 
 const NewCustomPoint = () => {

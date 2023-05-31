@@ -1,13 +1,13 @@
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker'
-import { InputLabel, MenuItem, FormControl, Select } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import dayjs from '../../../../../utils/dayjs'
-import { earthquakeActions } from '../../../../../store/earthquake'
 import { useDispatch, useSelector } from 'react-redux'
-import { ANIMATION_RANGES } from '../../../../../constants'
 
+import { ANIMATION_RANGES } from '../../../../../constants'
+import { earthquakeActions } from '../../../../../store/earthquake'
+import dayjs from '../../../../../utils/dayjs'
 import './index.scss'
 
 const FilterItems = () => {

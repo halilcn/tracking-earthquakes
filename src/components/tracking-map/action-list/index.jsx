@@ -1,11 +1,12 @@
-import EarthquakeList from '../../earthquake-list'
-import Search from '../../search'
 import { motion } from 'framer-motion'
+import { useMemo, useState } from 'react'
 import { BsListUl, BsSearch } from 'react-icons/bs'
 import { IoMdClose } from 'react-icons/io'
-import './index.scss'
-import { useMemo, useState } from 'react'
+
 import { getLeftPanelStatus, getLeftPanelType, setLeftPanelStatus, setLeftPanelType } from '../../../utils/localStorageActions'
+import EarthquakeList from '../../earthquake-list'
+import Search from '../../search'
+import './index.scss'
 
 const ActionList = () => {
   const CONTENT_TYPES = {

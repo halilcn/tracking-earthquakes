@@ -1,13 +1,13 @@
-import TimeFilter from './time-filter'
-import MagnitudeFilter from './magnitude-filter'
 import Button from '@mui/material/Button'
-import { useDispatch, useSelector } from 'react-redux'
-import { earthquakeActions, isSelectedAnyArchiveItem, isSelectedAnyFilterPanelItem } from '../../../../store/earthquake'
 import { useTranslation } from 'react-i18next'
-import DepthFilter from './depth-filter'
-import SourceFilter from './source-filter'
+import { useDispatch, useSelector } from 'react-redux'
 
+import { earthquakeActions, isSelectedAnyArchiveItem, isSelectedAnyFilterPanelItem } from '../../../../store/earthquake'
+import DepthFilter from './depth-filter'
 import './index.scss'
+import MagnitudeFilter from './magnitude-filter'
+import SourceFilter from './source-filter'
+import TimeFilter from './time-filter'
 
 const FilterPanel = () => {
   const { t } = useTranslation()

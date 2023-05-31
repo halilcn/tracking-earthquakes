@@ -1,8 +1,8 @@
 import { ListItem, ListItemButton } from '@mui/material'
 import { useSelector } from 'react-redux'
+
 import { isMobile } from '../../../utils'
 import dayjs from '../../../utils/dayjs'
-
 import './index.scss'
 
 const EarthquakeItem = props => {

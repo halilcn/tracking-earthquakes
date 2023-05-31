@@ -1,9 +1,9 @@
-import { InputLabel, MenuItem, FormControl, Select } from '@mui/material'
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
+
 import { FILTER_MAGNITUDE } from '../../../../../constants'
 import { earthquakeActions } from '../../../../../store/earthquake'
-import { useTranslation } from 'react-i18next'
-
 import './index.scss'
 
 const MagnitudeFilter = () => {

@@ -1,6 +1,10 @@
-import React, { useRef, useEffect, useMemo, useCallback } from 'react'
-import { MAP_TYPE, MAPBOX_API_KEY } from '../../constants'
+import React, { useCallback, useEffect, useMemo, useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+
+import faultLines from '../../assets/static-data/fault-lines.json'
+import { MAPBOX_API_KEY, MAP_TYPE } from '../../constants'
 import getEarthquakes from '../../hooks/getEarthquakes'
+import { earthquakeActions } from '../../store/earthquake'
 import {
   getPopupForCustomPoint,
   getPopupForFaultLine,
@@ -9,14 +13,10 @@ import {
   wrapperForSourceData,
 } from '../../utils'
 import { getMapType } from '../../utils/localStorageActions'
-import UpdateTimer from './update-timer'
-import { useDispatch, useSelector } from 'react-redux'
-import { earthquakeActions } from '../../store/earthquake'
-import FilterList from './filter-list'
 import ActionList from './action-list'
-import faultLines from '../../assets/static-data/fault-lines.json'
-
+import FilterList from './filter-list'
 import './index.scss'
+import UpdateTimer from './update-timer'
 
 const SOURCE = {
   DATA_EARTHQUAKES: 'data-earthquakes',

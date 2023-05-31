@@ -1,9 +1,9 @@
-import { FormGroup, FormControlLabel, Checkbox } from '@mui/material'
+import { Checkbox, FormControlLabel, FormGroup } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
+
 import { earthquakeActions } from '../../../../../store/earthquake'
 import { setFaultLineActive } from '../../../../../utils/localStorageActions'
-import { useTranslation } from 'react-i18next'
-
 import './index.scss'
 
 const FaultLine = () => {

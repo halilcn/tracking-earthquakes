@@ -1,9 +1,9 @@
+import { isMobile } from '../../../../utils/index'
+import ChooseLanguage from './choose-language'
+import FaultLine from './fault-line'
 import FullScreen from './full-screen'
 import './index.scss'
 import MapType from './map-type'
-import ChooseLanguage from './choose-language'
-import { isMobile } from '../../../../utils/index'
-import FaultLine from './fault-line'
 import NewEarthquakeSoundNotification from './new-earthquake-sound-notification'
 
 const Settings = () => {

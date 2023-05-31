@@ -1,8 +1,8 @@
-import { INTENSITY_LEVELS, POINT_COLOR, POINT_SIZE } from '../../../constants'
-import Popup from '../../popup'
-import LiveEarthquake from '../../../../public/live-earthquake.png'
 import { useTranslation } from 'react-i18next'
 
+import LiveEarthquake from '../../../../public/live-earthquake.png'
+import { INTENSITY_LEVELS, POINT_COLOR, POINT_SIZE } from '../../../constants'
+import Popup from '../../popup'
 import './index.scss'
 
 const InfoPopup = props => {

@@ -1,11 +1,11 @@
 import { Box, TextField } from '@mui/material'
-import { FixedSizeList } from 'react-window'
 import { useEffect, useState } from 'react'
-import getEarthquakes from '../../hooks/getEarthquakes'
-import EarthquakeItem from './earthquake-item'
 import { useTranslation } from 'react-i18next'
-import dayjs from './../../utils/dayjs'
+import { FixedSizeList } from 'react-window'
 
+import getEarthquakes from '../../hooks/getEarthquakes'
+import dayjs from './../../utils/dayjs'
+import EarthquakeItem from './earthquake-item'
 import './index.scss'
 
 const EarthquakeList = ({ handleActionListDisable }) => {

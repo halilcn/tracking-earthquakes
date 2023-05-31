@@ -1,8 +1,8 @@
-import { useDispatch, useSelector } from 'react-redux'
-import dayjs from '../../../../../utils/dayjs'
 import { useMemo } from 'react'
-import { earthquakeActions } from '../../../../../store/earthquake'
+import { useDispatch, useSelector } from 'react-redux'
 
+import { earthquakeActions } from '../../../../../store/earthquake'
+import dayjs from '../../../../../utils/dayjs'
 import './index.scss'
 
 const TrackTime = () => {

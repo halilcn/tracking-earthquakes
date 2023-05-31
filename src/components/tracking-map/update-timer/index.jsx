@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import { GrUpdate } from 'react-icons/gr'
+import { useSelector } from 'react-redux'
+
 import { MAP_UPDATE_MIN } from '../../../constants'
 import { isSelectedAnyArchiveItem } from '../../../store/earthquake'
-import { useTranslation } from 'react-i18next'
-
 import './index.scss'
 
 const UpdateTimer = () => {

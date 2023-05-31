@@ -1,9 +1,9 @@
-import { FormControl, ListItemText, InputLabel, MenuItem, Select, Checkbox } from '@mui/material'
-import { SOURCES } from '../../../../../constants'
-import { useDispatch, useSelector } from 'react-redux'
-import { earthquakeActions } from '../../../../../store/earthquake'
+import { Checkbox, FormControl, InputLabel, ListItemText, MenuItem, Select } from '@mui/material'
 import { useTranslation } from 'react-i18next'
+import { useDispatch, useSelector } from 'react-redux'
 
+import { SOURCES } from '../../../../../constants'
+import { earthquakeActions } from '../../../../../store/earthquake'
 import './index.scss'
 
 const SourceFilter = () => {

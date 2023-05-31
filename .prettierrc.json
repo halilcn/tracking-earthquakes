@@ -5,7 +5,7 @@
   "bracketSameLine": true,
   "arrowParens": "avoid",
   "printWidth": 140,
-  "importOrder": ["^[./]"],
+  "importOrder": ["^components/(.*)$", "^[./]"],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true
 }

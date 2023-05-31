@@ -1,8 +1,8 @@
-import githubImage from '../../assets/github.png'
-import { BiHelpCircle } from 'react-icons/bi'
 import { useState } from 'react'
-import InfoPopup from '../popups/info-popup'
+import { BiHelpCircle } from 'react-icons/bi'
 
+import githubImage from '../../assets/github.png'
+import InfoPopup from '../popups/info-popup'
 import './index.scss'
 
 const PageTop = () => {

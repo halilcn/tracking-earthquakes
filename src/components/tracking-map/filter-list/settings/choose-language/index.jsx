@@ -1,10 +1,10 @@
-import { InputLabel, MenuItem, FormControl, Select } from '@mui/material'
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { LANGUAGES } from '../../../../../constants'
-import { setLanguage } from '../../../../../utils/localStorageActions'
-import { getCurrentLanguage } from '../../../../../utils'
 
+import { LANGUAGES } from '../../../../../constants'
+import { getCurrentLanguage } from '../../../../../utils'
+import { setLanguage } from '../../../../../utils/localStorageActions'
 import './index.scss'
 
 const ChooseLanguage = () => {

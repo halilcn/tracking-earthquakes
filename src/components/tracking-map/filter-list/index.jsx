@@ -1,20 +1,20 @@
-import { BsCalendarDate } from 'react-icons/bs'
-import { motion } from 'framer-motion'
-import { BiFilterAlt } from 'react-icons/bi'
-import { FiSettings, FiPlay } from 'react-icons/fi'
-import FilterArchive from './filter-archive'
-import FilterPanel from './filter-panel'
-import LoadingData from './loading-data'
-import Settings from './settings'
-import Animation from './animation'
-import { useCallback, useState } from 'react'
 import cx from 'classnames'
+import { motion } from 'framer-motion'
+import { useCallback, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { BiFilterAlt } from 'react-icons/bi'
+import { BsCalendarDate } from 'react-icons/bs'
+import { FiPlay, FiSettings } from 'react-icons/fi'
 import { useSelector } from 'react-redux'
+
 import { isSelectedAnyArchiveItem, isSelectedAnyFilterPanelItem } from '../../../store/earthquake'
 import { isMobile } from '../../../utils'
-import { useTranslation } from 'react-i18next'
-
+import Animation from './animation'
+import FilterArchive from './filter-archive'
+import FilterPanel from './filter-panel'
 import './index.scss'
+import LoadingData from './loading-data'
+import Settings from './settings'
 
 const FilterList = () => {
   const FILTER_CONTENT_TYPE = {

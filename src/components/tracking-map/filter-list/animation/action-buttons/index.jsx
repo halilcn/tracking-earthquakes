@@ -1,13 +1,13 @@
 import { Button } from '@mui/material'
-import { useDispatch, useSelector } from 'react-redux'
-import dayjs from '../../../../../utils/dayjs'
-import { convertDateFormatForAPI, prepareEarthquakeKandilli, prepareEarthquakeUsgs } from '../../../../../utils'
-import { getAllEarthquakesByUsingKandilliAPI } from '../../../../../service/earthquakes'
-import { getEarthquakesInWorld } from '../../../../../api'
-import { earthquakeActions } from '../../../../../store/earthquake'
 import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useDispatch, useSelector } from 'react-redux'
 
+import { getEarthquakesInWorld } from '../../../../../api'
+import { getAllEarthquakesByUsingKandilliAPI } from '../../../../../service/earthquakes'
+import { earthquakeActions } from '../../../../../store/earthquake'
+import { convertDateFormatForAPI, prepareEarthquakeKandilli, prepareEarthquakeUsgs } from '../../../../../utils'
+import dayjs from '../../../../../utils/dayjs'
 import './index.scss'
 
 const ActionButtons = () => {
