@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+
 import {
   DEFAULT_ANIMATION_RANGE,
   DEFAULT_DEPTH_FILTER,
@@ -6,8 +7,8 @@ import {
   DEFAULT_SOURCE_FILTER,
   DEFAULT_TIME_FILTER_VALUE,
 } from '../constants'
-import { getFaultLineActive, getNewEarthquakeSoundNotification } from '../utils/localStorageActions'
 import dayjs from '../utils/dayjs'
+import { getFaultLineActive, getNewEarthquakeSoundNotification } from '../utils/localStorageActions'
 
 export const earthquake = createSlice({
   name: 'earthquake',
@@ -115,7 +116,7 @@ export const earthquake = createSlice({
 export const isSelectedAnyArchiveItem = state => Object.values(state.earthquake.archiveDate).some(item => item !== null)
 export const isSelectedAnyFilterPanelItem = state => {
   const earthquakeFilter = state.earthquake.earthquakeFilter
-  const time = earthquakeFilter.time !== DEFAULT_TIME_FILTER_VALUE
+  const time = earthquakeFilter.time !== DEFAULT_TIME_FILTER_VALUE && !state.earthquake.animation.isActive
   const magnitude = earthquakeFilter.magnitude !== DEFAULT_MAGNITUDE_FILTER_VALUE
   const depth = earthquakeFilter.depth !== DEFAULT_DEPTH_FILTER
   const sources = earthquakeFilter.sources.filter(source => DEFAULT_SOURCE_FILTER.includes(source)).length !== DEFAULT_SOURCE_FILTER.length
