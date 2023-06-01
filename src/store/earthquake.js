@@ -44,6 +44,7 @@ export const earthquake = createSlice({
       currentDate: null,
       isActive: false,
       allEarthquakes: [],
+      loopInterval: null,
     },
   },
   reducers: {
@@ -109,6 +110,9 @@ export const earthquake = createSlice({
     },
     setAnimationAllEarthquakes: (state, actions) => {
       state.animation.allEarthquakes = actions.payload
+    },
+    setAnimationLoopInterval: (state, actions) => {
+      state.animation.loopInterval = actions.payload
     },
   },
 })

@@ -1,5 +1,4 @@
 import { Button } from '@mui/material'
-import { useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -16,7 +15,6 @@ const ActionButtons = () => {
   const dispatch = useDispatch()
 
   const { animation, isLoadingData } = useSelector(state => state.earthquake)
-  const animationLoop = useRef()
   const { handleSetAnimateEarthquake } = useEarthquakeAnimation()
 
   const isCompletedAnimation = dayjs(animation.filters.endDate).isSame(dayjs(animation.currentDate))
@@ -26,6 +24,7 @@ const ActionButtons = () => {
   const handleSetAnimationAllEarthquakes = allEarthquakes => dispatch(earthquakeActions.setAnimationAllEarthquakes(allEarthquakes))
   const handleSetIsLoadingData = status => dispatch(earthquakeActions.setIsLoadingData(status))
   const handleSetAnimationCurrentDate = date => dispatch(earthquakeActions.setAnimationCurrentDate(date))
+  const handleSetAnimationLoopInterval = loopInterval => dispatch(earthquakeActions.setAnimationLoopInterval(loopInterval))
 
   // TODO: We need to find a better way to get earthquakes from all sources
   const handleEarthquakesInTurkey = async () => {
@@ -75,13 +74,13 @@ const ActionButtons = () => {
   }
 
   const handleStopAnimation = () => {
-    clearInterval(animationLoop.current)
+    clearInterval(animation.loopInterval)
     handleAnimationActive(false)
   }
 
   const triggerAnimationLoop = (date, earthquakes) => {
     let currentDate = date
-    animationLoop.current = setInterval(() => {
+    const loopInterval = setInterval(() => {
       handleSetAnimateEarthquake({ currentDate, earthquakes })
 
       const nextAnimationCurrentDate = dayjs(currentDate).add(animation.filters.range, 'minutes')
@@ -92,6 +91,7 @@ const ActionButtons = () => {
       }
       currentDate = nextAnimationCurrentDate.format()
     }, 1000)
+    handleSetAnimationLoopInterval(loopInterval)
   }
 
   const handleContinue = () => {
