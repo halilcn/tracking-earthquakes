@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { getEarthquakesInWorld } from '../../../../../api'
+import useEarthquakeAnimation from '../../../../../hooks/useEarthquakeAnimation'
 import { getAllEarthquakesByUsingKandilliAPI } from '../../../../../service/earthquakes'
 import { earthquakeActions } from '../../../../../store/earthquake'
 import { convertDateFormatForAPI, prepareEarthquakeKandilli, prepareEarthquakeUsgs } from '../../../../../utils'
@@ -16,6 +17,7 @@ const ActionButtons = () => {
 
   const { animation, isLoadingData } = useSelector(state => state.earthquake)
   const animationLoop = useRef()
+  const { handleSetAnimateEarthquake } = useEarthquakeAnimation()
 
   const isCompletedAnimation = dayjs(animation.filters.endDate).isSame(dayjs(animation.currentDate))
 
@@ -80,19 +82,10 @@ const ActionButtons = () => {
   const triggerAnimationLoop = (date, earthquakes) => {
     let currentDate = date
     animationLoop.current = setInterval(() => {
-      let nextAnimationCurrentDate = dayjs(currentDate).add(animation.filters.range, 'minutes')
+      handleSetAnimateEarthquake({ currentDate, earthquakes })
+
+      const nextAnimationCurrentDate = dayjs(currentDate).add(animation.filters.range, 'minutes')
       const checkDate = dayjs(nextAnimationCurrentDate).isAfter(dayjs(animation.filters.endDate))
-      if (checkDate) nextAnimationCurrentDate = dayjs(animation.filters.endDate)
-
-      const filteredEarthquakes = earthquakes.filter(item => {
-        const isBeforeFromNextCurrentDate = dayjs(item.properties.date).isBefore(nextAnimationCurrentDate)
-        const isAfterFromCurrentDate = dayjs(dayjs(currentDate)).isBefore(dayjs(item.properties.date))
-        return isBeforeFromNextCurrentDate && isAfterFromCurrentDate
-      })
-
-      handleSetEarthquakes(filteredEarthquakes)
-      handleSetAnimationCurrentDate(nextAnimationCurrentDate.format())
-
       if (checkDate) {
         handleStopAnimation()
         return

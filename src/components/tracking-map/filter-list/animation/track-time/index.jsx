@@ -1,6 +1,7 @@
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
+import useEarthquakeAnimation from '../../../../../hooks/useEarthquakeAnimation'
 import { earthquakeActions } from '../../../../../store/earthquake'
 import dayjs from '../../../../../utils/dayjs'
 import './index.scss'
@@ -8,35 +9,23 @@ import './index.scss'
 const TrackTime = () => {
   const dispatch = useDispatch()
   const animation = useSelector(state => state.earthquake.animation)
+  const { handleSetAnimateEarthquake } = useEarthquakeAnimation()
 
   const totalAnimateMinutes = useMemo(() => {
     return dayjs(animation.filters.endDate).diff(dayjs(animation.filters.startDate), 'minutes')
   }, [animation.filters.endDate, animation.filters.startDate])
-  const currentCompletedMinutes = totalAnimateMinutes - dayjs(animation.filters.endDate).diff(dayjs(animation.currentDate), 'minutes')
+  const currentCompletedMinutes = dayjs(animation.currentDate).diff(dayjs(animation.filters.startDate), 'minutes')
   const completedPercentageOfTime = ((currentCompletedMinutes * 100) / totalAnimateMinutes).toFixed(2)
 
   const handleChangeRangeInput = e => {
     const newCurrentDate = dayjs(animation.filters.startDate).add(e.target.value, 'minutes').format()
     dispatch(earthquakeActions.setAnimationCurrentDate(newCurrentDate))
-    handleSetFilteredEarthquakes(newCurrentDate)
-  }
-
-  // TODO: duplicate?
-  const handleSetFilteredEarthquakes = currentDate => {
-    let nextAnimationCurrentDate = dayjs(currentDate).add(animation.filters.range, 'minutes')
-    const filteredEarthquakes = animation.allEarthquakes.filter(item => {
-      const isBeforeFromNextCurrentDate = dayjs(item.properties.date).isBefore(nextAnimationCurrentDate)
-      const isAfterFromCurrentDate = dayjs(dayjs(currentDate)).isBefore(dayjs(item.properties.date))
-      return isBeforeFromNextCurrentDate && isAfterFromCurrentDate
-    })
-
-    dispatch(earthquakeActions.setEarthquakes(filteredEarthquakes))
-    dispatch(earthquakeActions.setAnimationCurrentDate(nextAnimationCurrentDate.format()))
+    handleSetAnimateEarthquake({ currentDate: newCurrentDate })
   }
 
   return (
     <div className="track-time">
-      <div className="track-time__current-date">{dayjs(animation.currentDate).format('DD MMM HH:MM (UTCZ)')}</div>
+      <div className="track-time__current-date">{dayjs(animation.currentDate).format('DD MMM HH:mm (UTCZ)')}</div>
       <div className="track-time__range">
         <input
           min={0}
@@ -60,9 +49,5 @@ const TrackTime = () => {
     </div>
   )
 }
-
-/**
-    <div style={{ width: `${completedPercentageOfTime}%` }} className="track-time__completed-percentage" />
- */
 
 export default TrackTime
