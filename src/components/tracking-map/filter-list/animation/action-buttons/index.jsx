@@ -86,7 +86,8 @@ const ActionButtons = () => {
       const nextAnimationCurrentDate = dayjs(currentDate).add(animation.filters.range, 'minutes')
       const checkDate = dayjs(nextAnimationCurrentDate).isAfter(dayjs(animation.filters.endDate))
       if (checkDate) {
-        handleStopAnimation()
+        clearInterval(loopInterval)
+        handleAnimationActive(false)
         return
       }
       currentDate = nextAnimationCurrentDate.format()
