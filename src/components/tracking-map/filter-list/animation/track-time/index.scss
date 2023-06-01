@@ -19,21 +19,22 @@
         -webkit-transition: 0.3s;
         transition: opacity 0.3s;
         cursor: pointer;
+        transition: .4s;
     }
 
     &__completed-percentage::-webkit-slider-thumb {
         -webkit-appearance: none;
         appearance: none;
-        width: 22px;
-        height: 22px;
+        width: 25px;
+        height: 25px;
         border-radius: 50%;
         background: #054077;
         cursor: pointer;
     }
 
     &__completed-percentage::-moz-range-thumb {
-        width: 22px;
-        height: 22px;
+        width: 25px;
+        height: 25px;
         border-radius: 50%;
         cursor: pointer;
     }
