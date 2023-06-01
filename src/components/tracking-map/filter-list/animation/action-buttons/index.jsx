@@ -112,37 +112,43 @@ const ActionButtons = () => {
     handleAnimationActive(true)
   }
 
-  // TODO: improve rerender performance
-  return (
-    <div className="animation-actions">
-      {!animation.currentDate && !animation.isActive && (
-        <Button fullWidth disabled={isLoadingData} variant="contained" onClick={handleStartAnimation}>
-          {t('start')}
-        </Button>
-      )}
-      {animation.currentDate && animation.isActive && (
-        <Button fullWidth color="error" variant="contained" onClick={handleStopAnimation}>
-          {t('stop')}
-        </Button>
-      )}
-      {animation.currentDate && !animation.isActive && (
-        <div className="animation-actions__decide-buttons">
-          <Button fullWidth color="error" variant="contained" onClick={handleClear}>
-            {t('clear')}
+  const getButton = () => {
+    switch (true) {
+      case !animation.currentDate && !animation.isActive:
+        return (
+          <Button fullWidth disabled={isLoadingData} variant="contained" onClick={handleStartAnimation}>
+            {t('start')}
           </Button>
-          {isCompletedAnimation ? (
-            <Button fullWidth color="inherit" variant="contained" onClick={handleAgainStart}>
-              {t('again start')}
+        )
+      case animation.currentDate && animation.isActive:
+        return (
+          <Button fullWidth color="error" variant="contained" onClick={handleStopAnimation}>
+            {t('stop')}
+          </Button>
+        )
+      case animation.currentDate && !animation.isActive:
+        return (
+          <div className="animation-actions__decide-buttons">
+            <Button fullWidth color="error" variant="contained" onClick={handleClear}>
+              {t('clear')}
             </Button>
-          ) : (
-            <Button fullWidth color="info" variant="contained" onClick={handleContinue}>
-              {t('continue')}
-            </Button>
-          )}
-        </div>
-      )}
-    </div>
-  )
+            {isCompletedAnimation ? (
+              <Button fullWidth color="inherit" variant="contained" onClick={handleAgainStart}>
+                {t('again start')}
+              </Button>
+            ) : (
+              <Button fullWidth color="info" variant="contained" onClick={handleContinue}>
+                {t('continue')}
+              </Button>
+            )}
+          </div>
+        )
+      default:
+        return <div />
+    }
+  }
+
+  return <div className="animation-actions">{getButton()}</div>
 }
 
 export default ActionButtons
