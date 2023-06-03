@@ -68,6 +68,117 @@ const TrackingMap = () => {
     dispatch(earthquakeActions.setMapCurrent(map.current))
   })
 
+  const handleMapboxActions = () => {
+    map.current.on('click', SOURCE.LAYER_DATA_CIRCLE, e => {
+      e.preventDefault()
+      new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(getPopupForPoint(e.features[0].properties)).addTo(map.current)
+      handleEarthquakeDistance(e.features[0].properties)
+    })
+
+    map.current.on('click', SOURCE.LAYER_CUSTOM_POINTS, e => {
+      new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(getPopupForCustomPoint(e.features[0].properties)).addTo(map.current)
+    })
+
+    map.current.on('click', e => {
+      if (e.defaultPrevented === false) clearEarthquakeDistance()
+    })
+
+    map.current.on('click', SOURCE.LAYER_FAULT_LINE, e => {
+      e.preventDefault()
+      const { id, properties } = e.features[0]
+
+      map.current.setFeatureState({ source: SOURCE.DATA_FAULT_LINE, id }, { selected: true })
+      selectedFaultLineIndex.current = id
+      new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(getPopupForFaultLine(properties)).addTo(map.current)
+    })
+
+    map.current.on('click', e => {
+      if (e.defaultPrevented === false && selectedFaultLineIndex.current) {
+        map.current.setFeatureState({ source: SOURCE.DATA_FAULT_LINE, id: selectedFaultLineIndex.current }, { selected: false })
+        selectedFaultLineIndex.current = null
+      }
+    })
+
+    map.current.on(
+      'move',
+      debounce(() => {
+        const value = {
+          zoom: map.current.getZoom().toFixed(2),
+          center: map.current.getCenter(),
+        }
+        setMapLastLocation(value)
+      }, 800)
+    )
+  }
+
+  const handleMapboxData = () => {
+    map.current.addSource(SOURCE.DATA_EARTHQUAKES, { type: 'geojson', data: wrapperForSourceData(earthquakes) })
+    map.current.addSource(SOURCE.DATA_AFFECTED_DISTANCE, { type: 'geojson', data: wrapperForSourceData(earthquakeAffectedDistance) })
+    map.current.addSource(SOURCE.DATA_CUSTOM_POINTS, { type: 'geojson', data: wrapperForSourceData(customPoints) })
+    map.current.addSource(SOURCE.DATA_FAULT_LINE, {
+      type: 'geojson',
+      data: faultLineActive ? faultLines : { type: 'FeatureCollection', features: [] },
+    })
+
+    map.current.addLayer({
+      id: SOURCE.LAYER_DATA_CIRCLE,
+      source: SOURCE.DATA_EARTHQUAKES,
+      type: 'circle',
+      paint: {
+        'circle-radius': ['get', 'pointSize'],
+        'circle-color': ['get', 'pointColor'],
+      },
+      filter: ['==', '$type', 'Point'],
+    })
+
+    map.current.addLayer({
+      id: SOURCE.LAYER_CUSTOM_POINTS,
+      source: SOURCE.DATA_CUSTOM_POINTS,
+      type: 'symbol',
+      layout: {
+        'icon-image': 'location-icon',
+        'icon-size': 0.7,
+      },
+      filter: ['==', '$type', 'Point'],
+    })
+
+    map.current.addLayer({
+      id: SOURCE.LAYER_DATA_PULSING,
+      source: SOURCE.DATA_EARTHQUAKES,
+      type: 'symbol',
+      filter: ['all', ['==', 'isNewEarthquake', true]],
+      layout: {
+        'icon-image': 'pulsing-dot',
+      },
+    })
+
+    map.current.addLayer({
+      id: SOURCE.LAYER_DATA_AFFECTED_DISTANCE,
+      source: SOURCE.DATA_AFFECTED_DISTANCE,
+      type: 'fill',
+      layout: {},
+      paint: {
+        'fill-color': '#D0E0F1',
+        'fill-opacity': 0.3,
+      },
+    })
+
+    map.current.addLayer({
+      id: SOURCE.LAYER_FAULT_LINE,
+      source: SOURCE.DATA_FAULT_LINE,
+      type: 'line',
+      layout: {
+        'line-join': 'round',
+        'line-cap': 'round',
+      },
+      paint: {
+        'line-color': ['case', ['boolean', ['feature-state', 'selected'], false], '#4d4dff', '#e62e00'],
+        'line-width': ['case', ['boolean', ['feature-state', 'selected'], false], 10, 7],
+        'line-opacity': 0.7,
+      },
+    })
+  }
+
   const handleMapbox = useCallback(() => {
     const size = 150
     const pulsingDot = {
@@ -117,112 +228,8 @@ const TrackingMap = () => {
         map.current.addImage('location-icon', image)
       })
 
-      map.current.addSource(SOURCE.DATA_EARTHQUAKES, { type: 'geojson', data: wrapperForSourceData(earthquakes) })
-      map.current.addSource(SOURCE.DATA_AFFECTED_DISTANCE, { type: 'geojson', data: wrapperForSourceData(earthquakeAffectedDistance) })
-      map.current.addSource(SOURCE.DATA_CUSTOM_POINTS, { type: 'geojson', data: wrapperForSourceData(customPoints) })
-      map.current.addSource(SOURCE.DATA_FAULT_LINE, {
-        type: 'geojson',
-        data: faultLineActive ? faultLines : { type: 'FeatureCollection', features: [] },
-      })
-
-      map.current.addLayer({
-        id: SOURCE.LAYER_DATA_CIRCLE,
-        source: SOURCE.DATA_EARTHQUAKES,
-        type: 'circle',
-        paint: {
-          'circle-radius': ['get', 'pointSize'],
-          'circle-color': ['get', 'pointColor'],
-        },
-        filter: ['==', '$type', 'Point'],
-      })
-
-      map.current.addLayer({
-        id: SOURCE.LAYER_CUSTOM_POINTS,
-        source: SOURCE.DATA_CUSTOM_POINTS,
-        type: 'symbol',
-        layout: {
-          'icon-image': 'location-icon',
-          'icon-size': 0.7,
-        },
-        filter: ['==', '$type', 'Point'],
-      })
-
-      map.current.addLayer({
-        id: SOURCE.LAYER_DATA_PULSING,
-        source: SOURCE.DATA_EARTHQUAKES,
-        type: 'symbol',
-        filter: ['all', ['==', 'isNewEarthquake', true]],
-        layout: {
-          'icon-image': 'pulsing-dot',
-        },
-      })
-
-      map.current.addLayer({
-        id: SOURCE.LAYER_DATA_AFFECTED_DISTANCE,
-        source: SOURCE.DATA_AFFECTED_DISTANCE,
-        type: 'fill',
-        layout: {},
-        paint: {
-          'fill-color': '#D0E0F1',
-          'fill-opacity': 0.3,
-        },
-      })
-
-      map.current.addLayer({
-        id: SOURCE.LAYER_FAULT_LINE,
-        source: SOURCE.DATA_FAULT_LINE,
-        type: 'line',
-        layout: {
-          'line-join': 'round',
-          'line-cap': 'round',
-        },
-        paint: {
-          'line-color': ['case', ['boolean', ['feature-state', 'selected'], false], '#4d4dff', '#e62e00'],
-          'line-width': ['case', ['boolean', ['feature-state', 'selected'], false], 10, 7],
-          'line-opacity': 0.7,
-        },
-      })
-
-      map.current.on('click', SOURCE.LAYER_DATA_CIRCLE, e => {
-        e.preventDefault()
-        new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(getPopupForPoint(e.features[0].properties)).addTo(map.current)
-        handleEarthquakeDistance(e.features[0].properties)
-      })
-
-      map.current.on('click', SOURCE.LAYER_CUSTOM_POINTS, e => {
-        new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(getPopupForCustomPoint(e.features[0].properties)).addTo(map.current)
-      })
-
-      map.current.on('click', e => {
-        if (e.defaultPrevented === false) clearEarthquakeDistance()
-      })
-
-      map.current.on('click', SOURCE.LAYER_FAULT_LINE, e => {
-        e.preventDefault()
-        const { id, properties } = e.features[0]
-
-        map.current.setFeatureState({ source: SOURCE.DATA_FAULT_LINE, id }, { selected: true })
-        selectedFaultLineIndex.current = id
-        new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(getPopupForFaultLine(properties)).addTo(map.current)
-      })
-
-      map.current.on('click', e => {
-        if (e.defaultPrevented === false && selectedFaultLineIndex.current) {
-          map.current.setFeatureState({ source: SOURCE.DATA_FAULT_LINE, id: selectedFaultLineIndex.current }, { selected: false })
-          selectedFaultLineIndex.current = null
-        }
-      })
-
-      map.current.on(
-        'move',
-        debounce(() => {
-          const value = {
-            zoom: map.current.getZoom().toFixed(2),
-            center: map.current.getCenter(),
-          }
-          setMapLastLocation(value)
-        }, 800)
-      )
+      handleMapboxData()
+      handleMapboxActions()
     })
   })
 
