@@ -6,13 +6,14 @@ import { MAPBOX_API_KEY, MAP_TYPE } from '../../constants'
 import getEarthquakes from '../../hooks/getEarthquakes'
 import { earthquakeActions } from '../../store/earthquake'
 import {
+  debounce,
   getPopupForCustomPoint,
   getPopupForFaultLine,
   getPopupForPoint,
   prepareEarthquakeDistance,
   wrapperForSourceData,
 } from '../../utils'
-import { getMapType } from '../../utils/localStorageActions'
+import { getMapLastLocation, getMapType, setMapLastLocation } from '../../utils/localStorageActions'
 import ActionList from './action-list'
 import FilterList from './filter-list'
 import './index.scss'
@@ -55,12 +56,13 @@ const TrackingMap = () => {
   const initialMapbox = useCallback(() => {
     if (map.current) return
 
+    const lastLocation = getMapLastLocation()
     mapboxgl.accessToken = MAPBOX_API_KEY
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: mapType,
-      zoom: 2.5,
-      center: [35.163262, 39.431293],
+      zoom: lastLocation?.zoom ?? 2.5,
+      center: lastLocation?.center ?? [35.163262, 39.431293],
     })
 
     dispatch(earthquakeActions.setMapCurrent(map.current))
@@ -210,6 +212,17 @@ const TrackingMap = () => {
           selectedFaultLineIndex.current = null
         }
       })
+
+      map.current.on(
+        'move',
+        debounce(() => {
+          const value = {
+            zoom: map.current.getZoom().toFixed(2),
+            center: map.current.getCenter(),
+          }
+          setMapLastLocation(value)
+        }, 800)
+      )
     })
   })
 

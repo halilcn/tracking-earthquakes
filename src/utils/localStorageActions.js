@@ -5,6 +5,7 @@ const KEY = {
   LANGUAGE: 'LANGUAGE',
   FAULT_LINE: 'FAULT_LINE',
   NEW_EARTHQUAKE_SOUND_NOTIFICATION: 'NEW_EARTHQUAKE_SOUND_NOTIFICATION',
+  LAST_LOCATION: 'LAST_LOCATION',
 }
 
 export const setMapType = mapType => localStorage.setItem(KEY.MAP_TYPE, mapType)
@@ -24,3 +25,6 @@ export const getFaultLineActive = () => localStorage.getItem(KEY.FAULT_LINE)
 
 export const setNewEarthquakeSoundNotification = status => localStorage.setItem(KEY.NEW_EARTHQUAKE_SOUND_NOTIFICATION, status)
 export const getNewEarthquakeSoundNotification = () => localStorage.getItem(KEY.NEW_EARTHQUAKE_SOUND_NOTIFICATION)
+
+export const setMapLastLocation = location => localStorage.setItem(KEY.LAST_LOCATION, JSON.stringify(location))
+export const getMapLastLocation = () => JSON.parse(localStorage.getItem(KEY.LAST_LOCATION))
