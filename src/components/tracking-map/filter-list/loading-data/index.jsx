@@ -1,5 +1,4 @@
 import CircularProgress from '@mui/material/CircularProgress'
-import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
 import './index.scss'

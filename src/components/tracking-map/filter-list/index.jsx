@@ -97,9 +97,7 @@ const FilterList = () => {
   return (
     <div className="filter">
       <div className="filter__list">
-        <div className="filter__item">
-          <LoadingData />
-        </div>
+        <LoadingData />
         {FILTER_LIST.map(filter => (
           <div className="filter__item-container">
             <div
