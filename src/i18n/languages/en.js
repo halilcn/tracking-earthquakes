@@ -53,5 +53,9 @@ export default {
     clear: 'clear',
     continue: 'continue',
     'again start': 'again start',
+    animation: 'animation',
+    'past earthquakes': 'past earthquakes',
+    filters: 'filters',
+    settings: 'settings',
   },
 }

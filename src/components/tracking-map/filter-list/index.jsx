@@ -73,20 +73,24 @@ const FilterList = () => {
       type: FILTER_CONTENT_TYPE.ANIMATION,
       icon: <FiPlay className="filter__icon" />,
       itemCustomClasses: isAnimationActive && 'filter__item--active',
+      title: t('animation'),
     },
     {
       type: FILTER_CONTENT_TYPE.ARCHIVE,
       icon: <BsCalendarDate className="filter__icon" />,
       itemCustomClasses: selectedArchiveFilterItem && 'filter__item--active',
+      title: t('past earthquakes'),
     },
     {
       type: FILTER_CONTENT_TYPE.FILTER_PANEL,
       icon: <BiFilterAlt className="filter__icon" />,
       itemCustomClasses: selectedFilterPanelItem && 'filter__item--active',
+      title: t('filters'),
     },
     {
       type: FILTER_CONTENT_TYPE.SETTINGS,
       icon: <FiSettings className="filter__icon" />,
+      title: t('settings'),
     },
   ]
 
@@ -97,13 +101,19 @@ const FilterList = () => {
           <LoadingData />
         </div>
         {FILTER_LIST.map(filter => (
-          <div
-            onClick={() => handleSetFilterContentType(filter.type)}
-            className={cx('filter__item', 'filter__item--icon', filter.itemCustomClasses || '', {
-              'filter__item--selected': isSelectedType(filter.type),
-            })}>
-            {filter.icon}
-            <div className="filter__icon-blur" />
+          <div className="filter__item-container">
+            <div
+              onClick={() => handleSetFilterContentType(filter.type)}
+              className={cx('filter__item', 'filter__item--icon', filter.itemCustomClasses || '', {
+                'filter__item--selected': isSelectedType(filter.type),
+              })}>
+              {filter.icon}
+              <div className="filter__blur filter__icon-blur" />
+            </div>
+            <div className="filter__item-text" style={filterContentEnable || isMobile() ? { display: 'none' } : {}}>
+              <span>{filter.title}</span>
+              <div className="filter__blur filter__item-text-blur" />
+            </div>
           </div>
         ))}
       </div>

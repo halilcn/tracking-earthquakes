@@ -52,5 +52,9 @@ export default {
     clear: 'temizle',
     continue: 'devam et',
     'again start': 'tekrar başlat',
+    animation: 'animasyon',
+    'past earthquakes': 'geçmiş depremler',
+    filters: 'filtreler',
+    settings: 'ayarlar',
   },
 }
