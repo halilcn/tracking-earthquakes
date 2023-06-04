@@ -120,12 +120,13 @@ export const earthquake = createSlice({
 export const isSelectedAnyArchiveItem = state => Object.values(state.earthquake.archiveDate).some(item => item !== null)
 export const isSelectedAnyFilterPanelItem = state => {
   const earthquakeFilter = state.earthquake.earthquakeFilter
-  const time = earthquakeFilter.time !== DEFAULT_TIME_FILTER_VALUE && !state.earthquake.animation.isActive
+  const time = earthquakeFilter.time !== DEFAULT_TIME_FILTER_VALUE
+  const isLiveEarthquake = !state.earthquake.animation.isActive && !isSelectedAnyArchiveItem(state)
   const magnitude = earthquakeFilter.magnitude !== DEFAULT_MAGNITUDE_FILTER_VALUE
   const depth = earthquakeFilter.depth !== DEFAULT_DEPTH_FILTER
   const sources = earthquakeFilter.sources.filter(source => DEFAULT_SOURCE_FILTER.includes(source)).length !== DEFAULT_SOURCE_FILTER.length
 
-  return time || magnitude || depth || sources
+  return (time && isLiveEarthquake) || magnitude || depth || sources
 }
 
 export const earthquakeActions = earthquake.actions
