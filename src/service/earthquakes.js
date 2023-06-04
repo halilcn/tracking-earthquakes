@@ -3,8 +3,7 @@ import { SOURCES } from '../constants'
 import { convertDateFormatForAPI, prepareEarthquakeKandilli, prepareEarthquakeUsgs } from '../utils'
 import dayjs from '../utils/dayjs'
 
-// TODO: it should used in only this file
-export const getAllEarthquakesByUsingKandilliAPI = async params => {
+const getAllEarthquakesByUsingKandilliAPI = async params => {
   const allEarthquakes = []
   while (true) {
     const responseEarthquakes = await getEarthquakesInTurkey({ ...params, skip: allEarthquakes.length })
