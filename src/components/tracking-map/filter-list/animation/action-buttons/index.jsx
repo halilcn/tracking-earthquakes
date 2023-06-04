@@ -2,11 +2,11 @@ import { Button } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { getEarthquakesInWorld } from '../../../../../api'
+import { SOURCES } from '../../../../../constants'
 import useEarthquakeAnimation from '../../../../../hooks/useEarthquakeAnimation'
-import { getAllEarthquakesByUsingKandilliAPI } from '../../../../../service/earthquakes'
+import { getAllEarthquakes } from '../../../../../service/earthquakes'
 import { earthquakeActions } from '../../../../../store/earthquake'
-import { convertDateFormatForAPI, prepareEarthquakeKandilli, prepareEarthquakeUsgs } from '../../../../../utils'
+import { convertDateFormatForAPI } from '../../../../../utils'
 import dayjs from '../../../../../utils/dayjs'
 import './index.scss'
 
@@ -26,31 +26,21 @@ const ActionButtons = () => {
   const handleSetAnimationCurrentDate = date => dispatch(earthquakeActions.setAnimationCurrentDate(date))
   const handleSetAnimationLoopInterval = loopInterval => dispatch(earthquakeActions.setAnimationLoopInterval(loopInterval))
 
-  // TODO: We need to find a better way to get earthquakes from all sources
-  const handleEarthquakesInTurkey = async () => {
-    const params = {
-      date_end: convertDateFormatForAPI(dayjs(animation.filters.endDate)),
-      date: convertDateFormatForAPI(dayjs(animation.filters.startDate)),
-    }
-    const earthquakes = await getAllEarthquakesByUsingKandilliAPI(params)
-    const preparedEarthquakesData = earthquakes.map(earthquake => prepareEarthquakeKandilli(earthquake))
-    return preparedEarthquakesData
-  }
-
-  const handleEarthquakesInWorld = async () => {
-    const requestParams = {
-      starttime: convertDateFormatForAPI(dayjs(animation.filters.startDate)),
-      endtime: convertDateFormatForAPI(dayjs(animation.filters.endDate)),
-    }
-    const { features } = await getEarthquakesInWorld(requestParams)
-    const preparedEarthquakesData = features.map(earthquake => prepareEarthquakeUsgs(earthquake))
-    return preparedEarthquakesData
-  }
-
   const handleAllEarthquakes = async () => {
     try {
       handleSetIsLoadingData(true)
-      const allEarthquakes = await Promise.all([handleEarthquakesInTurkey(), handleEarthquakesInWorld()]).then(result => result.flat())
+
+      const allEarthquakes = await getAllEarthquakes({
+        [SOURCES.KANDILLI]: {
+          startDate: convertDateFormatForAPI(dayjs(animation.filters.startDate)),
+          endDate: convertDateFormatForAPI(dayjs(animation.filters.endDate)),
+        },
+        [SOURCES.USGS]: {
+          startDate: convertDateFormatForAPI(dayjs(animation.filters.startDate)),
+          endDate: convertDateFormatForAPI(dayjs(animation.filters.endDate)),
+        },
+      })
+
       handleSetAnimationAllEarthquakes(allEarthquakes)
       return allEarthquakes
     } catch (err) {
