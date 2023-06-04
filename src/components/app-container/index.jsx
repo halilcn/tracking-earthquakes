@@ -1,15 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { getCustomPoints, getEarthquakesInWorld } from '../../api'
+import { getCustomPoints } from '../../api'
 import audio from '../../assets/sounds/new-earthquake.mp3'
-import { MAP_UPDATE_MIN } from '../../constants'
+import { MAP_UPDATE_MIN, SOURCES } from '../../constants'
 import useEffectIgnoreFirstRender from '../../hooks/useEffectIgnoreFirstRender'
-import { getAllEarthquakesByUsingKandilliAPI } from '../../service/earthquakes'
+import { getAllEarthquakes } from '../../service/earthquakes'
 import firebase from '../../service/firebase'
 import { earthquakeActions, isSelectedAnyArchiveItem } from '../../store/earthquake'
 import { userActions } from '../../store/user'
-import { convertDateFormatForAPI, prepareEarthquakeKandilli, prepareEarthquakeUsgs } from '../../utils'
+import { convertDateFormatForAPI } from '../../utils'
 import ErrorPage from '../error-page'
 import Loading from '../loading'
 import PageTop from '../page-top'
@@ -28,32 +28,23 @@ const AppContainer = () => {
   const newEarthquakeSound = useSelector(state => state.earthquake.earthquakeNotification.newEarthquakeSound)
   const animationCurrentDate = useSelector(state => state.earthquake.animation.currentDate)
 
-  const handleEarthquakesInTurkey = async () => {
-    const params = {
-      date_end: convertDateFormatForAPI(dayjs()),
-      date: convertDateFormatForAPI(dayjs().add(-1, 'day')),
-    }
-    const earthquakes = await getAllEarthquakesByUsingKandilliAPI(params)
-    const preparedEarthquakesData = earthquakes.map(earthquake => prepareEarthquakeKandilli(earthquake))
-    return preparedEarthquakesData
-  }
-
-  const handleEarthquakesInWorld = async () => {
-    const requestParams = {
-      starttime: convertDateFormatForAPI(dayjs().add(-1, 'day')),
-      endtime: convertDateFormatForAPI(dayjs().add(1, 'day')),
-    }
-    const { features } = await getEarthquakesInWorld(requestParams)
-    const preparedEarthquakesData = features.map(earthquake => prepareEarthquakeUsgs(earthquake))
-    return preparedEarthquakesData
-  }
-
   const handleGetEarthquakes = async () => {
     dispatch(earthquakeActions.setIsLoadingData(true))
-    const earthquakes = await Promise.all([handleEarthquakesInTurkey(), handleEarthquakesInWorld()]).then(result => result.flat())
+
+    const earthquakes = await getAllEarthquakes({
+      [SOURCES.KANDILLI]: {
+        endDate: convertDateFormatForAPI(dayjs()),
+        startDate: convertDateFormatForAPI(dayjs().add(-1, 'day')),
+      },
+      [SOURCES.USGS]: {
+        endDate: convertDateFormatForAPI(dayjs().add(1, 'day')),
+        startDate: convertDateFormatForAPI(dayjs().add(-1, 'day')),
+      },
+    })
+
     dispatch(earthquakeActions.setEarthquakes(earthquakes))
-    if (newEarthquakeSound) handleNewEarthquakeNotification(earthquakes)
     dispatch(earthquakeActions.setIsLoadingData(false))
+    if (newEarthquakeSound) handleNewEarthquakeNotification(earthquakes)
   }
 
   const handleNewEarthquakeNotification = earthquakes => {
