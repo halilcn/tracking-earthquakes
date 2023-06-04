@@ -16,7 +16,7 @@ export const getAllEarthquakesByUsingKandilliAPI = async params => {
   return allEarthquakes
 }
 
-const handleEarthquakesKandilli = async (payload = {}) => {
+export const handleEarthquakesKandilli = async (payload = {}) => {
   const params = {
     date_end: payload?.endDate ?? convertDateFormatForAPI(dayjs()),
     date: payload?.startDate ?? convertDateFormatForAPI(dayjs().add(-1, 'day')),
@@ -26,7 +26,7 @@ const handleEarthquakesKandilli = async (payload = {}) => {
   return preparedEarthquakesData
 }
 
-const handleEarthquakesUsgs = async (payload = {}) => {
+export const handleEarthquakesUsgs = async (payload = {}) => {
   const requestParams = {
     starttime: payload?.startDate ?? convertDateFormatForAPI(dayjs().add(-1, 'day')),
     endtime: payload?.endDate ?? convertDateFormatForAPI(dayjs().add(1, 'day')),

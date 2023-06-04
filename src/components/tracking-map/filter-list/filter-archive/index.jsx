@@ -6,11 +6,10 @@ import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { getEarthquakesInWorld } from '../../../../api'
 import { ARCHIVE_CERTAIN_TIMES } from '../../../../constants'
-import { getAllEarthquakesByUsingKandilliAPI } from '../../../../service/earthquakes'
+import { handleEarthquakesKandilli, handleEarthquakesUsgs } from '../../../../service/earthquakes'
 import { earthquakeActions, isSelectedAnyArchiveItem } from '../../../../store/earthquake'
-import { convertDateFormatForAPI, prepareEarthquakeKandilli, prepareEarthquakeUsgs } from '../../../../utils'
+import { convertDateFormatForAPI } from '../../../../utils'
 import dayjs from './../../../../utils/dayjs'
 import './index.scss'
 
@@ -34,20 +33,13 @@ const FilterArchive = () => {
     await handleGetArchiveEarthquakes(params)
   }
 
-  const handleEarthquakesInTurkey = async params => {
-    const requestParams = { date_end: params.endDate, date: params.startDate }
-    const allEarthquakes = await getAllEarthquakesByUsingKandilliAPI(requestParams)
-    const preparedEarthquakesData = allEarthquakes.map(earthquake => prepareEarthquakeKandilli(earthquake))
+  const handleArchiveEarthquakesKandilli = async params => {
+    const preparedEarthquakesData = await handleEarthquakesKandilli(params)
     dispatch(earthquakeActions.addEarthquakes(preparedEarthquakesData))
   }
 
-  const handleEarthquakesInWorld = async params => {
-    const requestParams = {
-      endtime: params.endDate,
-      starttime: params.startDate,
-    }
-    const { features } = await getEarthquakesInWorld(requestParams)
-    const preparedEarthquakesData = features.map(earthquake => prepareEarthquakeUsgs(earthquake))
+  const handleArchiveEarthquakesUsgs = async params => {
+    const preparedEarthquakesData = await handleEarthquakesUsgs(params)
     dispatch(earthquakeActions.addEarthquakes(preparedEarthquakesData))
   }
 
@@ -55,7 +47,7 @@ const FilterArchive = () => {
     try {
       dispatch(earthquakeActions.setIsLoadingData(true))
       dispatch(earthquakeActions.setEarthquakes([]))
-      await Promise.all([handleEarthquakesInTurkey(params), handleEarthquakesInWorld(params)])
+      await Promise.all([handleArchiveEarthquakesKandilli(params), handleArchiveEarthquakesUsgs(params)])
     } catch (err) {
       alert(t('Occurred a problem'))
     } finally {
