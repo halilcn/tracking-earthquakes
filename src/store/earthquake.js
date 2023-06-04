@@ -117,7 +117,10 @@ export const earthquake = createSlice({
   },
 })
 
-export const isSelectedAnyArchiveItem = state => Object.values(state.earthquake.archiveDate).some(item => item !== null)
+export const isSelectedAnyArchiveItem = state => {
+  const { archiveDate } = state.earthquake
+  return archiveDate.certainDate || (archiveDate.startDate && archiveDate.endDate)
+}
 export const isSelectedAnyFilterPanelItem = state => {
   const earthquakeFilter = state.earthquake.earthquakeFilter
   const time = earthquakeFilter.time !== DEFAULT_TIME_FILTER_VALUE
