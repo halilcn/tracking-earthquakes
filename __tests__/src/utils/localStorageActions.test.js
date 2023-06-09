@@ -7,7 +7,7 @@ import {
   setLeftPanelStatus,
   setMapLastLocation,
   setMapType,
-} from '../../../utils/localStorageActions'
+} from '../../../src/utils/localStorageActions.js'
 import localStorageMock from '../../mocks/localStorageMock'
 
 describe('local storage actions', () => {
