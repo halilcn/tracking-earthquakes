@@ -87,7 +87,7 @@ export const FILTER_DEPTHS = {
   25: '< 25 km',
 }
 
-export const MAPBOX_API_KEY = import.meta.env.VITE_MAPBOX_API_KEY
+export const MAPBOX_API_KEY = env.VITE_MAPBOX_API_KEY
 
 export const MAP_UPDATE_MIN = 60
 
