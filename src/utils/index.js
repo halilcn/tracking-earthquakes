@@ -28,7 +28,7 @@ export const calculateAffectedDistance = (mag, depth) => {
   return distance / 15
 }
 
-const earthquakeDataStructure = earthquake => ({
+export const earthquakeDataStructure = earthquake => ({
   type: 'Feature',
   geometry: {
     type: 'Point',
