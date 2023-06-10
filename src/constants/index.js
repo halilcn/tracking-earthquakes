@@ -87,7 +87,7 @@ export const FILTER_DEPTHS = {
   25: '< 25 km',
 }
 
-export const MAPBOX_API_KEY = env.VITE_MAPBOX_API_KEY
+export const MAPBOX_API_KEY = process.env.VITE_MAPBOX_API_KEY
 
 export const MAP_UPDATE_MIN = 60
 
@@ -95,9 +95,9 @@ export const FIREBASE_CONFIG = {
   authDomain: 'tracking-earthquake.firebaseapp.com',
   projectId: 'tracking-earthquake',
   storageBucket: 'tracking-earthquake.appspot.com',
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  messagingSenderId: process.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.VITE_FIREBASE_APP_ID,
+  apiKey: process.env.VITE_FIREBASE_API_KEY,
 }
 
 export const FIREBASE_CUSTOM_POINTS_DB_NAME = 'custom-points'
