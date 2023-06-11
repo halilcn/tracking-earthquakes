@@ -1,6 +1,8 @@
 import { ListItem, ListItemButton } from '@mui/material'
+import React from 'react'
 import { useSelector } from 'react-redux'
 
+import testid from '../../../constants/testid'
 import { isMobile } from '../../../utils'
 import dayjs from '../../../utils/dayjs'
 import './index.scss'
@@ -20,7 +22,7 @@ const EarthquakeItem = props => {
   }
 
   return (
-    <ListItem className="earthquake-raw" style={style} key={index} component="div">
+    <ListItem data-testid={testid.earthquakeItem.itemContainer} className="earthquake-raw" style={style} key={index} component="div">
       <ListItemButton
         onClick={() => handleFocusPoint(earthquake.properties.coordinates)}
         className={`earthquake-raw__button ${earthquake.properties.isNewEarthquake && 'earthquake-raw__button--new'}`}>
