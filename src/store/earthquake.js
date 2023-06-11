@@ -10,43 +10,45 @@ import {
 import dayjs from '../utils/dayjs'
 import { getFaultLineActive, getNewEarthquakeSoundNotification } from '../utils/localStorageActions'
 
+export const initialState = {
+  earthquakes: [],
+  earthquakeAffectedDistance: {},
+  earthquakeFilter: {
+    time: DEFAULT_TIME_FILTER_VALUE,
+    magnitude: DEFAULT_MAGNITUDE_FILTER_VALUE,
+    depth: DEFAULT_DEPTH_FILTER,
+    sources: DEFAULT_SOURCE_FILTER,
+  },
+  earthquakeNotification: {
+    newEarthquakeSound: getNewEarthquakeSoundNotification() === 'true',
+  },
+  customPoints: [],
+  mapCurrent: null,
+  isActiveCustomPointSelection: false,
+  customPointCoordinates: null,
+  isLoadingData: false,
+  archiveDate: {
+    certainDate: null,
+    startDate: null,
+    endDate: null,
+  },
+  faultLineActive: !(getFaultLineActive() === 'false'),
+  animation: {
+    filters: {
+      startDate: dayjs().add(-5, 'days').startOf('day').format(),
+      endDate: dayjs().format(),
+      range: DEFAULT_ANIMATION_RANGE,
+    },
+    currentDate: null,
+    isActive: false,
+    allEarthquakes: [],
+    loopInterval: null,
+  },
+}
+
 export const earthquake = createSlice({
   name: 'earthquake',
-  initialState: {
-    earthquakes: [],
-    earthquakeAffectedDistance: {},
-    earthquakeFilter: {
-      time: DEFAULT_TIME_FILTER_VALUE,
-      magnitude: DEFAULT_MAGNITUDE_FILTER_VALUE,
-      depth: DEFAULT_DEPTH_FILTER,
-      sources: DEFAULT_SOURCE_FILTER,
-    },
-    earthquakeNotification: {
-      newEarthquakeSound: getNewEarthquakeSoundNotification() === 'true',
-    },
-    customPoints: [],
-    mapCurrent: null,
-    isActiveCustomPointSelection: false,
-    customPointCoordinates: null,
-    isLoadingData: false,
-    archiveDate: {
-      certainDate: null,
-      startDate: null,
-      endDate: null,
-    },
-    faultLineActive: !(getFaultLineActive() === 'false'),
-    animation: {
-      filters: {
-        startDate: dayjs().add(-5, 'days').startOf('day').format(),
-        endDate: dayjs().format(),
-        range: DEFAULT_ANIMATION_RANGE,
-      },
-      currentDate: null,
-      isActive: false,
-      allEarthquakes: [],
-      loopInterval: null,
-    },
-  },
+  initialState,
   reducers: {
     setEarthquakes: (state, actions) => {
       state.earthquakes = actions.payload
