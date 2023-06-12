@@ -1,14 +1,17 @@
 import { Box, TextField } from '@mui/material'
 import { useEffect, useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FixedSizeList } from 'react-window'
 
+import constantsTestid from '../../constants/testid'
 import getEarthquakes from '../../hooks/getEarthquakes'
 import dayjs from './../../utils/dayjs'
 import EarthquakeItem from './earthquake-item'
 import './index.scss'
 
 const EarthquakeList = ({ handleActionListDisable }) => {
+  const testid = constantsTestid.earthquakeList
   const { t } = useTranslation()
 
   const [textFilter, setTextFilter] = useState('')
@@ -54,12 +57,12 @@ const EarthquakeList = ({ handleActionListDisable }) => {
   }
 
   return (
-    <div className="earthquake-list">
+    <div data-testid={testid.listContainer} className="earthquake-list">
       <div className="earthquake-list__filter-text">
         <TextField {...textFieldProps} />
       </div>
       {earthquakes.length > 0 ? (
-        <div className="earthquake-list__list-container">
+        <div data-testid={testid.list} className="earthquake-list__list-container">
           <Box {...boxProps}>
             <FixedSizeList {...fixedSizeListProps}>
               {({ index, style }) => (
@@ -74,7 +77,9 @@ const EarthquakeList = ({ handleActionListDisable }) => {
           </Box>
         </div>
       ) : (
-        <div className="earthquake-list__no-earthquake-warning">{t("There aren't any earthquakes")}</div>
+        <div data-testid={testid.noEarthquakeWarn} className="earthquake-list__no-earthquake-warning">
+          {t("There aren't any earthquakes")}
+        </div>
       )}
     </div>
   )
