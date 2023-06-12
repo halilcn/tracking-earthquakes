@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { getCustomPoints } from '../../api'
 import audio from '../../assets/sounds/new-earthquake.mp3'
 import { MAP_UPDATE_MIN, SOURCES } from '../../constants'
+import constantsTestid from '../../constants/testid'
 import useEffectIgnoreFirstRender from '../../hooks/useEffectIgnoreFirstRender'
 import { getAllEarthquakes } from '../../service/earthquakes'
 import firebase from '../../service/firebase'
@@ -18,6 +20,7 @@ import dayjs from './../../utils/dayjs'
 import './index.scss'
 
 const AppContainer = () => {
+  const testid = constantsTestid.appContainer
   const dispatch = useDispatch()
   const earthquakeIntervalRef = useRef(null)
 
@@ -117,7 +120,7 @@ const AppContainer = () => {
   }, [animationCurrentDate])
 
   return (
-    <div className="app-container">
+    <div data-testid={testid.appContainer} className="app-container">
       {isLoading && <Loading />}
       {hasError && <ErrorPage />}
       {!hasError && !isLoading && (
