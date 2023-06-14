@@ -3,6 +3,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 
+import constantsTestid from '../../../../constants/testid'
 import { earthquakeActions, isSelectedAnyArchiveItem, isSelectedAnyFilterPanelItem } from '../../../../store/earthquake'
 import DepthFilter from './depth-filter'
 import './index.scss'
@@ -11,6 +12,7 @@ import SourceFilter from './source-filter'
 import TimeFilter from './time-filter'
 
 const FilterPanel = () => {
+  const testid = constantsTestid.filterPanel
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
@@ -24,9 +26,9 @@ const FilterPanel = () => {
 
   return (
     <>
-      <div className="filter-panel">
+      <div data-testid={testid.filterContainer} className="filter-panel">
         {isActiveTimeFilter && (
-          <div className="filter-panel__item">
+          <div data-testid={testid.timeFilterContainer} className="filter-panel__item">
             <TimeFilter />
           </div>
         )}
@@ -40,7 +42,12 @@ const FilterPanel = () => {
           <SourceFilter />
         </div>
         {selectedFilterPanelItem && (
-          <Button onClick={clearFilter} className="filter-panel__clear-button" variant="contained" color="error">
+          <Button
+            data-testid={testid.removeButton}
+            onClick={clearFilter}
+            className="filter-panel__clear-button"
+            variant="contained"
+            color="error">
             {t('REMOVE')}
           </Button>
         )}

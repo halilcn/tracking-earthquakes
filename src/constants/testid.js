@@ -27,4 +27,9 @@ export default {
   animation: {
     animationContainer: 'animation-container',
   },
+  filterPanel: {
+    filterContainer: 'filter-panel-container',
+    timeFilterContainer: 'filter-panel-time-container',
+    removeButton: 'filter-panel-remove-button',
+  },
 }
