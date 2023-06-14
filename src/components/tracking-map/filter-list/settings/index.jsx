@@ -1,3 +1,5 @@
+import React from 'react'
+
 import { isMobile } from '../../../../utils/index'
 import ChooseLanguage from './choose-language'
 import FaultLine from './fault-line'

@@ -19,4 +19,12 @@ export default {
     closeButton: 'popup-close-button',
     content: 'popup-content',
   },
+  filterList: {
+    listContainer: 'filter-list-container',
+    listItem: 'filter-list-item',
+    content: 'filter-list-item-content',
+  },
+  animation: {
+    animationContainer: 'animation-container',
+  },
 }

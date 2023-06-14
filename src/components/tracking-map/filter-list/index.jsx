@@ -1,12 +1,14 @@
 import cx from 'classnames'
 import { motion } from 'framer-motion'
 import { useCallback, useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { BiFilterAlt } from 'react-icons/bi'
 import { BsCalendarDate } from 'react-icons/bs'
 import { FiPlay, FiSettings } from 'react-icons/fi'
 import { useSelector } from 'react-redux'
 
+import constantsTestid from '../../../constants/testid'
 import { isSelectedAnyArchiveItem, isSelectedAnyFilterPanelItem } from '../../../store/earthquake'
 import { isMobile } from '../../../utils'
 import Animation from './animation'
@@ -17,6 +19,7 @@ import LoadingData from './loading-data'
 import Settings from './settings'
 
 const FilterList = () => {
+  const testid = constantsTestid.filterList
   const FILTER_CONTENT_TYPE = {
     ANIMATION: 'animation',
     ARCHIVE: 'archive',
@@ -95,12 +98,13 @@ const FilterList = () => {
   ]
 
   return (
-    <div className="filter">
+    <div data-testid={testid.listContainer} className="filter">
       <div className="filter__list">
         <LoadingData />
         {FILTER_LIST.map(filter => (
-          <div className="filter__item-container">
+          <div key={filter.type} data-type={filter.type} className="filter__item-container">
             <div
+              data-testid={testid.listItem}
               onClick={() => handleSetFilterContentType(filter.type)}
               className={cx('filter__item', 'filter__item--icon', filter.itemCustomClasses || '', {
                 'filter__item--selected': isSelectedType(filter.type),
@@ -119,7 +123,7 @@ const FilterList = () => {
         <div className="filter__title">
           <MemoizedFilterText />
         </div>
-        <div className="filter__content-container">
+        <div data-testid={testid.content} className="filter__content-container">
           <MemoizedFilterContent />
         </div>
       </motion.div>
