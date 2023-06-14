@@ -4,10 +4,12 @@ import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { SOURCES } from '../../../../../constants'
+import constantsTestid from '../../../../../constants/testid'
 import { earthquakeActions } from '../../../../../store/earthquake'
 import './index.scss'
 
 const SourceFilter = () => {
+  const testid = constantsTestid.sourceFilter
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const earthquakeSources = useSelector(state => state.earthquake.earthquakeFilter.sources)
@@ -15,7 +17,7 @@ const SourceFilter = () => {
   const handleChange = event => dispatch(earthquakeActions.setEarthquakeFilter({ sources: event.target.value }))
 
   return (
-    <div className="source-filter">
+    <div data-testid={testid.sourceContainer} className="source-filter">
       <FormControl className="source-filter__container">
         <InputLabel size="small" id="source-filter-label">
           {t('Sources')}

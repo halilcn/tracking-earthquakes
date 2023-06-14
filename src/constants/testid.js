@@ -32,4 +32,17 @@ export default {
     timeFilterContainer: 'filter-panel-time-container',
     removeButton: 'filter-panel-remove-button',
   },
+  depthFilter: {
+    depthContainer: 'depth-filter-container',
+    select: 'depth-filter-select',
+  },
+  magnitudeFilter: {
+    magnitudeContainer: 'magnitude-filter-container',
+  },
+  sourceFilter: {
+    sourceContainer: 'source-filter-container',
+  },
+  timeFilter: {
+    timeContainer: 'time-filter-container',
+  },
 }

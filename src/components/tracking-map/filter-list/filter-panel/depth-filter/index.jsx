@@ -4,10 +4,12 @@ import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { FILTER_DEPTHS } from '../../../../../constants'
+import constantsTestid from '../../../../../constants/testid'
 import { earthquakeActions } from '../../../../../store/earthquake'
 import './index.css'
 
 const DepthFilter = () => {
+  const testid = constantsTestid.depthFilter
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const depth = useSelector(state => state.earthquake.earthquakeFilter.depth)
@@ -17,10 +19,11 @@ const DepthFilter = () => {
   }
 
   return (
-    <div className="depth-filter">
+    <div data-testid={testid.depthContainer} className="depth-filter">
       <FormControl fullWidth>
         <InputLabel id="depth-filter">{t('Depth')}</InputLabel>
         <Select
+          data-testid={testid.select}
           className="depth-filter__select"
           labelId="depth-filter"
           value={depth}

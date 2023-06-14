@@ -4,10 +4,12 @@ import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { FILTER_MAGNITUDE } from '../../../../../constants'
+import constantsTestid from '../../../../../constants/testid'
 import { earthquakeActions } from '../../../../../store/earthquake'
 import './index.scss'
 
 const MagnitudeFilter = () => {
+  const testid = constantsTestid.magnitudeFilter
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const magnitude = useSelector(state => state.earthquake.earthquakeFilter.magnitude)
@@ -17,7 +19,7 @@ const MagnitudeFilter = () => {
   }
 
   return (
-    <div className="magnitude-filter">
+    <div data-testid={testid.magnitudeContainer} className="magnitude-filter">
       <FormControl fullWidth>
         <InputLabel id="magnitude-filter">{t('Magnitude')}</InputLabel>
         <Select
