@@ -3,6 +3,13 @@
 
 name: Node.js CI
 
+env:
+  VITE_TRACKING_ID: ${{secrets.VITE_TRACKING_ID}}
+  VITE_FIREBASE_API_KEY: ${{secrets.VITE_FIREBASE_API_KEY}}
+  VITE_FIREBASE_APP_ID: ${{secrets.VITE_FIREBASE_APP_ID}}
+  VITE_FIREBASE_MESSAGING_SENDER_ID: ${{secrets.VITE_FIREBASE_MESSAGING_SENDER_ID}}
+  VITE_MAPBOX_API_KEY: ${{secrets.VITE_MAPBOX_API_KEY}}
+  
 on:
   push:
     branches: [ "main" ]
