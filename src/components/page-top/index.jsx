@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import React from 'react'
 import { BiHelpCircle } from 'react-icons/bi'
 
 import githubImage from '../../assets/github.png'

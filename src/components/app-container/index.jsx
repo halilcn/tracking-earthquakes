@@ -125,10 +125,10 @@ const AppContainer = () => {
       {hasError && <ErrorPage />}
       {!hasError && !isLoading && (
         <>
-          <div className="app-container__top">
+          <div data-testid={testid.top} className="app-container__top">
             <PageTop />
           </div>
-          <div className="app-container__content">
+          <div data-testid={testid.content} className="app-container__content">
             <TrackingMap />
           </div>
         </>

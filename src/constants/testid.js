@@ -1,6 +1,8 @@
 export default {
   appContainer: {
     appContainer: 'app-container',
+    top: 'app-container-top',
+    content: 'app-container-content',
   },
   earthquakeList: {
     listContainer: 'earthquake-list-container',
@@ -44,5 +46,11 @@ export default {
   },
   timeFilter: {
     timeContainer: 'time-filter-container',
+  },
+  loading: {
+    loadingContainer: 'loading-container',
+  },
+  errorPage: {
+    errorPageContainer: 'error-page-container',
   },
 }

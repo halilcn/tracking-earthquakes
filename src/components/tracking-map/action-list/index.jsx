@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { useMemo, useState } from 'react'
+import React from 'react'
 import { BsListUl, BsSearch } from 'react-icons/bs'
 import { IoMdClose } from 'react-icons/io'
 

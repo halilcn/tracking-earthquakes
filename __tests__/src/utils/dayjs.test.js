@@ -1,32 +1,22 @@
-//import { getLanguage, setLanguage } from '../../../src/utils/localStorageActions'
-//import localStorageMock from '../../mocks/localStorageMock'
+import { LOCAL_STORAGE_KEYS } from '../../../src/utils/localStorageActions'
+import localStorageMock from '../../mocks/localStorageMock'
+import navigatorMock from '../../mocks/navigatorMock'
 
-//import dayjs from '../../../src/utils/dayjs'
-
-//TODO: we can focus on it
-
+// TODO: we should add more tests related to dayjs
 describe('dayjs', () => {
-  /*
   beforeAll(() => {
     localStorageMock()
-    //Object.defineProperty(navigator, 'language', { value: 'tr-TR' })
+    navigatorMock()
   })
-  beforeEach(() => window.localStorage.clear())
-
-  test('should be the language that was stored if there is', () => {
-    const lang = 'tr-TR'
-    //setLanguage(lang)
-    expect(true).toEqual(true)
+  beforeEach(() => {
+    window.localStorage.clear()
+    global.navigator.clearMocks()
   })
 
-  test('should be the language of browser if there is not stored language', async () => {
-    const lang = 'tr-TR'
-    //Object.defineProperty(navigator, 'language', { value: lang })
-    //setLanguage(lang)
-    
-    const dayjs = await import('../../../src/utils/dayjs.js')
-    console.log('test local storage', dayjs)
-    expect(dayjs.locale()).toEqual('tr')
+  test('should be the language that was stored if there is', async () => {
+    window.localStorage.setItem(LOCAL_STORAGE_KEYS.LANGUAGE, 'tr-TR')
+    const { customDayjs } = await import('../../../src/utils/dayjs.js')
+
+    expect(customDayjs.locale()).toEqual('tr')
   })
- */
 })
