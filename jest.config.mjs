@@ -12,7 +12,7 @@ export default {
   setupFilesAfterEnv: ['./__tests__/setup-files/packages.js'],
   testEnvironment: 'jsdom',
   moduleNameMapper: {
-    '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': 'identity-obj-proxy',
+    '\\.(png|jpg|webp|ttf|woff|woff2|svg|mp4|mp3)$': '<rootDir>/__tests__/mocks/file-mock.js',
     '\\.(css|scss)$': 'identity-obj-proxy',
   },
 }
