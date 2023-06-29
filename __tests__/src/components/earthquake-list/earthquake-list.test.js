@@ -3,8 +3,8 @@ import React from 'react'
 
 import EarthquakeList from '../../../../src/components/earthquake-list'
 import constantsTestid from '../../../../src/constants/testid'
-import { initialState as earthquakeInitialState } from '../../../../src/store/earthquake'
-import { getMockNewEarthquake } from '../../../mocks'
+import { getKandilliMockEarthquake } from '../../../mocks'
+import { getEarthquakeState } from '../../../utils'
 import { renderWithProviders } from '../../../utils/renderWithProviders'
 
 describe('earthquake item', () => {
@@ -18,7 +18,7 @@ describe('earthquake item', () => {
 
   test('should be rendered list when there are earthquakes', () => {
     renderWithProviders(<EarthquakeList />, {
-      preloadedState: { earthquake: { ...earthquakeInitialState, earthquakes: [getMockNewEarthquake()] } },
+      preloadedState: { earthquake: getEarthquakeState({ earthquakes: [getKandilliMockEarthquake()] }) },
     })
 
     expect(screen.queryByTestId(testid.noEarthquakeWarn)).not.toBeInTheDocument()
@@ -27,7 +27,7 @@ describe('earthquake item', () => {
 
   test('should be rendered warning message when there are not any earthquakes', () => {
     renderWithProviders(<EarthquakeList />, {
-      preloadedState: { earthquake: { ...earthquakeInitialState, earthquakes: [] } },
+      preloadedState: { earthquake: getEarthquakeState({ earthquakes: [] }) },
     })
 
     expect(screen.queryByTestId(testid.list)).not.toBeInTheDocument()

@@ -3,8 +3,8 @@ import React from 'react'
 
 import EarthquakeItem from '../../../../src/components/earthquake-list/earthquake-item'
 import constantTestId from '../../../../src/constants/testid'
-import { initialState as earthquakeInitialState } from '../../../../src/store/earthquake'
 import dayjs from '../../../../src/utils/dayjs'
+import { getEarthquakeState } from '../../../utils'
 import { renderWithProviders } from '../../../utils/renderWithProviders'
 
 describe('earthquake item', () => {
@@ -71,7 +71,7 @@ describe('earthquake item', () => {
       handleActionListDisable: mockCallback,
     }
     renderWithProviders(<EarthquakeItem {...props} />, {
-      preloadedState: { earthquake: { ...earthquakeInitialState, mapCurrent: { flyTo: () => {} } } },
+      preloadedState: { earthquake: getEarthquakeState({ mapCurrent: { flyTo: () => {} } }) },
     })
 
     fireEvent.click(screen.getByTestId(testid.itemButton))
@@ -99,7 +99,7 @@ describe('earthquake item', () => {
       handleActionListDisable: mockCallback,
     }
     renderWithProviders(<EarthquakeItem {...props} />, {
-      preloadedState: { earthquake: { ...earthquakeInitialState, mapCurrent: { flyTo: () => {} } } },
+      preloadedState: { earthquake: getEarthquakeState({ mapCurrent: { flyTo: () => {} } }) },
     })
 
     fireEvent.click(screen.getByTestId(testid.itemButton))
