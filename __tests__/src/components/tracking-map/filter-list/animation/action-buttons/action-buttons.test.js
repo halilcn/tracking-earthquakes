@@ -2,12 +2,12 @@ import { fireEvent, screen, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import React from 'react'
 
-import ActionButtons from '../../../../../../src/components/tracking-map/filter-list/animation/action-buttons'
-import { API } from '../../../../../../src/constants'
-import constantsTestid from '../../../../../../src/constants/testid'
-import { getKandilliAPIResponseMock, getUSGSAPIResponseMock } from '../../../../../mocks'
-import mockAPI from '../../../../../utils/mockAPI'
-import { renderWithProviders } from '../../../../../utils/renderWithProviders'
+import ActionButtons from '../../../../../../../src/components/tracking-map/filter-list/animation/action-buttons'
+import { API } from '../../../../../../../src/constants'
+import constantsTestid from '../../../../../../../src/constants/testid'
+import { getKandilliAPIResponseMock, getUSGSAPIResponseMock } from '../../../../../../mocks'
+import mockAPI from '../../../../../../utils/mockAPI'
+import { renderWithProviders } from '../../../../../../utils/renderWithProviders'
 
 describe('action buttons', () => {
   const testid = constantsTestid.actionButtons

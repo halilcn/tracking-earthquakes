@@ -7,11 +7,13 @@ import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { ANIMATION_RANGES } from '../../../../../constants'
+import constantsTestid from '../../../../../constants/testid'
 import { earthquakeActions } from '../../../../../store/earthquake'
 import dayjs from '../../../../../utils/dayjs'
 import './index.scss'
 
 const FilterItems = () => {
+  const testid = constantsTestid.filterItems
   const dispatch = useDispatch()
   const { t } = useTranslation()
 
@@ -20,7 +22,7 @@ const FilterItems = () => {
   const handleChangeAnimationFilters = (type, value) => dispatch(earthquakeActions.setAnimationFilter({ [type]: value }))
 
   return (
-    <div className="animation-filters">
+    <div data-testid={testid.container} className="animation-filters">
       <div className="animation-filters__item animation-filters__dates">
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <MobileDatePicker

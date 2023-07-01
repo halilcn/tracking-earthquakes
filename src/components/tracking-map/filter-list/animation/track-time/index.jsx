@@ -2,12 +2,14 @@ import { useMemo } from 'react'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
+import constantsTestid from '../../../../../constants/testid'
 import useEarthquakeAnimation from '../../../../../hooks/useEarthquakeAnimation'
 import { earthquakeActions } from '../../../../../store/earthquake'
 import dayjs from '../../../../../utils/dayjs'
 import './index.scss'
 
 const TrackTime = () => {
+  const testid = constantsTestid.trackTime
   const dispatch = useDispatch()
   const animation = useSelector(state => state.earthquake.animation)
   const { handleSetAnimateEarthquake } = useEarthquakeAnimation()
@@ -25,10 +27,11 @@ const TrackTime = () => {
   }
 
   return (
-    <div className="track-time">
+    <div data-testid={testid.container} className="track-time">
       <div className="track-time__current-date">{dayjs(animation.currentDate).format('DD MMM HH:mm (UTCZ)')}</div>
       <div className="track-time__range">
         <input
+          data-testid={testid.rangeInput}
           min={0}
           max={totalAnimateMinutes}
           value={currentCompletedMinutes}

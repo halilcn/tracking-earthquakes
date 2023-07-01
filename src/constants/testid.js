@@ -81,4 +81,11 @@ export default {
     clearButton: 'action-buttons-clear-button',
     continueButton: 'action-buttons-continue-button',
   },
+  filterItems: {
+    container: 'filter-items-container',
+  },
+  trackTime: {
+    container: 'track-time-container',
+    rangeInput: 'track-time-range-input',
+  },
 }
