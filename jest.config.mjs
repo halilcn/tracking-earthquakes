@@ -7,7 +7,7 @@ export default {
   coverageProvider: 'v8',
   roots: ['./__tests__/src'],
   collectCoverage: true,
-  collectCoverageFrom: ['./__tests__/src/**/*.{js,jsx}'],
+  collectCoverageFrom: ['./src/**/*.{js,jsx}'],
   setupFiles: ['./__tests__/setup-files/env.js'],
   setupFilesAfterEnv: ['./__tests__/setup-files/packages.js'],
   testEnvironment: 'jsdom',
