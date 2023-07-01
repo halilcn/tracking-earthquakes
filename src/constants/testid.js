@@ -53,4 +53,10 @@ export default {
   errorPage: {
     errorPageContainer: 'error-page-container',
   },
+  search: {
+    searchContainer: 'search-container',
+  },
+  trackingMap: {
+    mapContainer: 'tracking-map-container',
+  },
 }

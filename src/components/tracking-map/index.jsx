@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import faultLines from '../../assets/static-data/fault-lines.json'
 import { MAPBOX_API_KEY, MAP_TYPE } from '../../constants'
+import constantsTestid from '../../constants/testid'
 import getEarthquakes from '../../hooks/getEarthquakes'
 import { earthquakeActions } from '../../store/earthquake'
 import {
@@ -32,6 +33,7 @@ const SOURCE = {
 }
 
 const TrackingMap = () => {
+  const testid = constantsTestid.trackingMap
   const dispatch = useDispatch()
   const { isActiveCustomPointSelection, customPoints, earthquakeAffectedDistance, faultLineActive } = useSelector(state => {
     const { isActiveCustomPointSelection, customPoints, earthquakeAffectedDistance, faultLineActive } = state.earthquake
@@ -284,7 +286,7 @@ const TrackingMap = () => {
   }, [])
 
   return (
-    <div className="tracking-map">
+    <div data-testid={testid.mapContainer} className="tracking-map">
       <div className="tracking-map__map-container" ref={mapContainer} />
       {memoizedComponents}
     </div>
