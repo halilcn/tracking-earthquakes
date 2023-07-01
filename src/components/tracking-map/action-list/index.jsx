@@ -4,17 +4,19 @@ import React from 'react'
 import { BsListUl, BsSearch } from 'react-icons/bs'
 import { IoMdClose } from 'react-icons/io'
 
+import constantsTestid from '../../../constants/testid'
 import { getLeftPanelStatus, getLeftPanelType, setLeftPanelStatus, setLeftPanelType } from '../../../utils/localStorageActions'
 import EarthquakeList from '../../earthquake-list'
 import Search from '../../search'
 import './index.scss'
 
-const ActionList = () => {
-  const CONTENT_TYPES = {
-    EARTHQUAKE_LIST: 'EARTHQUAKE_LIST',
-    SEARCH: 'SEARCH',
-  }
+export const CONTENT_TYPES = {
+  EARTHQUAKE_LIST: 'EARTHQUAKE_LIST',
+  SEARCH: 'SEARCH',
+}
 
+const ActionList = () => {
+  const testid = constantsTestid.actionList
   const [actionListEnable, setActionListEnable] = useState(getLeftPanelStatus() === 'true')
   const [activeContentType, setActiveContentType] = useState(getLeftPanelType())
 
@@ -41,6 +43,7 @@ const ActionList = () => {
   }
 
   const earthquakeListProps = {
+    'data-testid': testid.content,
     className: 'action-list__content',
     initial: actionListEnable ? 'open' : 'closed',
     animate: actionListEnable ? 'open' : 'closed',
@@ -61,13 +64,17 @@ const ActionList = () => {
   }, [activeContentType])
 
   return (
-    <div className="action-list">
+    <div data-testid={testid.listContainer} className="action-list">
       <motion.div {...actionListProps}>
-        <div onClick={() => handleActiveList(CONTENT_TYPES.SEARCH)} className="action-list__item action-list__item--search">
+        <div
+          data-testid={testid.searchItem}
+          onClick={() => handleActiveList(CONTENT_TYPES.SEARCH)}
+          className="action-list__item action-list__item--search">
           <BsSearch className="action-list__item-icon" />
           <div className="action-list__item-bg-filter" />
         </div>
         <div
+          data-testid={testid.earthquakeListItem}
           onClick={() => handleActiveList(CONTENT_TYPES.EARTHQUAKE_LIST)}
           className="action-list__item action-list__item--earthquake-list">
           <BsListUl className="action-list__item-icon" />
@@ -76,7 +83,7 @@ const ActionList = () => {
       </motion.div>
       <motion.div {...earthquakeListProps}>
         <div className="action-list__close-button">
-          <IoMdClose onClick={() => handleDisableList()} className="action-list__close-button-icon" />
+          <IoMdClose data-testid={testid.disableContent} onClick={() => handleDisableList()} className="action-list__close-button-icon" />
         </div>
         {memoizedContent}
       </motion.div>

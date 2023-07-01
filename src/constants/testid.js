@@ -59,4 +59,14 @@ export default {
   trackingMap: {
     mapContainer: 'tracking-map-container',
   },
+  actionList: {
+    listContainer: 'action-list-container',
+    content: 'action-list-content',
+    searchItem: 'action-list-search-item',
+    earthquakeListItem: 'action-list-earthquake-item',
+    disableContent: 'action-list-disable-content',
+  },
+  updateTimer: {
+    timerContainer: 'update-timer-container',
+  },
 }

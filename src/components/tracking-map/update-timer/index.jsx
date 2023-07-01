@@ -5,10 +5,12 @@ import { GrUpdate } from 'react-icons/gr'
 import { useSelector } from 'react-redux'
 
 import { MAP_UPDATE_MIN } from '../../../constants'
+import constantsTestid from '../../../constants/testid'
 import { isSelectedAnyArchiveItem } from '../../../store/earthquake'
 import './index.scss'
 
 const UpdateTimer = () => {
+  const testid = constantsTestid.updateTimer
   const { t } = useTranslation()
   const selectedArchive = useSelector(isSelectedAnyArchiveItem)
   const isAnimationActive = useSelector(state => state.earthquake.animation.currentDate)
@@ -56,7 +58,7 @@ const UpdateTimer = () => {
   return (
     <>
       {isEnableTimer && (
-        <div className="update-timer">
+        <div data-testid={testid.timerContainer} className="update-timer">
           <div className="update-timer__content">
             <GrUpdate className="update-timer__icon" />{' '}
             <span>
