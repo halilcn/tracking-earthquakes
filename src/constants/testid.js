@@ -88,4 +88,8 @@ export default {
     container: 'track-time-container',
     rangeInput: 'track-time-range-input',
   },
+  filterArchive: {
+    container: 'filter-archive-container',
+    clearButton: 'filter-archive-clear-button',
+  },
 }

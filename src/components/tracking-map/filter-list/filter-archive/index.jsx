@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { ARCHIVE_CERTAIN_TIMES } from '../../../../constants'
+import constantsTestid from '../../../../constants/testid'
 import { handleEarthquakesKandilli, handleEarthquakesUsgs } from '../../../../service/earthquakes'
 import { earthquakeActions, isSelectedAnyArchiveItem } from '../../../../store/earthquake'
 import { convertDateFormatForAPI } from '../../../../utils'
@@ -15,6 +16,7 @@ import dayjs from './../../../../utils/dayjs'
 import './index.scss'
 
 const FilterArchive = () => {
+  const testid = constantsTestid.filterArchive
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
@@ -65,7 +67,7 @@ const FilterArchive = () => {
   }
 
   return (
-    <div className="filter-archive">
+    <div data-testid={testid.container} className="filter-archive">
       <div className="filter-archive__certain-dates">
         <FormControl fullWidth>
           <InputLabel id="certain-date">{t('Time')}</InputLabel>
@@ -106,7 +108,7 @@ const FilterArchive = () => {
         </LocalizationProvider>
       </div>
       {selectedFilterItem && (
-        <div onClick={clearArchiveDate} className="filter-archive__clear-filters">
+        <div data-testid={testid.clearButton} onClick={clearArchiveDate} className="filter-archive__clear-filters">
           <Button className="filter-archive__clear-button" variant="contained" color="error">
             {t('REMOVE')}
           </Button>
