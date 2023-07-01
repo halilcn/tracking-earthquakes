@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import React from 'react'
 import { useSelector } from 'react-redux'
 
@@ -21,7 +20,7 @@ const Animation = () => {
         <ActionButtons />
       </div>
       {isActiveAnimation && (
-        <div className="animation__section">
+        <div data-testid={testid.trackTime} className="animation__section">
           <TrackTime />
         </div>
       )}

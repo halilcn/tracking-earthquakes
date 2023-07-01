@@ -3,7 +3,7 @@ import React from 'react'
 
 import EarthquakeList from '../../../../src/components/earthquake-list'
 import constantsTestid from '../../../../src/constants/testid'
-import { getKandilliMockEarthquake } from '../../../mocks'
+import { getKandilliPreparedEarthquakeMock } from '../../../mocks'
 import { getEarthquakeState } from '../../../utils'
 import { renderWithProviders } from '../../../utils/renderWithProviders'
 
@@ -18,7 +18,7 @@ describe('earthquake item', () => {
 
   test('should be rendered list when there are earthquakes', () => {
     renderWithProviders(<EarthquakeList />, {
-      preloadedState: { earthquake: getEarthquakeState({ earthquakes: [getKandilliMockEarthquake()] }) },
+      preloadedState: { earthquake: getEarthquakeState({ earthquakes: [getKandilliPreparedEarthquakeMock()] }) },
     })
 
     expect(screen.queryByTestId(testid.noEarthquakeWarn)).not.toBeInTheDocument()

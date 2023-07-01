@@ -28,6 +28,7 @@ export default {
   },
   animation: {
     animationContainer: 'animation-container',
+    trackTime: 'animation-track-time',
   },
   filterPanel: {
     filterContainer: 'filter-panel-container',
@@ -68,5 +69,16 @@ export default {
   },
   updateTimer: {
     timerContainer: 'update-timer-container',
+  },
+  loadingData: {
+    container: 'loading-data-container',
+  },
+  actionButtons: {
+    container: 'action-buttons-container',
+    startButton: 'action-buttons-start-button',
+    decideButtons: 'action-buttons-decide-buttons',
+    stopButton: 'action-buttons-stop-button',
+    clearButton: 'action-buttons-clear-button',
+    continueButton: 'action-buttons-continue-button',
   },
 }

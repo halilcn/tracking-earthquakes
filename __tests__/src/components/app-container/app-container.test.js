@@ -4,7 +4,6 @@ import React from 'react'
 
 import AppContainer from '../../../../src/components/app-container'
 import constantsTestid from '../../../../src/constants/testid'
-import { getMockKandilliData, getMockUSGSData } from '../../../utils'
 import { renderWithProviders } from '../../../utils/renderWithProviders'
 
 describe('app container', () => {

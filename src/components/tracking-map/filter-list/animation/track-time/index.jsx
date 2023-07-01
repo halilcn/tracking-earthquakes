@@ -1,4 +1,5 @@
-import { useCallback, useMemo } from 'react'
+import { useMemo } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import useEarthquakeAnimation from '../../../../../hooks/useEarthquakeAnimation'

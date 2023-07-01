@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { SOURCES } from '../../../../../constants'
+import constantsTestid from '../../../../../constants/testid'
 import useEarthquakeAnimation from '../../../../../hooks/useEarthquakeAnimation'
 import { getAllEarthquakes } from '../../../../../service/earthquakes'
 import { earthquakeActions } from '../../../../../store/earthquake'
@@ -12,6 +13,7 @@ import dayjs from '../../../../../utils/dayjs'
 import './index.scss'
 
 const ActionButtons = () => {
+  const testid = constantsTestid.actionButtons
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
@@ -108,20 +110,20 @@ const ActionButtons = () => {
     switch (true) {
       case !animation.currentDate && !animation.isActive:
         return (
-          <Button fullWidth disabled={isLoadingData} variant="contained" onClick={handleStartAnimation}>
+          <Button data-testid={testid.startButton} fullWidth disabled={isLoadingData} variant="contained" onClick={handleStartAnimation}>
             {t('start')}
           </Button>
         )
       case animation.currentDate && animation.isActive:
         return (
-          <Button fullWidth color="error" variant="contained" onClick={handleStopAnimation}>
+          <Button data-testid={testid.stopButton} fullWidth color="error" variant="contained" onClick={handleStopAnimation}>
             {t('stop')}
           </Button>
         )
       case animation.currentDate && !animation.isActive:
         return (
-          <div className="animation-actions__decide-buttons">
-            <Button fullWidth color="error" variant="contained" onClick={handleClear}>
+          <div data-testid={testid.decideButtons} className="animation-actions__decide-buttons">
+            <Button data-testid={testid.clearButton} fullWidth color="error" variant="contained" onClick={handleClear}>
               {t('clear')}
             </Button>
             {isCompletedAnimation ? (
@@ -129,7 +131,7 @@ const ActionButtons = () => {
                 {t('again start')}
               </Button>
             ) : (
-              <Button fullWidth color="info" variant="contained" onClick={handleContinue}>
+              <Button data-testid={testid.continueButton} fullWidth color="info" variant="contained" onClick={handleContinue}>
                 {t('continue')}
               </Button>
             )}
@@ -140,7 +142,11 @@ const ActionButtons = () => {
     }
   }
 
-  return <div className="animation-actions">{getButton()}</div>
+  return (
+    <div data-testid={testid.container} className="animation-actions">
+      {getButton()}
+    </div>
+  )
 }
 
 export default ActionButtons
