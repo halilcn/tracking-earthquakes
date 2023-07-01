@@ -1,5 +1,6 @@
 import React from 'react'
 
+import constantsTestid from '../../../../constants/testid'
 import { isMobile } from '../../../../utils/index'
 import ChooseLanguage from './choose-language'
 import FaultLine from './fault-line'
@@ -9,8 +10,10 @@ import MapType from './map-type'
 import NewEarthquakeSoundNotification from './new-earthquake-sound-notification'
 
 const Settings = () => {
+  const testid = constantsTestid.settings
+
   return (
-    <div className="settings">
+    <div data-testid={testid.container} className="settings">
       <div className="settings__item">
         <MapType />
       </div>
@@ -24,7 +27,7 @@ const Settings = () => {
         <NewEarthquakeSoundNotification />
       </div>
       {!isMobile() && (
-        <div className="settings__item">
+        <div data-testid={testid.fullScreenButton} className="settings__item">
           <FullScreen />
         </div>
       )}

@@ -1,10 +1,13 @@
 import Button from '@mui/material/Button'
 import { useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 
+import constantsTestid from '../../../../../constants/testid.js'
 import './index.scss'
 
 const FullScreen = () => {
+  const testid = constantsTestid.fullScreen
   const { t } = useTranslation()
   const [isFullScreen, setIsFullScreen] = useState(document.fullscreenElement)
 
@@ -20,7 +23,11 @@ const FullScreen = () => {
   }
 
   return (
-    <Button onClick={toggleFullScreen} className="full-screen-toggle" variant={isFullScreen ? 'contained' : 'outlined'}>
+    <Button
+      data-testid={testid.fullScreenButton}
+      onClick={toggleFullScreen}
+      className="full-screen-toggle"
+      variant={isFullScreen ? 'contained' : 'outlined'}>
       <span>{isFullScreen ? t('Leave From Fullscreen') : t('Switch to Fullscreen')}</span>
     </Button>
   )

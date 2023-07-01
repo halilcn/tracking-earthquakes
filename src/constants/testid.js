@@ -92,4 +92,17 @@ export default {
     container: 'filter-archive-container',
     clearButton: 'filter-archive-clear-button',
   },
+  settings: {
+    container: 'settings-container',
+    fullScreenButton: 'settings-full-screen-button',
+  },
+  mapType: {
+    container: 'map-type-container',
+  },
+  fullScreen: {
+    fullScreenButton: 'full-screen-button',
+  },
+  chooseLanguage: {
+    container: 'choose-language-container',
+  },
 }
