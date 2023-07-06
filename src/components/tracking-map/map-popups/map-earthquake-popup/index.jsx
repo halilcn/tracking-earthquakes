@@ -1,11 +1,36 @@
 import { useTranslation } from 'react-i18next'
+import { AiFillTwitterCircle, AiOutlineWhatsApp } from 'react-icons/ai'
 
+import { APP_URL } from '../../../../constants'
 import dayjs from '../../../../utils/dayjs'
 import './index.scss'
+
+const CONTENT_TYPE = {
+  TWITTER: 'TWITTER',
+  WHATSAPP: 'WHATSAPP',
+}
 
 const MapEarthquakePopup = props => {
   const { earthquake } = props
   const { t } = useTranslation()
+
+  const getEarthquakeURL = () => {
+    const url = new URL(APP_URL)
+    url.searchParams.append('test', 'test-query') // TODO: we will add them with correct query parameters..
+
+    return url
+  }
+
+  const getMessageContent = type => {
+    switch (type) {
+      case CONTENT_TYPE.TWITTER:
+        return `${earthquake.isNewEarthquake ? 'New Earthquake: ' : ''} ${earthquake.mag} magnitude, ${
+          earthquake.depth
+        } depth, ${earthquake.title.toLowerCase()}, ${dayjs(earthquake.date).format('HH:mm dddd (UTCZ)')}, ${getEarthquakeURL()}`
+      case CONTENT_TYPE.WHATSAPP:
+        return `${earthquake.mag} magnitude, ${earthquake.title.toLowerCase()}, ${getEarthquakeURL()}`
+    }
+  }
 
   return (
     <div className="earthquake-popup">
@@ -20,7 +45,24 @@ const MapEarthquakePopup = props => {
         <div>&#x2022; {earthquake.title.toLowerCase()}</div>
       </div>
       <div className="earthquake-popup__line" />
-      <div className="earthquake-popup__share"></div>
+      <div className="earthquake-popup__share">
+        <div className="earthquake-popup__share-text">share with</div>
+        <div className="earthquake-popup__share-list">
+          <a
+            className="earthquake-popup__share-item"
+            href={`https://twitter.com/intent/tweet?text=${getMessageContent(CONTENT_TYPE.TWITTER)}`}
+            data-size="large"
+            target="blank">
+            <AiFillTwitterCircle />
+          </a>
+          <a
+            className="earthquake-popup__share-item"
+            href={`https://wa.me/?text=${getMessageContent(CONTENT_TYPE.WHATSAPP)}`}
+            target="blank">
+            <AiOutlineWhatsApp />
+          </a>
+        </div>
+      </div>
     </div>
   )
 }

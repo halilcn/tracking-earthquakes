@@ -5,6 +5,8 @@ export const API = {
   USGS: 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson',
 }
 
+export const APP_URL = 'https://tracking-earthquakes.vercel.app'
+
 export const INTENSITY_LEVELS = {
   LEVEL_1: 'LEVEL_1',
   LEVEL_2: 'LEVEL_2',
