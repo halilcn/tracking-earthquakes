@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react'
+import ReactDOM from 'react-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
 import faultLines from '../../assets/static-data/fault-lines.json'
@@ -6,18 +7,12 @@ import { MAPBOX_API_KEY, MAP_TYPE } from '../../constants'
 import constantsTestid from '../../constants/testid'
 import getEarthquakes from '../../hooks/getEarthquakes'
 import { earthquakeActions } from '../../store/earthquake'
-import {
-  debounce,
-  getPopupForCustomPoint,
-  getPopupForFaultLine,
-  getPopupForPoint,
-  prepareEarthquakeDistance,
-  wrapperForSourceData,
-} from '../../utils'
+import { debounce, getPopupForCustomPoint, getPopupForFaultLine, prepareEarthquakeDistance, wrapperForSourceData } from '../../utils'
 import { getMapLastLocation, getMapType, setMapLastLocation } from '../../utils/localStorageActions'
 import ActionList from './action-list'
 import FilterList from './filter-list'
 import './index.scss'
+import MapEarthquakePopup from './map-popups/map-earthquake-popup'
 import UpdateTimer from './update-timer'
 
 const SOURCE = {
@@ -73,7 +68,11 @@ const TrackingMap = () => {
   const handleMapboxActions = () => {
     map.current.on('click', SOURCE.LAYER_DATA_CIRCLE, e => {
       e.preventDefault()
-      new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(getPopupForPoint(e.features[0].properties)).addTo(map.current)
+
+      const earthquakePopupContainer = document.createElement('div')
+      ReactDOM.render(<MapEarthquakePopup earthquake={e.features[0].properties} />, earthquakePopupContainer)
+
+      new mapboxgl.Popup().setLngLat(e.lngLat).setDOMContent(earthquakePopupContainer).addTo(map.current)
       handleEarthquakeDistance(e.features[0].properties)
     })
 
