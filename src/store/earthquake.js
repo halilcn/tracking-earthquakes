@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 import {
   DEFAULT_ANIMATION_RANGE,
+  DEFAULT_API_DATE_FORMAT,
   DEFAULT_DEPTH_FILTER,
   DEFAULT_MAGNITUDE_FILTER_VALUE,
   DEFAULT_SOURCE_FILTER,
@@ -9,6 +10,26 @@ import {
 } from '../constants'
 import dayjs from '../utils/dayjs'
 import { getFaultLineActive, getNewEarthquakeSoundNotification } from '../utils/localStorageActions'
+import { getPastEarthquakeDatesQueryParam } from '../utils/queryParamsActions'
+
+const getArchiveDateState = () => {
+  const defaultArchiveDate = { startDate: null, endDate: null }
+  const queryPastEarthquakeDates = getPastEarthquakeDatesQueryParam()
+
+  try {
+    const [startDate, endDate] = queryPastEarthquakeDates.split('/')
+    const isValid = dayjs(startDate, DEFAULT_API_DATE_FORMAT, true).isValid() && dayjs(endDate, DEFAULT_API_DATE_FORMAT, true).isValid()
+
+    if (!isValid) return defaultArchiveDate
+  } catch {
+    return defaultArchiveDate
+  }
+
+  const [startDate, endDate] = queryPastEarthquakeDates.split('/')
+  return { startDate, endDate }
+}
+
+const test = {}
 
 export const initialState = {
   earthquakes: [],
@@ -29,8 +50,7 @@ export const initialState = {
   isLoadingData: false,
   archiveDate: {
     certainDate: null,
-    startDate: null,
-    endDate: null,
+    ...getArchiveDateState(),
   },
   faultLineActive: !(getFaultLineActive() === 'false'),
   animation: {

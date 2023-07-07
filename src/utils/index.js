@@ -1,4 +1,4 @@
-import { INTENSITY_LEVELS, POINT_COLOR, POINT_SIZE, SOURCES } from '../constants'
+import { DEFAULT_API_DATE_FORMAT, INTENSITY_LEVELS, POINT_COLOR, POINT_SIZE, SOURCES } from '../constants'
 import i18n from '../i18n'
 import dayjs from './dayjs'
 import { getLanguage } from './localStorageActions'
@@ -167,7 +167,7 @@ export const prepareEarthquakeDistance = ({ coordinates, mag, depth }) => {
 
 export const isMobile = () => window.innerWidth < 1100
 
-export const convertDateFormatForAPI = date => date.format('YYYY-MM-DD')
+export const convertDateFormatForAPI = date => date.format(DEFAULT_API_DATE_FORMAT)
 
 export const debounce = (func, delay) => {
   let inDebounce = null

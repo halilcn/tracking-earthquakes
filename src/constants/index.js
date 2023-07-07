@@ -122,3 +122,5 @@ export const ANIMATION_RANGES = {
 }
 
 export const DEFAULT_ANIMATION_RANGE = 15
+
+export const DEFAULT_API_DATE_FORMAT = 'YYYY-MM-DD'

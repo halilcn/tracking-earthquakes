@@ -9,6 +9,7 @@ import getEarthquakes from '../../hooks/getEarthquakes'
 import { earthquakeActions } from '../../store/earthquake'
 import { debounce, getPopupForCustomPoint, getPopupForFaultLine, prepareEarthquakeDistance, wrapperForSourceData } from '../../utils'
 import { getMapLastLocation, getMapType, setMapLastLocation } from '../../utils/localStorageActions'
+import { getLatLongQueryParam } from '../../utils/queryParamsActions'
 import ActionList from './action-list'
 import FilterList from './filter-list'
 import './index.scss'
@@ -37,6 +38,7 @@ const TrackingMap = () => {
 
   const mapType = MAP_TYPE[getMapType()] || MAP_TYPE.DARK
   const earthquakes = getEarthquakes()
+  const lastLocation = getMapLastLocation()
 
   const mapContainer = useRef(null)
   const map = useRef(null)
@@ -50,16 +52,22 @@ const TrackingMap = () => {
 
   const clearEarthquakeDistance = () => dispatch(earthquakeActions.setEarthquakeAffectedDistance({}))
 
+  const getCenterOfMap = () => {
+    if (getLatLongQueryParam()) return getLatLongQueryParam()
+    if (lastLocation?.center) return lastLocation.center
+
+    return [35.163262, 39.431293]
+  }
+
   const initialMapbox = useCallback(() => {
     if (map.current) return
 
-    const lastLocation = getMapLastLocation()
     mapboxgl.accessToken = MAPBOX_API_KEY
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: mapType,
       zoom: lastLocation?.zoom ?? 2.5,
-      center: lastLocation?.center ?? [35.163262, 39.431293],
+      center: getCenterOfMap(),
     })
 
     dispatch(earthquakeActions.setMapCurrent(map.current))
