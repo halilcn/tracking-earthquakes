@@ -11,12 +11,10 @@ import { getAllEarthquakes } from '../../service/earthquakes'
 import firebase from '../../service/firebase'
 import { earthquakeActions, isSelectedAnyArchiveItem } from '../../store/earthquake'
 import { userActions } from '../../store/user'
-import { convertDateFormatForAPI } from '../../utils'
 import ErrorPage from '../error-page'
 import Loading from '../loading'
 import PageTop from '../page-top'
 import TrackingMap from '../tracking-map'
-import dayjs from './../../utils/dayjs'
 import './index.scss'
 
 const AppContainer = () => {
@@ -28,26 +26,26 @@ const AppContainer = () => {
   const [isLoading, setIsLoading] = useState(true)
 
   const selectedArchiveItem = useSelector(isSelectedAnyArchiveItem)
-  const newEarthquakeSound = useSelector(state => state.earthquake.earthquakeNotification.newEarthquakeSound)
-  const animationCurrentDate = useSelector(state => state.earthquake.animation.currentDate)
+  const { newEarthquakeSound, animationCurrentDate, archiveDate } = useSelector(state => {
+    const { earthquakeNotification, animation, archiveDate } = state.earthquake
 
-  const handleGetEarthquakes = async () => {
+    return {
+      archiveDate,
+      newEarthquakeSound: earthquakeNotification.newEarthquakeSound,
+      animationCurrentDate: animation.currentDate,
+    }
+  })
+
+  const handleGetEarthquakes = async payload => {
+    const { params = {}, newEarthquakeNotification = true } = payload || {}
+
     dispatch(earthquakeActions.setIsLoadingData(true))
 
-    const earthquakes = await getAllEarthquakes({
-      [SOURCES.KANDILLI]: {
-        endDate: convertDateFormatForAPI(dayjs()),
-        startDate: convertDateFormatForAPI(dayjs().add(-1, 'day')),
-      },
-      [SOURCES.USGS]: {
-        endDate: convertDateFormatForAPI(dayjs().add(1, 'day')),
-        startDate: convertDateFormatForAPI(dayjs().add(-1, 'day')),
-      },
-    })
+    const earthquakes = await getAllEarthquakes(params)
 
     dispatch(earthquakeActions.setEarthquakes(earthquakes))
     dispatch(earthquakeActions.setIsLoadingData(false))
-    if (newEarthquakeSound) handleNewEarthquakeNotification(earthquakes)
+    if (newEarthquakeNotification && newEarthquakeSound) handleNewEarthquakeNotification(earthquakes)
   }
 
   const handleNewEarthquakeNotification = earthquakes => {
@@ -64,7 +62,7 @@ const AppContainer = () => {
     dispatch(earthquakeActions.setCustomPoints(customPoints))
   }
 
-  const firstGetting = async () => {
+  const firstGetEarthquakes = async () => {
     try {
       await handleGetEarthquakes()
       //await handleGetCustomPoints() // for now it is disabled.
@@ -104,8 +102,30 @@ const AppContainer = () => {
     return removeEarthquakesInterval
   }
 
+  const firstGetArchiveEarthquakes = async () => {
+    try {
+      const params = Object.values(SOURCES).reduce(
+        (acc, source) => ({
+          [source]: { endDate: archiveDate.endDate, startDate: archiveDate.startDate },
+          ...acc,
+        }),
+        {}
+      )
+      await handleGetEarthquakes({ params, newEarthquakeNotification: false })
+    } catch (err) {
+      setHasError(true)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   useEffect(() => {
-    firstGetting()
+    if (!!archiveDate.startDate && !!archiveDate.endDate) {
+      firstGetArchiveEarthquakes()
+      return
+    }
+
+    firstGetEarthquakes()
     listenFirebaseAuth()
     createEarthquakesInterval()
     return removeEarthquakesInterval
