@@ -1,7 +1,9 @@
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { AiFillTwitterCircle, AiOutlineWhatsApp } from 'react-icons/ai'
 
 import { APP_URL, DEFAULT_API_DATE_FORMAT } from '../../../../constants'
+import constantsTestid from '../../../../constants/testid'
 import dayjs from '../../../../utils/dayjs'
 import { URL_QUERY_PARAMS } from '../../../../utils/queryParamsActions'
 import './index.scss'
@@ -12,6 +14,7 @@ const CONTENT_TYPE = {
 }
 
 const MapEarthquakePopup = props => {
+  const testid = constantsTestid.mapEarthquakePopup
   const { earthquake } = props
   const { t } = useTranslation()
 
@@ -41,7 +44,7 @@ const MapEarthquakePopup = props => {
   }
 
   return (
-    <div className="earthquake-popup">
+    <div data-testid={testid.container} className="earthquake-popup">
       <div className="earthquake-popup__mag">
         <span className="earthquake-popup__mag-number">{earthquake.mag}</span>
         <span className="earthquake-popup__mag-text">{t('Magnitude').toUpperCase()}</span>
@@ -57,6 +60,7 @@ const MapEarthquakePopup = props => {
         <div className="earthquake-popup__share-text">share with</div>
         <div className="earthquake-popup__share-list">
           <a
+            data-testid={testid.twitterShareButton}
             className="earthquake-popup__share-item"
             href={`https://twitter.com/intent/tweet?text=${getMessageContent(
               CONTENT_TYPE.TWITTER
@@ -66,6 +70,7 @@ const MapEarthquakePopup = props => {
             <AiFillTwitterCircle />
           </a>
           <a
+            data-testid={testid.whatsappShareButton}
             className="earthquake-popup__share-item"
             href={`https://wa.me/?text=${getMessageContent(CONTENT_TYPE.WHATSAPP)}`}
             target="blank">

@@ -105,4 +105,9 @@ export default {
   chooseLanguage: {
     container: 'choose-language-container',
   },
+  mapEarthquakePopup: {
+    container: 'map-earthquake-popup-container',
+    twitterShareButton: 'map-earthquake-popup-twitter-share',
+    whatsappShareButton: 'map-earthquake-popup-whatsapp-share',
+  },
 }
