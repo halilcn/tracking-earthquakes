@@ -160,7 +160,7 @@ export const prepareEarthquakeDistance = ({ coordinates, mag, depth }) => {
     type: 'Feature',
     geometry: {
       type: 'Polygon',
-      coordinates: [calculateDistanceByUsingKm(JSON.parse(coordinates), calculateAffectedDistance(mag, depth))],
+      coordinates: [calculateDistanceByUsingKm(coordinates, calculateAffectedDistance(mag, depth))],
     },
   }
 }
