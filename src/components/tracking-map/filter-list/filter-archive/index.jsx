@@ -3,18 +3,22 @@ import Button from '@mui/material/Button'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { ARCHIVE_CERTAIN_TIMES } from '../../../../constants'
 import constantsTestid from '../../../../constants/testid'
 import { handleEarthquakesKandilli, handleEarthquakesUsgs } from '../../../../service/earthquakes'
-import { earthquakeActions, isSelectedAnyArchiveItem } from '../../../../store/earthquake'
+import { defaultEarthquakeArchiveDateState, earthquakeActions, isSelectedAnyArchiveItem } from '../../../../store/earthquake'
 import { convertDateFormatForAPI } from '../../../../utils'
-import { getPastEarthquakeDatesQueryParam } from '../../../../utils/queryParamsActions'
 import dayjs from './../../../../utils/dayjs'
 import './index.scss'
+
+const ARCHIVE_DATE_FIELDS = {
+  START_DATE: 'startDate',
+  END_DATE: 'endDate',
+}
 
 const FilterArchive = () => {
   const testid = constantsTestid.filterArchive
@@ -24,7 +28,8 @@ const FilterArchive = () => {
   const archiveDate = useSelector(state => state.earthquake.archiveDate)
   const selectedFilterItem = useSelector(isSelectedAnyArchiveItem)
 
-  const clearArchiveDate = () => dispatch(earthquakeActions.clearArchiveDate())
+  const handleUpdateArchiveDate = (payload = {}) =>
+    dispatch(earthquakeActions.updateArchiveDate({ ...defaultEarthquakeArchiveDateState, ...payload }))
 
   const handleCertainDate = async e => {
     const certainDate = e.target.value
@@ -33,7 +38,7 @@ const FilterArchive = () => {
       startDate: convertDateFormatForAPI(dayjs().add(-certainDate, 'days')),
     }
 
-    dispatch(earthquakeActions.updateArchiveDate({ ...archiveDate, certainDate }))
+    handleUpdateArchiveDate({ certainDate })
     await handleGetArchiveEarthquakes(params)
   }
 
@@ -61,10 +66,11 @@ const FilterArchive = () => {
 
   const handleChooseDate = async (date, type) => {
     const convertedDate = convertDateFormatForAPI(date)
-    const payload = { ...archiveDate, [type]: convertedDate }
+    const otherDateType = type === ARCHIVE_DATE_FIELDS.START_DATE ? ARCHIVE_DATE_FIELDS.END_DATE : ARCHIVE_DATE_FIELDS.START_DATE
+    const payload = { [otherDateType]: archiveDate[otherDateType], [type]: convertedDate }
 
-    dispatch(earthquakeActions.updateArchiveDate(payload))
-    if (payload.startDate && payload.endDate) await handleGetArchiveEarthquakes(payload)
+    handleUpdateArchiveDate(payload)
+    if (payload[ARCHIVE_DATE_FIELDS.START_DATE] && payload[ARCHIVE_DATE_FIELDS.END_DATE]) await handleGetArchiveEarthquakes(payload)
   }
 
   return (
@@ -93,23 +99,23 @@ const FilterArchive = () => {
             slotProps={{ textField: { size: 'small' } }}
             label={t('Start of Date')}
             className="filter-archive__custom-date-item"
-            onChange={e => handleChooseDate(e, 'startDate')}
-            value={archiveDate.startDate ? dayjs(archiveDate.startDate) : null}
-            maxDate={archiveDate.endDate ? dayjs(archiveDate.endDate) : dayjs()}
+            onChange={e => handleChooseDate(e, ARCHIVE_DATE_FIELDS.START_DATE)}
+            value={archiveDate[ARCHIVE_DATE_FIELDS.START_DATE] ? dayjs(archiveDate[ARCHIVE_DATE_FIELDS.START_DATE]) : null}
+            maxDate={archiveDate[ARCHIVE_DATE_FIELDS.END_DATE] ? dayjs(archiveDate[ARCHIVE_DATE_FIELDS.END_DATE]) : dayjs()}
           />
           <div className="filter-archive__hyphen">-</div>
           <MobileDatePicker
             slotProps={{ textField: { size: 'small' } }}
             label={t('End of Date')}
             className="filter-archive__custom-date-item"
-            onChange={e => handleChooseDate(e, 'endDate')}
-            value={archiveDate.endDate ? dayjs(archiveDate.endDate) : null}
+            onChange={e => handleChooseDate(e, ARCHIVE_DATE_FIELDS.END_DATE)}
+            value={archiveDate[ARCHIVE_DATE_FIELDS.END_DATE] ? dayjs(archiveDate[ARCHIVE_DATE_FIELDS.END_DATE]) : null}
             maxDate={dayjs()}
           />
         </LocalizationProvider>
       </div>
       {selectedFilterItem && (
-        <div data-testid={testid.clearButton} onClick={clearArchiveDate} className="filter-archive__clear-filters">
+        <div data-testid={testid.clearButton} onClick={handleUpdateArchiveDate} className="filter-archive__clear-filters">
           <Button className="filter-archive__clear-button" variant="contained" color="error">
             {t('REMOVE')}
           </Button>

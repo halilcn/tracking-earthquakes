@@ -12,24 +12,22 @@ import dayjs from '../utils/dayjs'
 import { getFaultLineActive, getNewEarthquakeSoundNotification } from '../utils/localStorageActions'
 import { getPastEarthquakeDatesQueryParam } from '../utils/queryParamsActions'
 
+export const defaultEarthquakeArchiveDateState = { certainDate: null, startDate: null, endDate: null }
+
 const getArchiveDateState = () => {
-  const defaultArchiveDate = { startDate: null, endDate: null }
   const queryPastEarthquakeDates = getPastEarthquakeDatesQueryParam()
 
   try {
     const [startDate, endDate] = queryPastEarthquakeDates.split('/')
+
     const isValid = dayjs(startDate, DEFAULT_API_DATE_FORMAT, true).isValid() && dayjs(endDate, DEFAULT_API_DATE_FORMAT, true).isValid()
+    if (!isValid) return defaultEarthquakeArchiveDateState
 
-    if (!isValid) return defaultArchiveDate
+    return { ...defaultEarthquakeArchiveDateState, startDate, endDate }
   } catch {
-    return defaultArchiveDate
+    return defaultEarthquakeArchiveDateState
   }
-
-  const [startDate, endDate] = queryPastEarthquakeDates.split('/')
-  return { startDate, endDate }
 }
-
-const test = {}
 
 export const initialState = {
   earthquakes: [],
@@ -49,7 +47,6 @@ export const initialState = {
   customPointCoordinates: null,
   isLoadingData: false,
   archiveDate: {
-    certainDate: null,
     ...getArchiveDateState(),
   },
   faultLineActive: !(getFaultLineActive() === 'false'),
@@ -105,9 +102,6 @@ export const earthquake = createSlice({
     },
     updateArchiveDate: (state, actions) => {
       state.archiveDate = { ...state.archiveDate, ...actions.payload }
-    },
-    clearArchiveDate: (state, _) => {
-      state.archiveDate = { certainDate: null, startDate: null, endDate: null }
     },
     clearFilterPanelItems: (state, _) => {
       state.earthquakeFilter = {
