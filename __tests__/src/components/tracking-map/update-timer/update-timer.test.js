@@ -26,4 +26,11 @@ describe('update timer', () => {
     })
     expect(screen.queryByTestId(testid.timerContainer)).not.toBeInTheDocument()
   })
+
+  test('should be rendered archive time info when selected archive date', () => {
+    renderWithProviders(<UpdateTimer />, {
+      preloadedState: { earthquake: getEarthquakeState({ archiveDate: { certainDate: 1 } }) },
+    })
+    expect(screen.queryByTestId(testid.archiveTimerContainer)).toBeInTheDocument()
+  })
 })

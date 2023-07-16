@@ -68,6 +68,7 @@ export default {
     disableContent: 'action-list-disable-content',
   },
   updateTimer: {
+    archiveTimerContainer: 'archive-timer-container',
     timerContainer: 'update-timer-container',
   },
   loadingData: {

@@ -75,7 +75,7 @@ const UpdateTimer = () => {
   return (
     <>
       {isEnableArchiveDate && (
-        <div data-testid={testid.timerContainer} className="update-timer">
+        <div data-testid={testid.archiveTimerContainer} className="update-timer">
           <div className="update-timer__content">
             <MdUpdate size={18} className="update-timer__icon" />
             <span>{getArchiveDate()}</span>
