@@ -5,7 +5,6 @@ export const LOCAL_STORAGE_KEYS = {
   LANGUAGE: 'LANGUAGE',
   FAULT_LINE: 'FAULT_LINE',
   NEW_EARTHQUAKE_SOUND_NOTIFICATION: 'NEW_EARTHQUAKE_SOUND_NOTIFICATION',
-  LAST_LOCATION: 'LAST_LOCATION',
 }
 
 export const setMapType = mapType => localStorage.setItem(LOCAL_STORAGE_KEYS.MAP_TYPE, mapType)
@@ -26,6 +25,3 @@ export const getFaultLineActive = () => localStorage.getItem(LOCAL_STORAGE_KEYS.
 export const setNewEarthquakeSoundNotification = status =>
   localStorage.setItem(LOCAL_STORAGE_KEYS.NEW_EARTHQUAKE_SOUND_NOTIFICATION, status)
 export const getNewEarthquakeSoundNotification = () => localStorage.getItem(LOCAL_STORAGE_KEYS.NEW_EARTHQUAKE_SOUND_NOTIFICATION)
-
-export const setMapLastLocation = location => localStorage.setItem(LOCAL_STORAGE_KEYS.LAST_LOCATION, JSON.stringify(location))
-export const getMapLastLocation = () => JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.LAST_LOCATION))

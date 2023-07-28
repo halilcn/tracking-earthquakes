@@ -176,3 +176,7 @@ export const debounce = (func, delay) => {
     inDebounce = setTimeout(() => func(...args), delay)
   }
 }
+
+export const changeURL = url => {
+  history.pushState({}, '', url)
+}

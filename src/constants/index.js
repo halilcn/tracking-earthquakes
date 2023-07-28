@@ -93,6 +93,10 @@ export const MAPBOX_API_KEY = process.env.VITE_MAPBOX_API_KEY
 
 export const MAP_UPDATE_MIN = 60
 
+export const MAP_DEFAULT_COORDINATES = [35.163262, 39.431293]
+
+export const MAP_DEFAULT_ZOOM = 2.5
+
 export const FIREBASE_CONFIG = {
   authDomain: 'tracking-earthquake.firebaseapp.com',
   projectId: 'tracking-earthquake',

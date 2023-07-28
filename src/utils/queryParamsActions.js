@@ -13,7 +13,7 @@ export const getLatLongQueryParam = () => {
     return null
   }
 }
-export const setLatLongQueryParam = (url, coordinates) => {
+export const setLatLongQueryParam = (coordinates, url = new URL(window.location.href)) => {
   url.searchParams.set(URL_QUERY_PARAMS.LAT_LONG, JSON.stringify(coordinates))
   return url
 }

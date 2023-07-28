@@ -3,13 +3,20 @@ import ReactDOM from 'react-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
 import faultLines from '../../assets/static-data/fault-lines.json'
-import { MAPBOX_API_KEY, MAP_TYPE } from '../../constants'
+import { MAPBOX_API_KEY, MAP_DEFAULT_COORDINATES, MAP_DEFAULT_ZOOM, MAP_TYPE } from '../../constants'
 import constantsTestid from '../../constants/testid'
 import getEarthquakes from '../../hooks/getEarthquakes'
 import earthquake, { earthquakeActions } from '../../store/earthquake'
-import { debounce, getPopupForCustomPoint, getPopupForFaultLine, prepareEarthquakeDistance, wrapperForSourceData } from '../../utils'
-import { getMapLastLocation, getMapType, setMapLastLocation } from '../../utils/localStorageActions'
-import { getEarthquakeIDQueryParam, getLatLongQueryParam } from '../../utils/queryParamsActions'
+import {
+  changeURL,
+  debounce,
+  getPopupForCustomPoint,
+  getPopupForFaultLine,
+  prepareEarthquakeDistance,
+  wrapperForSourceData,
+} from '../../utils'
+import { getMapType } from '../../utils/localStorageActions'
+import { getEarthquakeIDQueryParam, getLatLongQueryParam, setLatLongQueryParam } from '../../utils/queryParamsActions'
 import ActionList from './action-list'
 import FilterList from './filter-list'
 import './index.scss'
@@ -37,8 +44,8 @@ const TrackingMap = () => {
   })
 
   const mapType = MAP_TYPE[getMapType()] || MAP_TYPE.DARK
+  const queryLatLong = getLatLongQueryParam()
   const earthquakes = getEarthquakes()
-  const lastLocation = getMapLastLocation()
 
   const mapContainer = useRef(null)
   const map = useRef(null)
@@ -53,11 +60,13 @@ const TrackingMap = () => {
   const clearEarthquakeDistance = () => dispatch(earthquakeActions.setEarthquakeAffectedDistance({}))
 
   const getCenterOfMap = () => {
-    console.log('getLatLongQueryParam()', getLatLongQueryParam());
-    if (getLatLongQueryParam()) return getLatLongQueryParam()
-    if (lastLocation?.center) return lastLocation.center
+    if (queryLatLong) return queryLatLong
+    return MAP_DEFAULT_COORDINATES
+  }
 
-    return [35.163262, 39.431293]
+  const getZoomOfMap = () => {
+    if (queryLatLong && queryLatLong.length === 3) return queryLatLong[2]
+    return MAP_DEFAULT_ZOOM
   }
 
   const handleClickEarthquakePoint = earthquake => {
@@ -79,7 +88,7 @@ const TrackingMap = () => {
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: mapType,
-      zoom: lastLocation?.zoom ?? 2.5,
+      zoom: getZoomOfMap(),
       center: getCenterOfMap(),
     })
 
@@ -119,12 +128,13 @@ const TrackingMap = () => {
     map.current.on(
       'move',
       debounce(() => {
-        const value = {
-          zoom: map.current.getZoom().toFixed(2),
-          center: map.current.getCenter(),
-        }
-        setMapLastLocation(value)
-      }, 800)
+        const url = setLatLongQueryParam([
+          map.current.getCenter().lng.toFixed(2),
+          map.current.getCenter().lat.toFixed(2),
+          map.current.getZoom().toFixed(2),
+        ])
+        changeURL(url)
+      }, 300)
     )
   }
 
