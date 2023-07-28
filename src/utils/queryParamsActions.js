@@ -26,7 +26,11 @@ export const setPastEarthquakeDatesQueryParam = (url, dates) => {
 }
 
 export const getEarthquakeIDQueryParam = () => urlParams.get(URL_QUERY_PARAMS.EARTHQUAKE_ID)
-export const setEarthquakeIDQueryParam = (url, earthquakeID) => {
+export const setEarthquakeIDQueryParam = (earthquakeID, url = new URL(window.location.href)) => {
   url.searchParams.set(URL_QUERY_PARAMS.EARTHQUAKE_ID, earthquakeID)
+  return url
+}
+export const deleteEarthquakeIDQueryParam = (url = new URL(window.location.href)) => {
+  url.searchParams.delete(URL_QUERY_PARAMS.EARTHQUAKE_ID)
   return url
 }

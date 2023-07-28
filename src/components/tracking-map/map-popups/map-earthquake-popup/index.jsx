@@ -25,7 +25,7 @@ const MapEarthquakePopup = props => {
 
     url = setLatLongQueryParam(earthquake.coordinates, url)
     url = setPastEarthquakeDatesQueryParam(url, { startDate, endDate })
-    url = setEarthquakeIDQueryParam(url, earthquake.earthquake_id)
+    url = setEarthquakeIDQueryParam(earthquake.earthquake_id, url)
 
     return encodeURIComponent(url.href)
   }

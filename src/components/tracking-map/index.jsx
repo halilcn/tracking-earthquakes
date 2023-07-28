@@ -16,7 +16,13 @@ import {
   wrapperForSourceData,
 } from '../../utils'
 import { getMapType } from '../../utils/localStorageActions'
-import { getEarthquakeIDQueryParam, getLatLongQueryParam, setLatLongQueryParam } from '../../utils/queryParamsActions'
+import {
+  deleteEarthquakeIDQueryParam,
+  getEarthquakeIDQueryParam,
+  getLatLongQueryParam,
+  setEarthquakeIDQueryParam,
+  setLatLongQueryParam,
+} from '../../utils/queryParamsActions'
 import ActionList from './action-list'
 import FilterList from './filter-list'
 import './index.scss'
@@ -76,9 +82,12 @@ const TrackingMap = () => {
     }
     const earthquakePopupContainer = document.createElement('div')
     ReactDOM.render(<MapEarthquakePopup earthquake={newEarthquake} />, earthquakePopupContainer)
-
     new mapboxgl.Popup().setLngLat(newEarthquake.coordinates).setDOMContent(earthquakePopupContainer).addTo(map.current)
+
     handleEarthquakeDistance(newEarthquake)
+
+    const url = setEarthquakeIDQueryParam(newEarthquake.earthquake_id)
+    changeURL(url)
   }
 
   const initialMapbox = useCallback(() => {
@@ -105,10 +114,6 @@ const TrackingMap = () => {
       new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(getPopupForCustomPoint(e.features[0].properties)).addTo(map.current)
     })
 
-    map.current.on('click', e => {
-      if (e.defaultPrevented === false) clearEarthquakeDistance()
-    })
-
     map.current.on('click', SOURCE.LAYER_FAULT_LINE, e => {
       e.preventDefault()
       const { id, properties } = e.features[0]
@@ -119,9 +124,17 @@ const TrackingMap = () => {
     })
 
     map.current.on('click', e => {
-      if (e.defaultPrevented === false && selectedFaultLineIndex.current) {
-        map.current.setFeatureState({ source: SOURCE.DATA_FAULT_LINE, id: selectedFaultLineIndex.current }, { selected: false })
-        selectedFaultLineIndex.current = null
+      if (e.defaultPrevented === false) {
+        // TODO:
+        clearEarthquakeDistance()
+
+        const url = deleteEarthquakeIDQueryParam()
+        changeURL(url)
+
+        if (selectedFaultLineIndex.current) {
+          map.current.setFeatureState({ source: SOURCE.DATA_FAULT_LINE, id: selectedFaultLineIndex.current }, { selected: false })
+          selectedFaultLineIndex.current = null
+        }
       }
     })
 
