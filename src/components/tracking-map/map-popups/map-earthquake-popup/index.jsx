@@ -5,7 +5,7 @@ import { AiFillTwitterCircle, AiOutlineWhatsApp } from 'react-icons/ai'
 import { APP_URL, DEFAULT_API_DATE_FORMAT } from '../../../../constants'
 import constantsTestid from '../../../../constants/testid'
 import dayjs from '../../../../utils/dayjs'
-import { URL_QUERY_PARAMS } from '../../../../utils/queryParamsActions'
+import { setEarthquakeIDQueryParam, setLatLongQueryParam, setPastEarthquakeDatesQueryParam } from '../../../../utils/queryParamsActions'
 import './index.scss'
 
 const CONTENT_TYPE = {
@@ -19,13 +19,13 @@ const MapEarthquakePopup = props => {
   const { t } = useTranslation()
 
   const getEarthquakeURL = () => {
-    const url = new URL(APP_URL)
+    let url = new URL(APP_URL)
     const startDate = dayjs(earthquake.date).add(-2, 'day').format(DEFAULT_API_DATE_FORMAT)
     const endDate = dayjs(earthquake.date).add(1, 'day').format(DEFAULT_API_DATE_FORMAT)
 
-    url.searchParams.append(URL_QUERY_PARAMS.LAT_LONG, earthquake.coordinates)
-    url.searchParams.append(URL_QUERY_PARAMS.PAST_EARTHQUAKE_DATES, `${startDate}/${endDate}`)
-    url.searchParams.append(URL_QUERY_PARAMS.EARTHQUAKE_ID, earthquake.earthquake_id)
+    url = setLatLongQueryParam(url, earthquake.coordinates)
+    url = setPastEarthquakeDatesQueryParam(url, { startDate, endDate })
+    url = setEarthquakeIDQueryParam(url, earthquake.earthquake_id)
 
     return encodeURIComponent(url.href)
   }

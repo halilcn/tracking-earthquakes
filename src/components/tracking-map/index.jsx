@@ -53,6 +53,7 @@ const TrackingMap = () => {
   const clearEarthquakeDistance = () => dispatch(earthquakeActions.setEarthquakeAffectedDistance({}))
 
   const getCenterOfMap = () => {
+    console.log('getLatLongQueryParam()', getLatLongQueryParam());
     if (getLatLongQueryParam()) return getLatLongQueryParam()
     if (lastLocation?.center) return lastLocation.center
 

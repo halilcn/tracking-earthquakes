@@ -13,7 +13,20 @@ export const getLatLongQueryParam = () => {
     return null
   }
 }
+export const setLatLongQueryParam = (url, coordinates) => {
+  url.searchParams.set(URL_QUERY_PARAMS.LAT_LONG, JSON.stringify(coordinates))
+  return url
+}
 
 export const getPastEarthquakeDatesQueryParam = () => urlParams.get(URL_QUERY_PARAMS.PAST_EARTHQUAKE_DATES)
+export const setPastEarthquakeDatesQueryParam = (url, dates) => {
+  const { startDate, endDate } = dates
+  url.searchParams.set(URL_QUERY_PARAMS.PAST_EARTHQUAKE_DATES, `${startDate}/${endDate}`)
+  return url
+}
 
 export const getEarthquakeIDQueryParam = () => urlParams.get(URL_QUERY_PARAMS.EARTHQUAKE_ID)
+export const setEarthquakeIDQueryParam = (url, earthquakeID) => {
+  url.searchParams.set(URL_QUERY_PARAMS.EARTHQUAKE_ID, earthquakeID)
+  return url
+}
