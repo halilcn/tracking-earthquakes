@@ -19,9 +19,13 @@ export const setLatLongQueryParam = (coordinates, url = new URL(window.location.
 }
 
 export const getPastEarthquakeDatesQueryParam = () => urlParams.get(URL_QUERY_PARAMS.PAST_EARTHQUAKE_DATES)
-export const setPastEarthquakeDatesQueryParam = (url, dates) => {
+export const setPastEarthquakeDatesQueryParam = (dates, url = new URL(window.location.href)) => {
   const { startDate, endDate } = dates
   url.searchParams.set(URL_QUERY_PARAMS.PAST_EARTHQUAKE_DATES, `${startDate}/${endDate}`)
+  return url
+}
+export const deletePastEarthquakeDatesQueryParam = (url = new URL(window.location.href)) => {
+  url.searchParams.delete(URL_QUERY_PARAMS.PAST_EARTHQUAKE_DATES)
   return url
 }
 

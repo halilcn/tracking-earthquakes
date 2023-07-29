@@ -24,7 +24,7 @@ const MapEarthquakePopup = props => {
     const endDate = dayjs(earthquake.date).add(1, 'day').format(DEFAULT_API_DATE_FORMAT)
 
     url = setLatLongQueryParam(earthquake.coordinates, url)
-    url = setPastEarthquakeDatesQueryParam(url, { startDate, endDate })
+    url = setPastEarthquakeDatesQueryParam({ startDate, endDate }, url)
     url = setEarthquakeIDQueryParam(earthquake.earthquake_id, url)
 
     return encodeURIComponent(url.href)

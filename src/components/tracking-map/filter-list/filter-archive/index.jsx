@@ -11,13 +11,24 @@ import { ARCHIVE_CERTAIN_TIMES } from '../../../../constants'
 import constantsTestid from '../../../../constants/testid'
 import { handleEarthquakesKandilli, handleEarthquakesUsgs } from '../../../../service/earthquakes'
 import { defaultEarthquakeArchiveDateState, earthquakeActions, isSelectedAnyArchiveItem } from '../../../../store/earthquake'
-import { convertDateFormatForAPI } from '../../../../utils'
+import { changeURL, convertDateFormatForAPI } from '../../../../utils'
+import { deletePastEarthquakeDatesQueryParam, setPastEarthquakeDatesQueryParam } from '../../../../utils/queryParamsActions'
 import dayjs from './../../../../utils/dayjs'
 import './index.scss'
 
 const ARCHIVE_DATE_FIELDS = {
   START_DATE: 'startDate',
   END_DATE: 'endDate',
+}
+
+const handleSetArchiveDataParam = dates => {
+  const url = setPastEarthquakeDatesQueryParam(dates)
+  changeURL(url)
+}
+
+const handleDeleteArchiveDataParam = () => {
+  const url = deletePastEarthquakeDatesQueryParam()
+  changeURL(url)
 }
 
 const FilterArchive = () => {
@@ -40,6 +51,7 @@ const FilterArchive = () => {
 
     handleUpdateArchiveDate({ certainDate })
     await handleGetArchiveEarthquakes(params)
+    handleSetArchiveDataParam(params)
   }
 
   const handleArchiveEarthquakesKandilli = async params => {
@@ -70,7 +82,15 @@ const FilterArchive = () => {
     const payload = { [otherDateType]: archiveDate[otherDateType], [type]: convertedDate }
 
     handleUpdateArchiveDate(payload)
-    if (payload[ARCHIVE_DATE_FIELDS.START_DATE] && payload[ARCHIVE_DATE_FIELDS.END_DATE]) await handleGetArchiveEarthquakes(payload)
+    if (payload[ARCHIVE_DATE_FIELDS.START_DATE] && payload[ARCHIVE_DATE_FIELDS.END_DATE]) {
+      await handleGetArchiveEarthquakes(payload)
+      handleSetArchiveDataParam()
+    }
+  }
+
+  const handleClearButton = () => {
+    handleUpdateArchiveDate()
+    handleDeleteArchiveDataParam()
   }
 
   return (
@@ -115,7 +135,7 @@ const FilterArchive = () => {
         </LocalizationProvider>
       </div>
       {selectedFilterItem && (
-        <div data-testid={testid.clearButton} onClick={handleUpdateArchiveDate} className="filter-archive__clear-filters">
+        <div data-testid={testid.clearButton} onClick={handleClearButton} className="filter-archive__clear-filters">
           <Button className="filter-archive__clear-button" variant="contained" color="error">
             {t('REMOVE')}
           </Button>
