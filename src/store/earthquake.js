@@ -150,8 +150,6 @@ export const isSelectedAnyFilterPanelItem = state => {
   const magnitude = earthquakeFilter.magnitude !== DEFAULT_MAGNITUDE_FILTER_VALUE
   const depth = earthquakeFilter.depth !== DEFAULT_DEPTH_FILTER
   const sources = earthquakeFilter.sources.filter(source => DEFAULT_SOURCE_FILTER.includes(source)).length !== DEFAULT_SOURCE_FILTER.length
-  console.log('earthquakeFilter.magnitude', typeof earthquakeFilter.time);
-  console.log('DEFAULT_MAGNITUDE_FILTER_VALUE', typeof DEFAULT_TIME_FILTER_VALUE);
 
   return (time && isLiveEarthquake) || magnitude || depth || sources
 }
