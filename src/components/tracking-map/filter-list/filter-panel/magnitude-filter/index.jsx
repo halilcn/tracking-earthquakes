@@ -22,7 +22,7 @@ const MagnitudeFilter = () => {
   }
 
   const handleChange = event => {
-    const value = event.target.value
+    const value = Number(event.target.value)
     dispatch(earthquakeActions.setEarthquakeFilter({ magnitude: value }))
     handleSetMagnitudeParam(value)
   }
