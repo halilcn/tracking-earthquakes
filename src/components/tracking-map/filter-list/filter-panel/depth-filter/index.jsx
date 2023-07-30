@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { FILTER_DEPTHS } from '../../../../../constants'
 import constantsTestid from '../../../../../constants/testid'
 import { earthquakeActions } from '../../../../../store/earthquake'
+import { changeURL } from '../../../../../utils'
+import { URL_QUERY_PARAMS, updateEarthquakeQueryParams } from '../../../../../utils/queryParamsActions'
 import './index.css'
 
 const DepthFilter = () => {
@@ -14,8 +16,15 @@ const DepthFilter = () => {
   const dispatch = useDispatch()
   const depth = useSelector(state => state.earthquake.earthquakeFilter.depth)
 
+  const handleSetDepthParam = value => {
+    const url = updateEarthquakeQueryParams({ key: URL_QUERY_PARAMS.DEPTH, value })
+    changeURL(url)
+  }
+
   const handleChange = e => {
-    dispatch(earthquakeActions.setEarthquakeFilter({ depth: Number(e.target.value) }))
+    const value = Number(e.target.value)
+    dispatch(earthquakeActions.setEarthquakeFilter({ depth: value }))
+    handleSetDepthParam(value)
   }
 
   return (

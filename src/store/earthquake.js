@@ -10,9 +10,15 @@ import {
 } from '../constants'
 import dayjs from '../utils/dayjs'
 import { getFaultLineActive, getNewEarthquakeSoundNotification } from '../utils/localStorageActions'
-import { getPastEarthquakeDatesQueryParam } from '../utils/queryParamsActions'
+import { getEarthquakeFiltersQueryParam, getPastEarthquakeDatesQueryParam } from '../utils/queryParamsActions'
 
 export const defaultEarthquakeArchiveDateState = { certainDate: null, startDate: null, endDate: null }
+export const defaultEarthquakeFilterState = {
+  time: DEFAULT_TIME_FILTER_VALUE,
+  magnitude: DEFAULT_MAGNITUDE_FILTER_VALUE,
+  depth: DEFAULT_DEPTH_FILTER,
+  sources: DEFAULT_SOURCE_FILTER,
+}
 
 const getArchiveDateState = () => {
   const queryPastEarthquakeDates = getPastEarthquakeDatesQueryParam()
@@ -28,16 +34,27 @@ const getArchiveDateState = () => {
     return defaultEarthquakeArchiveDateState
   }
 }
+const getEarthquakeFilterState = () => {
+  const validatedEarthquakeFilterKeys = Object.keys(defaultEarthquakeFilterState)
+  const filters = getEarthquakeFiltersQueryParam() || {}
+  const validatedFilters = Object.keys(filters).reduce((acc, key) => {
+    if (validatedEarthquakeFilterKeys.includes(key)) {
+      return { ...acc, [key]: filters[key] }
+    }
+
+    return acc
+  }, {})
+
+  return {
+    ...defaultEarthquakeFilterState,
+    ...validatedFilters,
+  }
+}
 
 export const initialState = {
   earthquakes: [],
   earthquakeAffectedDistance: {},
-  earthquakeFilter: {
-    time: DEFAULT_TIME_FILTER_VALUE,
-    magnitude: DEFAULT_MAGNITUDE_FILTER_VALUE,
-    depth: DEFAULT_DEPTH_FILTER,
-    sources: DEFAULT_SOURCE_FILTER,
-  },
+  earthquakeFilter: getEarthquakeFilterState(),
   earthquakeNotification: {
     newEarthquakeSound: getNewEarthquakeSoundNotification() === 'true',
   },
@@ -46,9 +63,7 @@ export const initialState = {
   isActiveCustomPointSelection: false,
   customPointCoordinates: null,
   isLoadingData: false,
-  archiveDate: {
-    ...getArchiveDateState(),
-  },
+  archiveDate: getArchiveDateState(),
   faultLineActive: !(getFaultLineActive() === 'false'),
   animation: {
     filters: {
@@ -102,15 +117,6 @@ export const earthquake = createSlice({
     },
     updateArchiveDate: (state, actions) => {
       state.archiveDate = { ...state.archiveDate, ...actions.payload }
-    },
-    clearFilterPanelItems: (state, _) => {
-      state.earthquakeFilter = {
-        ...state.earthquakeFilter,
-        time: DEFAULT_TIME_FILTER_VALUE,
-        magnitude: DEFAULT_MAGNITUDE_FILTER_VALUE,
-        depth: DEFAULT_DEPTH_FILTER,
-        sources: DEFAULT_SOURCE_FILTER,
-      }
     },
     setFaultLineActive: (state, actions) => {
       state.faultLineActive = actions.payload

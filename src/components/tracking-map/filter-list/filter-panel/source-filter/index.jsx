@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { SOURCES } from '../../../../../constants'
 import constantsTestid from '../../../../../constants/testid'
 import { earthquakeActions } from '../../../../../store/earthquake'
+import { changeURL } from '../../../../../utils'
+import { URL_QUERY_PARAMS, updateEarthquakeQueryParams } from '../../../../../utils/queryParamsActions'
 import './index.scss'
 
 const SourceFilter = () => {
@@ -14,7 +16,16 @@ const SourceFilter = () => {
   const { t } = useTranslation()
   const earthquakeSources = useSelector(state => state.earthquake.earthquakeFilter.sources)
 
-  const handleChange = event => dispatch(earthquakeActions.setEarthquakeFilter({ sources: event.target.value }))
+  const handleSetSourcesParam = value => {
+    const url = updateEarthquakeQueryParams({ key: URL_QUERY_PARAMS.SOURCES, value })
+    changeURL(url)
+  }
+
+  const handleChange = event => {
+    const value = event.target.value
+    dispatch(earthquakeActions.setEarthquakeFilter({ sources: value }))
+    handleSetSourcesParam(value)
+  }
 
   return (
     <div data-testid={testid.sourceContainer} className="source-filter">

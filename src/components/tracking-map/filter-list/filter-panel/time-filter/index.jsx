@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { FILTER_TIME } from '../../../../../constants'
 import constantsTestid from '../../../../../constants/testid'
 import { earthquakeActions } from '../../../../../store/earthquake'
+import { changeURL } from '../../../../../utils'
+import { URL_QUERY_PARAMS, updateEarthquakeQueryParams } from '../../../../../utils/queryParamsActions'
 import './index.scss'
 
 const TimeFilter = () => {
@@ -14,8 +16,15 @@ const TimeFilter = () => {
   const dispatch = useDispatch()
   const time = useSelector(state => state.earthquake.earthquakeFilter.time)
 
+  const handleSetTimeParam = value => {
+    const url = updateEarthquakeQueryParams({ key: URL_QUERY_PARAMS.TIME, value })
+    changeURL(url)
+  }
+
   const handleChange = event => {
-    dispatch(earthquakeActions.setEarthquakeFilter({ time: event.target.value }))
+    const value = event.target.value
+    dispatch(earthquakeActions.setEarthquakeFilter({ time: value }))
+    handleSetTimeParam(value)
   }
   return (
     <div data-testid={testid.timeContainer} className="time-filter">

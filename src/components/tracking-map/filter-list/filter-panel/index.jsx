@@ -4,7 +4,14 @@ import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 
 import constantsTestid from '../../../../constants/testid'
-import { earthquakeActions, isSelectedAnyArchiveItem, isSelectedAnyFilterPanelItem } from '../../../../store/earthquake'
+import {
+  defaultEarthquakeFilterState,
+  earthquakeActions,
+  isSelectedAnyArchiveItem,
+  isSelectedAnyFilterPanelItem,
+} from '../../../../store/earthquake'
+import { changeURL } from '../../../../utils'
+import { deleteEarthquakeFiltersQueryParam } from '../../../../utils/queryParamsActions'
 import DepthFilter from './depth-filter'
 import './index.scss'
 import MagnitudeFilter from './magnitude-filter'
@@ -22,7 +29,15 @@ const FilterPanel = () => {
 
   const isActiveTimeFilter = !selectedArchive && !isAnimationActive
 
-  const clearFilter = () => dispatch(earthquakeActions.clearFilterPanelItems())
+  const handleDeleteEarthquakeFilterParam = () => {
+    const url = deleteEarthquakeFiltersQueryParam()
+    changeURL(url)
+  }
+
+  const clearFilter = () => {
+    dispatch(earthquakeActions.setEarthquakeFilter(defaultEarthquakeFilterState))
+    handleDeleteEarthquakeFilterParam()
+  }
 
   return (
     <>

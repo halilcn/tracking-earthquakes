@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { FILTER_MAGNITUDE } from '../../../../../constants'
 import constantsTestid from '../../../../../constants/testid'
 import { earthquakeActions } from '../../../../../store/earthquake'
+import { changeURL } from '../../../../../utils'
+import { URL_QUERY_PARAMS, updateEarthquakeQueryParams } from '../../../../../utils/queryParamsActions'
 import './index.scss'
 
 const MagnitudeFilter = () => {
@@ -14,8 +16,15 @@ const MagnitudeFilter = () => {
   const dispatch = useDispatch()
   const magnitude = useSelector(state => state.earthquake.earthquakeFilter.magnitude)
 
+  const handleSetMagnitudeParam = value => {
+    const url = updateEarthquakeQueryParams({ key: URL_QUERY_PARAMS.MAGNITUDE, value })
+    changeURL(url)
+  }
+
   const handleChange = event => {
-    dispatch(earthquakeActions.setEarthquakeFilter({ magnitude: event.target.value }))
+    const value = event.target.value
+    dispatch(earthquakeActions.setEarthquakeFilter({ magnitude: value }))
+    handleSetMagnitudeParam(value)
   }
 
   return (
