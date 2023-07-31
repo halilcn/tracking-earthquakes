@@ -61,9 +61,9 @@ const EarthquakeList = ({ handleActionListDisable }) => {
       <div className="earthquake-list__filter-text">
         <TextField {...textFieldProps} />
       </div>
-      <div data-testid={testid.list} className="earthquake-list__list-container">
+      <div className="earthquake-list__list-container">
         {earthquakes.length > 0 ? (
-          <Box {...boxProps}>
+          <Box data-testid={testid.list} {...boxProps}>
             <FixedSizeList {...fixedSizeListProps}>
               {({ index, style }) => (
                 <EarthquakeItem
