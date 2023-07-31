@@ -61,8 +61,8 @@ const EarthquakeList = ({ handleActionListDisable }) => {
       <div className="earthquake-list__filter-text">
         <TextField {...textFieldProps} />
       </div>
-      {earthquakes.length > 0 ? (
-        <div data-testid={testid.list} className="earthquake-list__list-container">
+      <div data-testid={testid.list} className="earthquake-list__list-container">
+        {earthquakes.length > 0 ? (
           <Box {...boxProps}>
             <FixedSizeList {...fixedSizeListProps}>
               {({ index, style }) => (
@@ -75,12 +75,12 @@ const EarthquakeList = ({ handleActionListDisable }) => {
               )}
             </FixedSizeList>
           </Box>
-        </div>
-      ) : (
-        <div data-testid={testid.noEarthquakeWarn} className="earthquake-list__no-earthquake-warning">
-          {t("There aren't any earthquakes")}
-        </div>
-      )}
+        ) : (
+          <div data-testid={testid.noEarthquakeWarn} className="earthquake-list__no-earthquake-warning">
+            {t("There aren't any earthquakes")}
+          </div>
+        )}
+      </div>
     </div>
   )
 }
