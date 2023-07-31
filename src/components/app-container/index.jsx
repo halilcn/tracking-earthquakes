@@ -88,6 +88,8 @@ const AppContainer = () => {
   }
 
   const removeEarthquakesInterval = () => {
+    if (!earthquakeIntervalRef.current) return
+
     clearInterval(earthquakeIntervalRef.current)
     earthquakeIntervalRef.current = null
   }
@@ -132,12 +134,8 @@ const AppContainer = () => {
   }, [])
 
   useEffectIgnoreFirstRender(() => {
-    return startFreshEarthquakesProcess(selectedArchiveItem)
-  }, [selectedArchiveItem])
-
-  useEffectIgnoreFirstRender(() => {
-    return startFreshEarthquakesProcess(animationCurrentDate)
-  }, [animationCurrentDate])
+    return startFreshEarthquakesProcess(!!selectedArchiveItem || !!animationCurrentDate)
+  }, [selectedArchiveItem, animationCurrentDate])
 
   return (
     <div data-testid={testid.appContainer} className="app-container">
