@@ -31,6 +31,7 @@ const FilterItems = () => {
             value={dayjs(animation.filters.startDate)}
             onChange={value => handleChangeAnimationFilters('startDate', value.startOf('day').format())}
             maxDate={dayjs(animation.filters.endDate).add(-1, 'day')}
+            disabled={animation.isActive}
           />
           <div className="animation-filters__hyphen">-</div>
           <MobileDatePicker
@@ -42,6 +43,7 @@ const FilterItems = () => {
             }
             maxDate={dayjs()}
             minDate={dayjs(animation.filters.startDate).add(1, 'day')}
+            disabled={animation.isActive}
           />
         </LocalizationProvider>
       </div>

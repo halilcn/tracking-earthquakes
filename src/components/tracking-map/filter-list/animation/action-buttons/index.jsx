@@ -1,5 +1,5 @@
 import { Button } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -141,6 +141,13 @@ const ActionButtons = () => {
         return <div />
     }
   }
+
+  useEffect(() => {
+    if (animation.isActive && animation.loopInterval) {
+      handleStopAnimation()
+      handleContinue()
+    }
+  }, [animation.filters.range])
 
   return (
     <div data-testid={testid.container} className="animation-actions">
