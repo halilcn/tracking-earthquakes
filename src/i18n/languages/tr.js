@@ -56,5 +56,6 @@ export default {
     'past earthquakes': 'geçmiş depremler',
     filters: 'filtreler',
     settings: 'ayarlar',
+    'Population Density': 'Popülasyon Yoğunluğu',
   },
 }

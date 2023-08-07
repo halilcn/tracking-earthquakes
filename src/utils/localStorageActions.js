@@ -4,6 +4,7 @@ export const LOCAL_STORAGE_KEYS = {
   LEFT_PANEL_TYPE: 'LEFT_PANEL_TYPE',
   LANGUAGE: 'LANGUAGE',
   FAULT_LINE: 'FAULT_LINE',
+  POPULATION_DENSITY: 'POPULATION_DENSITY',
   NEW_EARTHQUAKE_SOUND_NOTIFICATION: 'NEW_EARTHQUAKE_SOUND_NOTIFICATION',
 }
 
@@ -21,6 +22,9 @@ export const getLanguage = () => localStorage.getItem(LOCAL_STORAGE_KEYS.LANGUAG
 
 export const setFaultLineActive = status => localStorage.setItem(LOCAL_STORAGE_KEYS.FAULT_LINE, status)
 export const getFaultLineActive = () => localStorage.getItem(LOCAL_STORAGE_KEYS.FAULT_LINE)
+
+export const setPopulationDensityActive = status => localStorage.setItem(LOCAL_STORAGE_KEYS.POPULATION_DENSITY, status)
+export const getPopulationDensityActive = () => localStorage.getItem(LOCAL_STORAGE_KEYS.POPULATION_DENSITY)
 
 export const setNewEarthquakeSoundNotification = status =>
   localStorage.setItem(LOCAL_STORAGE_KEYS.NEW_EARTHQUAKE_SOUND_NOTIFICATION, status)

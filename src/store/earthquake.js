@@ -9,7 +9,7 @@ import {
   DEFAULT_TIME_FILTER_VALUE,
 } from '../constants'
 import dayjs from '../utils/dayjs'
-import { getFaultLineActive, getNewEarthquakeSoundNotification } from '../utils/localStorageActions'
+import { getFaultLineActive, getNewEarthquakeSoundNotification, getPopulationDensityActive } from '../utils/localStorageActions'
 import { getEarthquakeFiltersQueryParam, getPastEarthquakeDatesQueryParam } from '../utils/queryParamsActions'
 
 export const defaultEarthquakeArchiveDateState = { certainDate: null, startDate: null, endDate: null }
@@ -65,6 +65,7 @@ export const initialState = {
   isLoadingData: false,
   archiveDate: getArchiveDateState(),
   faultLineActive: !(getFaultLineActive() === 'false'),
+  populationDensityActive: getPopulationDensityActive() === 'true',
   animation: {
     filters: {
       startDate: dayjs().add(-5, 'days').startOf('day').format(),
@@ -135,6 +136,9 @@ export const earthquake = createSlice({
     },
     setAnimationLoopInterval: (state, actions) => {
       state.animation.loopInterval = actions.payload
+    },
+    setPopulationDensityActive: (state, actions) => {
+      state.populationDensityActive = actions.payload
     },
   },
 })

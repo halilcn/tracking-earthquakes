@@ -8,6 +8,7 @@ import FullScreen from './full-screen'
 import './index.scss'
 import MapType from './map-type'
 import NewEarthquakeSoundNotification from './new-earthquake-sound-notification'
+import PopulationDensity from './population-density'
 
 const Settings = () => {
   const testid = constantsTestid.settings
@@ -22,6 +23,9 @@ const Settings = () => {
       </div>
       <div className="settings__item">
         <FaultLine />
+      </div>
+      <div className="settings__item">
+        <PopulationDensity />
       </div>
       <div className="settings__item">
         <NewEarthquakeSoundNotification />

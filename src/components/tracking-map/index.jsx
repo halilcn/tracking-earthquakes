@@ -47,10 +47,13 @@ const SOURCE = {
 const TrackingMap = () => {
   const testid = constantsTestid.trackingMap
   const dispatch = useDispatch()
-  const { isActiveCustomPointSelection, customPoints, earthquakeAffectedDistance, faultLineActive } = useSelector(state => {
-    const { isActiveCustomPointSelection, customPoints, earthquakeAffectedDistance, faultLineActive } = state.earthquake
-    return { isActiveCustomPointSelection, customPoints, earthquakeAffectedDistance, faultLineActive }
-  })
+  const { isActiveCustomPointSelection, customPoints, earthquakeAffectedDistance, faultLineActive, populationDensityActive } = useSelector(
+    state => {
+      const { isActiveCustomPointSelection, customPoints, earthquakeAffectedDistance, faultLineActive, populationDensityActive } =
+        state.earthquake
+      return { isActiveCustomPointSelection, customPoints, earthquakeAffectedDistance, faultLineActive, populationDensityActive }
+    }
+  )
 
   const mapType = MAP_TYPE[getMapType()] || MAP_TYPE.DARK
   const queryLatLong = getLatLongQueryParam()
@@ -162,7 +165,10 @@ const TrackingMap = () => {
       type: 'geojson',
       data: faultLineActive ? faultLines : { type: 'FeatureCollection', features: [] },
     })
-    map.current.addSource(SOURCE.DATA_POPULATION_DENSITY, { type: 'geojson', data: wrapperForSourceData(populationPoints) })
+    map.current.addSource(SOURCE.DATA_POPULATION_DENSITY, {
+      type: 'geojson',
+      data: wrapperForSourceData(populationDensityActive ? populationPoints : []),
+    })
 
     map.current.addLayer({
       id: SOURCE.LAYER_DATA_CIRCLE,
@@ -357,6 +363,11 @@ const TrackingMap = () => {
     const currentData = faultLineActive ? faultLines : { type: 'FeatureCollection', features: [] }
     map.current.getSource(SOURCE.DATA_FAULT_LINE)?.setData(currentData)
   }, [faultLineActive])
+
+  useEffect(() => {
+    const currentData = wrapperForSourceData(populationDensityActive ? populationPoints : [])
+    map.current.getSource(SOURCE.DATA_POPULATION_DENSITY)?.setData(currentData)
+  }, [populationDensityActive])
 
   const memoizedComponents = useMemo(() => {
     return (

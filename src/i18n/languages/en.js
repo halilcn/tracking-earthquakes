@@ -57,5 +57,6 @@ export default {
     'past earthquakes': 'past earthquakes',
     filters: 'filters',
     settings: 'settings',
+    'Population Density': 'Population Density',
   },
 }
