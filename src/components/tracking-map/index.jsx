@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
 import faultLines from '../../assets/static-data/fault-lines.json'
+import populationPoints from '../../assets/static-data/population-points.json'
 import { MAPBOX_API_KEY, MAP_DEFAULT_COORDINATES, MAP_DEFAULT_ZOOM, MAP_TYPE } from '../../constants'
 import constantsTestid from '../../constants/testid'
 import getEarthquakes from '../../hooks/getEarthquakes'
-import earthquake, { earthquakeActions } from '../../store/earthquake'
+import { earthquakeActions } from '../../store/earthquake'
 import {
   changeURL,
   debounce,
@@ -34,11 +35,13 @@ const SOURCE = {
   DATA_CUSTOM_POINTS: 'data-earthquakes-custom-points',
   DATA_AFFECTED_DISTANCE: 'data-earthquakes-affected-distance',
   DATA_FAULT_LINE: 'data-fault-line',
+  DATA_POPULATION_DENSITY: 'data-population-density',
   LAYER_CUSTOM_POINTS: 'layer-earthquakes-custom-points',
   LAYER_DATA_CIRCLE: 'data-earthquakes-circle-layer',
   LAYER_DATA_PULSING: 'layer-earthquakes-pulsing',
   LAYER_DATA_AFFECTED_DISTANCE: 'layer-earthquakes-affected-distance',
   LAYER_FAULT_LINE: 'layer-fault-line',
+  LAYER_POPULATION_DENSITY: 'layer-population-density',
 }
 
 const TrackingMap = () => {
@@ -159,6 +162,7 @@ const TrackingMap = () => {
       type: 'geojson',
       data: faultLineActive ? faultLines : { type: 'FeatureCollection', features: [] },
     })
+    map.current.addSource(SOURCE.DATA_POPULATION_DENSITY, { type: 'geojson', data: wrapperForSourceData(populationPoints) })
 
     map.current.addLayer({
       id: SOURCE.LAYER_DATA_CIRCLE,
@@ -215,6 +219,36 @@ const TrackingMap = () => {
         'line-color': ['case', ['boolean', ['feature-state', 'selected'], false], '#4d4dff', '#e62e00'],
         'line-width': ['case', ['boolean', ['feature-state', 'selected'], false], 10, 7],
         'line-opacity': 0.7,
+      },
+    })
+
+    // TODO: it will be adjusted
+    map.current.addLayer({
+      id: 'trees-heat',
+      type: 'heatmap',
+      source: SOURCE.DATA_POPULATION_DENSITY,
+      paint: {
+        'heatmap-weight': 1,
+        'heatmap-intensity': 0.8,
+        'heatmap-color': [
+          'interpolate',
+          ['linear'],
+          ['heatmap-density'],
+          0,
+          'rgba(236,222,239,0)',
+          0.2,
+          'rgb(208,209,230)',
+          0.4,
+          'rgb(166,189,219)',
+          0.6,
+          'rgb(103,169,207)',
+          0.8,
+          'rgb(28,144,153)',
+        ],
+        // increase radius as zoom increases
+        'heatmap-radius': 15,
+        // decrease opacity to transition into the circle layer
+        'heatmap-opacity': 0.6,
       },
     })
   }
