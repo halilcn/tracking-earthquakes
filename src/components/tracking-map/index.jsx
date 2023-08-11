@@ -228,14 +228,13 @@ const TrackingMap = () => {
       },
     })
 
-    // TODO: it will be adjusted
     map.current.addLayer({
       id: 'trees-heat',
       type: 'heatmap',
       source: SOURCE.DATA_POPULATION_DENSITY,
       paint: {
         'heatmap-weight': 1,
-        'heatmap-intensity': 0.8,
+        'heatmap-intensity': 0.9,
         'heatmap-color': [
           'interpolate',
           ['linear'],
@@ -251,10 +250,8 @@ const TrackingMap = () => {
           0.8,
           'rgb(28,144,153)',
         ],
-        // increase radius as zoom increases
-        'heatmap-radius': 15,
-        // decrease opacity to transition into the circle layer
-        'heatmap-opacity': 0.6,
+        'heatmap-radius': 20,
+        'heatmap-opacity': 0.3,
       },
     })
   }
