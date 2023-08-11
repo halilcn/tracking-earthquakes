@@ -1,10 +1,20 @@
 .info-popup {
     &__item {
-        margin: 10px 0;
+        margin: 20px 0;
     }
 
     &__label {
-        margin-bottom: 8px;
+        margin-bottom: 10px;
+    }
+
+    &__description{
+        font-size: 11px;
+        font-weight: 400;
+        color: rgb(116, 116, 116);
+        margin-top: 3px;
+    }
+
+    &__title {
         font-size: 14px;
     }
 
@@ -41,5 +51,14 @@
         width: 50%;
         height: 4px;
         background-color: #e62e00;
+    }
+
+    &__population-density {
+        img {
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+            margin-right: 7px;
+        }
     }
 }

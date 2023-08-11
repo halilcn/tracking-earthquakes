@@ -58,5 +58,9 @@ export default {
     filters: 'filters',
     settings: 'settings',
     'Population Density': 'Population Density',
+    'Each level of earthquake magnitude has a different color': 'Each level of earthquake magnitude has a different color',
+    'Flashing animation': 'Flashing animation',
+    'Red line': 'Red line',
+    'Different colors according to density': 'Different colors according to density',
   },
 }

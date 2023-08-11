@@ -57,5 +57,9 @@ export default {
     filters: 'filtreler',
     settings: 'ayarlar',
     'Population Density': 'Popülasyon Yoğunluğu',
+    'Each level of earthquake magnitude has different color': 'Her deprem büyüklüğü seviyesi farklı renge sahiptir',
+    'Flashing animation': 'Yanıp sönen animasyon',
+    'Red line': 'Kırmzıı çizgi',
+    'Different colors according to density': 'Yoğunluğa göre farklı renkler',
   },
 }
