@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { AiFillTwitterCircle, AiOutlineWhatsApp } from 'react-icons/ai'
 
-import { APP_URL, DEFAULT_API_DATE_FORMAT } from '../../../../constants'
+import { APP_URL, DEFAULT_API_DATE_FORMAT, SOURCE_COLOR } from '../../../../constants'
 import constantsTestid from '../../../../constants/testid'
 import dayjs from '../../../../utils/dayjs'
 import { setEarthquakeIDQueryParam, setLatLongQueryParam, setPastEarthquakeDatesQueryParam } from '../../../../utils/queryParamsActions'
@@ -49,10 +49,15 @@ const MapEarthquakePopup = props => {
         <span className="earthquake-popup__mag-number">{earthquake.mag}</span>
         <span className="earthquake-popup__mag-text">{t('Magnitude').toUpperCase()}</span>
       </div>
+      <div className="earthquake-popup__tags">
+        <div className="earthquake-popup__tag-item earthquake-popup__tag-item--source">
+          <div style={{ backgroundColor: SOURCE_COLOR[earthquake.source] }} className="earthquake-popup__tag-item-bg" />
+          <div className="earthquake-popup__tag-item-text">{earthquake.source}</div>
+        </div>
+      </div>
       <div className="earthquake-popup__info">
         <div>&#x2022; {dayjs(earthquake.date).format('HH:mm dddd (UTCZ)')}</div>
         <div>&#x2022; {t('{kmCount} km deep').replace('{kmCount}', earthquake.depth)}</div>
-        <div>&#x2022; {t('from {sourceInfo}').replace('{sourceInfo}', earthquake.source)}</div>
         <div>&#x2022; {earthquake.title.toLowerCase()}</div>
       </div>
       <div className="earthquake-popup__line" />

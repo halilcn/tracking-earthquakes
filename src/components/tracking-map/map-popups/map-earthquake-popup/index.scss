@@ -21,6 +21,7 @@
     &__info {
         color: rgb(56, 56, 56);
         font-weight: 300;
+        margin-top: 10px;
     }
 
     &__line {
@@ -50,5 +51,31 @@
         cursor: pointer;
         margin: 0 3px;
         color: black;
+    }
+
+    &__tags {
+        display: flex;
+    }
+
+    &__tag-item {
+        padding: 3px 5px;
+        border-radius: 5px;
+        font-size: 10px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    &__tag-item-bg {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        opacity: .3;
+    }
+
+    &__tag-item-text {
+        position: relative;
+        color: rgb(51, 51, 51);
     }
 }
