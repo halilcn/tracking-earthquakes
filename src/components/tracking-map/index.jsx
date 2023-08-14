@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import faultLines from '../../assets/static-data/fault-lines.json'
 import populationPoints from '../../assets/static-data/population-points.json'
-import { MAPBOX_API_KEY, MAP_DEFAULT_COORDINATES, MAP_DEFAULT_ZOOM, MAP_TYPE } from '../../constants'
+import { MAPBOX_API_KEY, MAPBOX_SOURCES, MAP_DEFAULT_COORDINATES, MAP_DEFAULT_ZOOM, MAP_TYPE } from '../../constants'
 import constantsTestid from '../../constants/testid'
 import getEarthquakes from '../../hooks/getEarthquakes'
 import { earthquakeActions } from '../../store/earthquake'
@@ -29,21 +29,6 @@ import FilterList from './filter-list'
 import './index.scss'
 import MapEarthquakePopup from './map-popups/map-earthquake-popup'
 import UpdateTimer from './update-timer'
-
-const SOURCE = {
-  DATA_EARTHQUAKES: 'data-earthquakes',
-  DATA_CUSTOM_POINTS: 'data-earthquakes-custom-points',
-  DATA_AFFECTED_DISTANCE: 'data-earthquakes-affected-distance',
-  DATA_FAULT_LINE: 'data-fault-line',
-  DATA_POPULATION_DENSITY: 'data-population-density',
-  LAYER_CUSTOM_POINTS: 'layer-earthquakes-custom-points',
-  LAYER_DATA_CIRCLE: 'data-earthquakes-circle-layer',
-  LAYER_DATA_PULSING: 'layer-earthquakes-pulsing',
-  LAYER_DATA_AFFECTED_DISTANCE: 'layer-earthquakes-affected-distance',
-  LAYER_FAULT_LINE: 'layer-fault-line',
-  LAYER_POPULATION_DENSITY: 'layer-population-density',
-  LAYER_TEST: 'LAYER_TEST',
-}
 
 const TrackingMap = () => {
   const testid = constantsTestid.trackingMap
@@ -112,20 +97,20 @@ const TrackingMap = () => {
   })
 
   const handleMapboxActions = () => {
-    map.current.on('click', SOURCE.LAYER_DATA_CIRCLE, e => {
+    map.current.on('click', MAPBOX_SOURCES.LAYER_DATA_CIRCLE, e => {
       e.preventDefault()
       handleClickEarthquakePoint(e.features[0].properties)
     })
 
-    map.current.on('click', SOURCE.LAYER_CUSTOM_POINTS, e => {
+    map.current.on('click', MAPBOX_SOURCES.LAYER_CUSTOM_POINTS, e => {
       new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(getPopupForCustomPoint(e.features[0].properties)).addTo(map.current)
     })
 
-    map.current.on('click', SOURCE.LAYER_FAULT_LINE, e => {
+    map.current.on('click', MAPBOX_SOURCES.LAYER_FAULT_LINE, e => {
       e.preventDefault()
       const { id, properties } = e.features[0]
 
-      map.current.setFeatureState({ source: SOURCE.DATA_FAULT_LINE, id }, { selected: true })
+      map.current.setFeatureState({ source: MAPBOX_SOURCES.DATA_FAULT_LINE, id }, { selected: true })
       selectedFaultLineIndex.current = id
       new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(getPopupForFaultLine(properties)).addTo(map.current)
     })
@@ -139,7 +124,7 @@ const TrackingMap = () => {
         changeURL(url)
 
         if (selectedFaultLineIndex.current) {
-          map.current.setFeatureState({ source: SOURCE.DATA_FAULT_LINE, id: selectedFaultLineIndex.current }, { selected: false })
+          map.current.setFeatureState({ source: MAPBOX_SOURCES.DATA_FAULT_LINE, id: selectedFaultLineIndex.current }, { selected: false })
           selectedFaultLineIndex.current = null
         }
       }
@@ -159,21 +144,24 @@ const TrackingMap = () => {
   }
 
   const handleMapboxData = () => {
-    map.current.addSource(SOURCE.DATA_EARTHQUAKES, { type: 'geojson', data: wrapperForSourceData(earthquakes) })
-    map.current.addSource(SOURCE.DATA_AFFECTED_DISTANCE, { type: 'geojson', data: wrapperForSourceData(earthquakeAffectedDistance) })
-    map.current.addSource(SOURCE.DATA_CUSTOM_POINTS, { type: 'geojson', data: wrapperForSourceData(customPoints) })
-    map.current.addSource(SOURCE.DATA_FAULT_LINE, {
+    map.current.addSource(MAPBOX_SOURCES.DATA_EARTHQUAKES, { type: 'geojson', data: wrapperForSourceData(earthquakes) })
+    map.current.addSource(MAPBOX_SOURCES.DATA_AFFECTED_DISTANCE, {
+      type: 'geojson',
+      data: wrapperForSourceData(earthquakeAffectedDistance),
+    })
+    map.current.addSource(MAPBOX_SOURCES.DATA_CUSTOM_POINTS, { type: 'geojson', data: wrapperForSourceData(customPoints) })
+    map.current.addSource(MAPBOX_SOURCES.DATA_FAULT_LINE, {
       type: 'geojson',
       data: faultLineActive ? faultLines : { type: 'FeatureCollection', features: [] },
     })
-    map.current.addSource(SOURCE.DATA_POPULATION_DENSITY, {
+    map.current.addSource(MAPBOX_SOURCES.DATA_POPULATION_DENSITY, {
       type: 'geojson',
       data: wrapperForSourceData(populationDensityActive ? populationPoints : []),
     })
 
     map.current.addLayer({
-      id: SOURCE.LAYER_DATA_CIRCLE,
-      source: SOURCE.DATA_EARTHQUAKES,
+      id: MAPBOX_SOURCES.LAYER_DATA_CIRCLE,
+      source: MAPBOX_SOURCES.DATA_EARTHQUAKES,
       type: 'circle',
       paint: {
         'circle-radius': ['get', 'pointSize'],
@@ -185,8 +173,8 @@ const TrackingMap = () => {
     })
 
     map.current.addLayer({
-      id: SOURCE.LAYER_CUSTOM_POINTS,
-      source: SOURCE.DATA_CUSTOM_POINTS,
+      id: MAPBOX_SOURCES.LAYER_CUSTOM_POINTS,
+      source: MAPBOX_SOURCES.DATA_CUSTOM_POINTS,
       type: 'symbol',
       layout: {
         'icon-image': 'location-icon',
@@ -196,8 +184,8 @@ const TrackingMap = () => {
     })
 
     map.current.addLayer({
-      id: SOURCE.LAYER_DATA_PULSING,
-      source: SOURCE.DATA_EARTHQUAKES,
+      id: MAPBOX_SOURCES.LAYER_DATA_PULSING,
+      source: MAPBOX_SOURCES.DATA_EARTHQUAKES,
       type: 'symbol',
       filter: ['all', ['==', 'isNewEarthquake', true]],
       layout: {
@@ -206,8 +194,8 @@ const TrackingMap = () => {
     })
 
     map.current.addLayer({
-      id: SOURCE.LAYER_DATA_AFFECTED_DISTANCE,
-      source: SOURCE.DATA_AFFECTED_DISTANCE,
+      id: MAPBOX_SOURCES.LAYER_DATA_AFFECTED_DISTANCE,
+      source: MAPBOX_SOURCES.DATA_AFFECTED_DISTANCE,
       type: 'fill',
       layout: {},
       paint: {
@@ -217,8 +205,8 @@ const TrackingMap = () => {
     })
 
     map.current.addLayer({
-      id: SOURCE.LAYER_FAULT_LINE,
-      source: SOURCE.DATA_FAULT_LINE,
+      id: MAPBOX_SOURCES.LAYER_FAULT_LINE,
+      source: MAPBOX_SOURCES.DATA_FAULT_LINE,
       type: 'line',
       layout: {
         'line-join': 'round',
@@ -232,9 +220,9 @@ const TrackingMap = () => {
     })
 
     map.current.addLayer({
-      id: 'trees-heat',
+      id: MAPBOX_SOURCES.LAYER_POPULATION_DENSITY,
+      source: MAPBOX_SOURCES.DATA_POPULATION_DENSITY,
       type: 'heatmap',
-      source: SOURCE.DATA_POPULATION_DENSITY,
       paint: {
         'heatmap-weight': 1,
         'heatmap-intensity': 0.9,
@@ -255,17 +243,6 @@ const TrackingMap = () => {
         ],
         'heatmap-radius': 20,
         'heatmap-opacity': 0.3,
-      },
-    })
-
-    map.current.addLayer({
-      id: SOURCE.TEST,
-      source: SOURCE.DATA_AFFECTED_DISTANCE,
-      type: 'fill',
-      layout: {},
-      paint: {
-        'fill-color': '#ff0000',
-        'fill-opacity': 0.3,
       },
     })
   }
@@ -359,25 +336,25 @@ const TrackingMap = () => {
   }, [isActiveCustomPointSelection])
 
   useEffect(() => {
-    map.current.getSource(SOURCE.DATA_EARTHQUAKES)?.setData(wrapperForSourceData(earthquakes))
+    map.current.getSource(MAPBOX_SOURCES.DATA_EARTHQUAKES)?.setData(wrapperForSourceData(earthquakes))
   }, [earthquakes])
 
   useEffect(() => {
-    map.current.getSource(SOURCE.DATA_AFFECTED_DISTANCE)?.setData(wrapperForSourceData([earthquakeAffectedDistance])) // We need to set as an array
+    map.current.getSource(MAPBOX_SOURCES.DATA_AFFECTED_DISTANCE)?.setData(wrapperForSourceData([earthquakeAffectedDistance])) // We need to set as an array
   }, [earthquakeAffectedDistance])
 
   useEffect(() => {
-    map.current.getSource(SOURCE.DATA_CUSTOM_POINTS)?.setData(wrapperForSourceData(customPoints))
+    map.current.getSource(MAPBOX_SOURCES.DATA_CUSTOM_POINTS)?.setData(wrapperForSourceData(customPoints))
   }, [customPoints])
 
   useEffect(() => {
     const currentData = faultLineActive ? faultLines : { type: 'FeatureCollection', features: [] }
-    map.current.getSource(SOURCE.DATA_FAULT_LINE)?.setData(currentData)
+    map.current.getSource(MAPBOX_SOURCES.DATA_FAULT_LINE)?.setData(currentData)
   }, [faultLineActive])
 
   useEffect(() => {
     const currentData = wrapperForSourceData(populationDensityActive ? populationPoints : [])
-    map.current.getSource(SOURCE.DATA_POPULATION_DENSITY)?.setData(currentData)
+    map.current.getSource(MAPBOX_SOURCES.DATA_POPULATION_DENSITY)?.setData(currentData)
   }, [populationDensityActive])
 
   const memoizedComponents = useMemo(() => {

@@ -133,3 +133,17 @@ export const ANIMATION_RANGES = {
 export const DEFAULT_ANIMATION_RANGE = 15
 
 export const DEFAULT_API_DATE_FORMAT = 'YYYY-MM-DD'
+
+export const MAPBOX_SOURCES = {
+  DATA_EARTHQUAKES: 'data-earthquakes',
+  DATA_CUSTOM_POINTS: 'data-earthquakes-custom-points',
+  DATA_AFFECTED_DISTANCE: 'data-earthquakes-affected-distance',
+  DATA_FAULT_LINE: 'data-fault-line',
+  DATA_POPULATION_DENSITY: 'data-population-density',
+  LAYER_CUSTOM_POINTS: 'layer-earthquakes-custom-points',
+  LAYER_DATA_CIRCLE: 'data-earthquakes-circle-layer',
+  LAYER_DATA_PULSING: 'layer-earthquakes-pulsing',
+  LAYER_DATA_AFFECTED_DISTANCE: 'layer-earthquakes-affected-distance',
+  LAYER_FAULT_LINE: 'layer-fault-line',
+  LAYER_POPULATION_DENSITY: 'layer-population-density',
+}
