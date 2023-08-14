@@ -17,21 +17,21 @@ export const INTENSITY_LEVELS = {
 }
 
 export const POINT_COLOR = {
-  LEVEL_1: '#fed9b1',
-  LEVEL_2: '#ffad44',
-  LEVEL_3: '#fe8b00',
-  LEVEL_4: '#ff5700',
-  LEVEL_5: '#ff4400',
-  LEVEL_6: '#c0362c',
+  [INTENSITY_LEVELS.LEVEL_1]: '#fed9b1',
+  [INTENSITY_LEVELS.LEVEL_2]: '#ffad44',
+  [INTENSITY_LEVELS.LEVEL_3]: '#fe8b00',
+  [INTENSITY_LEVELS.LEVEL_4]: '#ff5700',
+  [INTENSITY_LEVELS.LEVEL_5]: '#ff4400',
+  [INTENSITY_LEVELS.LEVEL_6]: '#c0362c',
 }
 
 export const POINT_SIZE = {
-  LEVEL_1: 4,
-  LEVEL_2: 8,
-  LEVEL_3: 12,
-  LEVEL_4: 16,
-  LEVEL_5: 20,
-  LEVEL_6: 24,
+  [INTENSITY_LEVELS.LEVEL_1]: 4,
+  [INTENSITY_LEVELS.LEVEL_2]: 8,
+  [INTENSITY_LEVELS.LEVEL_3]: 12,
+  [INTENSITY_LEVELS.LEVEL_4]: 16,
+  [INTENSITY_LEVELS.LEVEL_5]: 20,
+  [INTENSITY_LEVELS.LEVEL_6]: 24,
 }
 
 export const FILTER_TIME = {
@@ -111,6 +111,11 @@ export const FIREBASE_CUSTOM_POINTS_DB_NAME = 'custom-points'
 export const SOURCES = {
   KANDILLI: 'kandilli',
   USGS: 'usgs',
+}
+
+export const SOURCE_COLOR = {
+  [SOURCES.KANDILLI]: '#4087F2',
+  [SOURCES.USGS]: '#F44DF7',
 }
 
 export const DEFAULT_SOURCE_FILTER = Object.values(SOURCES)

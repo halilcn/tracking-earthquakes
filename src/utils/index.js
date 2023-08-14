@@ -1,4 +1,4 @@
-import { DEFAULT_API_DATE_FORMAT, INTENSITY_LEVELS, POINT_COLOR, POINT_SIZE, SOURCES } from '../constants'
+import { DEFAULT_API_DATE_FORMAT, INTENSITY_LEVELS, POINT_COLOR, POINT_SIZE, SOURCES, SOURCE_COLOR } from '../constants'
 import i18n from '../i18n'
 import dayjs from './dayjs'
 import { getLanguage } from './localStorageActions'
@@ -6,6 +6,8 @@ import { getLanguage } from './localStorageActions'
 export const getCurrentLanguage = () => getLanguage() || navigator.language || navigator.userLanguage
 
 export const getPointColorByIntensity = intensity => POINT_COLOR[getLevelByIntensity(intensity)]
+
+export const getSourceColorBySource = source => SOURCE_COLOR[source]
 
 export const getPointSizeByIntensity = intensity => POINT_SIZE[getLevelByIntensity(intensity)]
 
@@ -56,16 +58,19 @@ export const prepareEarthquakeKandilli = earthquake => {
     location_properties,
   } = earthquake
 
+  const source = SOURCES.KANDILLI
   const isNewEarthquake = checkIsNewEarthquake(date)
   const pointColor = getPointColorByIntensity(mag)
   const pointSize = getPointSizeByIntensity(mag)
   const convertedDate = dayjs(date, 'YYYY.MM.DD hh:mm:ss').format()
+  const sourceColor = getSourceColorBySource(source)
 
   return earthquakeDataStructure({
-    source: SOURCES.KANDILLI,
     depth: depth.toFixed(2),
     mag: mag.toFixed(1),
     date: convertedDate,
+    source,
+    sourceColor,
     coordinates,
     earthquake_id,
     location_properties,
@@ -83,14 +88,15 @@ export const prepareEarthquakeUsgs = earthquake => {
     properties,
   } = earthquake
 
+  const source = SOURCES.USGS
   const date = dayjs(properties.time).format()
   const mag = properties.mag.toFixed(1)
   const isNewEarthquake = checkIsNewEarthquake(date)
   const pointColor = getPointColorByIntensity(mag)
   const pointSize = getPointSizeByIntensity(mag)
+  const sourceColor = getSourceColorBySource(source)
 
   return earthquakeDataStructure({
-    source: SOURCES.USGS,
     depth: coordinates[coordinates.length - 1].toFixed(2),
     earthquake_id: id,
     title: properties.title,
@@ -99,6 +105,8 @@ export const prepareEarthquakeUsgs = earthquake => {
         name: properties.title,
       },
     },
+    source,
+    sourceColor,
     date,
     mag,
     coordinates,

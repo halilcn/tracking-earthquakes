@@ -42,6 +42,7 @@ const SOURCE = {
   LAYER_DATA_AFFECTED_DISTANCE: 'layer-earthquakes-affected-distance',
   LAYER_FAULT_LINE: 'layer-fault-line',
   LAYER_POPULATION_DENSITY: 'layer-population-density',
+  LAYER_TEST: 'LAYER_TEST',
 }
 
 const TrackingMap = () => {
@@ -177,6 +178,8 @@ const TrackingMap = () => {
       paint: {
         'circle-radius': ['get', 'pointSize'],
         'circle-color': ['get', 'pointColor'],
+        'circle-stroke-width': 1.5,
+        'circle-stroke-color': ['get', 'sourceColor'],
       },
       filter: ['==', '$type', 'Point'],
     })
@@ -252,6 +255,17 @@ const TrackingMap = () => {
         ],
         'heatmap-radius': 20,
         'heatmap-opacity': 0.3,
+      },
+    })
+
+    map.current.addLayer({
+      id: SOURCE.TEST,
+      source: SOURCE.DATA_AFFECTED_DISTANCE,
+      type: 'fill',
+      layout: {},
+      paint: {
+        'fill-color': '#ff0000',
+        'fill-opacity': 0.3,
       },
     })
   }
