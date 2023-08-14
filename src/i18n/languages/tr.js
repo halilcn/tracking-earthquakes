@@ -62,5 +62,6 @@ export default {
     'Red line': 'Kırmzıı çizgi',
     'Different colors according to density': 'Yoğunluğa göre farklı renkler',
     'Earthquake Source Color': 'Deprem Kaynak Rengi',
+    'Each source of earthquake has different color to detect': 'Her deprem kaynağının tespit edilmesi için farklı bir rengi vardır',
   },
 }

@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import LiveEarthquake from '../../../../public/live-earthquake.png'
 import PopulationDensityHigh from '../../../../public/population-density-high.png'
 import PopulationDensityLow from '../../../../public/population-density-low.png'
-import { INTENSITY_LEVELS, POINT_COLOR, POINT_SIZE } from '../../../constants'
+import { INTENSITY_LEVELS, POINT_COLOR, POINT_SIZE, SOURCE_COLOR } from '../../../constants'
 import Popup from '../../popup'
 import './index.scss'
 
@@ -48,11 +48,25 @@ const InfoPopup = props => {
       <div className="info-popup__item">
         <div className="info-popup__label">
           <div className="info-popup__title">{t('Population Density')}</div>
-          <div className="info-popup__description">Different colors according to density</div>
+          <div className="info-popup__description">{t('Different colors according to density')}</div>
         </div>
         <div className="info-popup__population-density">
           <img src={PopulationDensityLow} />
           <img src={PopulationDensityHigh} />
+        </div>
+      </div>
+      <div className="info-popup__item">
+        <div className="info-popup__label">
+          <div className="info-popup__title">{t('Earthquake Source Color')}</div>
+          <div className="info-popup__description">{t('Each source of earthquake has different color to detect')}</div>
+        </div>
+        <div className="info-popup__source-color-content">
+          {Object.keys(SOURCE_COLOR).map(source => (
+            <div className="info-popup__source-color">
+              <div className="info-popup__source-color-text">{source}</div>
+              <div style={{ borderColor: SOURCE_COLOR[source] }} className="info-popup__source-color-circle" />
+            </div>
+          ))}
         </div>
       </div>
     </Popup>

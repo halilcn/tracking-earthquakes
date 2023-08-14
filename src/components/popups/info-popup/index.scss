@@ -7,7 +7,7 @@
         margin-bottom: 10px;
     }
 
-    &__description{
+    &__description {
         font-size: 11px;
         font-weight: 400;
         color: rgb(116, 116, 116);
@@ -60,5 +60,28 @@
             border-radius: 4px;
             margin-right: 7px;
         }
+    }
+
+    &__source-color-content {
+        display: flex;
+    }
+
+    &__source-color {
+        margin-right: 20px;
+        display: flex;
+        align-items: center;
+    }
+
+    &__source-color-circle {
+        border-width: 3px;
+        border-style: solid;
+        height: 22px;
+        width: 22px;
+        border-radius: 100%;
+    }
+
+    &__source-color-text {
+        font-size: 11px;
+        margin-right: 7px;
     }
 }

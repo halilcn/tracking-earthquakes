@@ -37,7 +37,7 @@ const Popup = props => {
     animate: enabled ? 'open' : 'closed',
     variants: {
       open: {
-        display: 'block',
+        display: 'flex',
         opacity: 1,
       },
       closed: {

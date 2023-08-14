@@ -63,5 +63,6 @@ export default {
     'Red line': 'Red line',
     'Different colors according to density': 'Different colors according to density',
     'Earthquake Source Color': 'Earthquake Source Color',
+    'Each source of earthquake has different color to detect': 'Each source of earthquake has different color to detect',
   },
 }
