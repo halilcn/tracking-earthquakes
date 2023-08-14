@@ -61,5 +61,6 @@ export default {
     'Flashing animation': 'Yanıp sönen animasyon',
     'Red line': 'Kırmzıı çizgi',
     'Different colors according to density': 'Yoğunluğa göre farklı renkler',
+    'Earthquake Source Color': 'Deprem Kaynak Rengi',
   },
 }

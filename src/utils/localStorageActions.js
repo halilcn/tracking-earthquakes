@@ -5,6 +5,7 @@ export const LOCAL_STORAGE_KEYS = {
   LANGUAGE: 'LANGUAGE',
   FAULT_LINE: 'FAULT_LINE',
   POPULATION_DENSITY: 'POPULATION_DENSITY',
+  SOURCE_COLOR: 'SOURCE_COLOR',
   NEW_EARTHQUAKE_SOUND_NOTIFICATION: 'NEW_EARTHQUAKE_SOUND_NOTIFICATION',
 }
 
@@ -25,6 +26,9 @@ export const getFaultLineActive = () => localStorage.getItem(LOCAL_STORAGE_KEYS.
 
 export const setPopulationDensityActive = status => localStorage.setItem(LOCAL_STORAGE_KEYS.POPULATION_DENSITY, status)
 export const getPopulationDensityActive = () => localStorage.getItem(LOCAL_STORAGE_KEYS.POPULATION_DENSITY)
+
+export const setSourceColorActive = status => localStorage.setItem(LOCAL_STORAGE_KEYS.SOURCE_COLOR, status)
+export const getSourceColorActive = () => localStorage.getItem(LOCAL_STORAGE_KEYS.SOURCE_COLOR)
 
 export const setNewEarthquakeSoundNotification = status =>
   localStorage.setItem(LOCAL_STORAGE_KEYS.NEW_EARTHQUAKE_SOUND_NOTIFICATION, status)

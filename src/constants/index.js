@@ -147,3 +147,7 @@ export const MAPBOX_SOURCES = {
   LAYER_FAULT_LINE: 'layer-fault-line',
   LAYER_POPULATION_DENSITY: 'layer-population-density',
 }
+
+export const SOURCE_COLOR_DISABLE_VALUE = 0
+
+export const SOURCE_COLOR_ENABLE_VALUE = 1.5

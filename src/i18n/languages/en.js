@@ -62,5 +62,6 @@ export default {
     'Flashing animation': 'Flashing animation',
     'Red line': 'Red line',
     'Different colors according to density': 'Different colors according to density',
+    'Earthquake Source Color': 'Earthquake Source Color',
   },
 }

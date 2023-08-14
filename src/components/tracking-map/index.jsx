@@ -4,7 +4,15 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import faultLines from '../../assets/static-data/fault-lines.json'
 import populationPoints from '../../assets/static-data/population-points.json'
-import { MAPBOX_API_KEY, MAPBOX_SOURCES, MAP_DEFAULT_COORDINATES, MAP_DEFAULT_ZOOM, MAP_TYPE } from '../../constants'
+import {
+  MAPBOX_API_KEY,
+  MAPBOX_SOURCES,
+  MAP_DEFAULT_COORDINATES,
+  MAP_DEFAULT_ZOOM,
+  MAP_TYPE,
+  SOURCE_COLOR_DISABLE_VALUE,
+  SOURCE_COLOR_ENABLE_VALUE,
+} from '../../constants'
 import constantsTestid from '../../constants/testid'
 import getEarthquakes from '../../hooks/getEarthquakes'
 import { earthquakeActions } from '../../store/earthquake'
@@ -33,13 +41,31 @@ import UpdateTimer from './update-timer'
 const TrackingMap = () => {
   const testid = constantsTestid.trackingMap
   const dispatch = useDispatch()
-  const { isActiveCustomPointSelection, customPoints, earthquakeAffectedDistance, faultLineActive, populationDensityActive } = useSelector(
-    state => {
-      const { isActiveCustomPointSelection, customPoints, earthquakeAffectedDistance, faultLineActive, populationDensityActive } =
-        state.earthquake
-      return { isActiveCustomPointSelection, customPoints, earthquakeAffectedDistance, faultLineActive, populationDensityActive }
+  const {
+    isActiveCustomPointSelection,
+    customPoints,
+    earthquakeAffectedDistance,
+    faultLineActive,
+    populationDensityActive,
+    sourceColorActive,
+  } = useSelector(state => {
+    const {
+      isActiveCustomPointSelection,
+      customPoints,
+      earthquakeAffectedDistance,
+      faultLineActive,
+      populationDensityActive,
+      sourceColorActive,
+    } = state.earthquake
+    return {
+      isActiveCustomPointSelection,
+      customPoints,
+      earthquakeAffectedDistance,
+      faultLineActive,
+      populationDensityActive,
+      sourceColorActive,
     }
-  )
+  })
 
   const mapType = MAP_TYPE[getMapType()] || MAP_TYPE.DARK
   const queryLatLong = getLatLongQueryParam()
@@ -166,7 +192,7 @@ const TrackingMap = () => {
       paint: {
         'circle-radius': ['get', 'pointSize'],
         'circle-color': ['get', 'pointColor'],
-        'circle-stroke-width': 1.5,
+        'circle-stroke-width': sourceColorActive ? SOURCE_COLOR_ENABLE_VALUE : SOURCE_COLOR_DISABLE_VALUE,
         'circle-stroke-color': ['get', 'sourceColor'],
       },
       filter: ['==', '$type', 'Point'],
