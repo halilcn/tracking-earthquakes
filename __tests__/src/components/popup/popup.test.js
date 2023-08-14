@@ -36,7 +36,7 @@ describe('popup', () => {
       </Popup>
     )
 
-    expect(screen.getByTestId(testid.popupContentContainer)).toHaveStyle('display: block;')
+    expect(screen.getByTestId(testid.popupContentContainer)).toHaveStyle('display: flex;')
     expect(screen.getByTestId(testid.popupBackground)).toHaveStyle('display: block;')
   })
 
