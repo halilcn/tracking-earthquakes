@@ -64,5 +64,24 @@ export default {
     'Different colors according to density': 'Different colors according to density',
     'Earthquake Source Color': 'Earthquake Source Color',
     'Each source of earthquake has different color to detect': 'Each source of earthquake has different color to detect',
+    Welcome: 'Welcome',
+    'Interactive earthquake map you can see live and past earthquakes': 'Interactive earthquake map you can see live and past earthquakes',
+    Animation: 'Animation',
+    'You can see the earthquakes between the dates you selected as animations piece by piece':
+      'You can see the earthquakes between the dates you selected as animations piece by piece',
+    'Past Earthquake': 'Past Earthquake',
+    'You can see earthquakes that are in between the dates you want': 'You can see earthquakes that are in between the dates you want',
+    Filters: 'Filters',
+    'You can filter the earthquakes with your needs such as mag, depth':
+      'You can filter the earthquakes with your needs such as mag, depth',
+    Settings: 'Settings',
+    'You can change settings such as the type of map, notification and the status of features':
+      'You can change settings such as the type of map, notification and the status of features',
+    'Search a Place': 'Search a Place',
+    'You can focus anywhere you want': 'You can focus anywhere you want',
+    'Earthquake List': 'Earthquake List',
+    'You can see all earthquakes as a list': 'You can see all earthquakes as a list',
+    Info: 'Info',
+    'You can understand some colors/shapes by using this button': 'You can understand some colors/shapes by using this button',
   },
 }

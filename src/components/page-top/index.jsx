@@ -25,7 +25,11 @@ const PageTop = () => {
         </a>
       </div>
       <div className="app-top__action-list">
-        <BiHelpCircle onClick={() => setActivePopupContentType(POPUP_CONTENT_TYPES.INFO)} className="app-top__action-item" />
+        <BiHelpCircle
+          id="info-popup-button"
+          onClick={() => setActivePopupContentType(POPUP_CONTENT_TYPES.INFO)}
+          className="app-top__action-item"
+        />
       </div>
       <InfoPopup enabled={isActivePopup(POPUP_CONTENT_TYPES.INFO)} disableHandle={disablePopup} />
     </div>

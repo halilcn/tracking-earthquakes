@@ -63,5 +63,24 @@ export default {
     'Different colors according to density': 'Yoğunluğa göre farklı renkler',
     'Earthquake Source Color': 'Deprem Kaynak Rengi',
     'Each source of earthquake has different color to detect': 'Her deprem kaynağının tespit edilmesi için farklı bir rengi vardır',
+    Welcome: 'Hoşgeldin',
+    'Interactive earthquake map you can see live and past earthquakes':
+      'Canlı ve geçmiş depremleri inceleyebileceğiniz etkileşimli deprem haritası',
+    Animation: 'Animasyon',
+    'You can see the earthquakes between the dates you selected as animations piece by piece':
+      'Seçilen tarihle arasındaki depremleri animasyonlu bir şekilde parça parça inceleyebilirsiniz',
+    'You can see earthquakes that are in between the dates you want': 'Seçtiğiniz tarihler arasındaki depremleri görebilirsiniz',
+    Filters: 'Filtreler',
+    'You can filter the earthquakes with your needs such as mag, depth':
+      'Mag, derinlik gibi ihtiyaçlarınıza göre depremleri filtreleyebilirsiniz',
+    Settings: 'Ayarlar',
+    'You can change settings such as the type of map, notification and the status of features':
+      'Harita türü, bildirim ve özelliklerin durumu gibi ayarları değiştirebilirsiniz',
+    'Search a Place': 'Bir Yer Arama',
+    'You can focus anywhere you want': 'İstediğiniz yere odaklanabilirsiniz',
+    'Earthquake List': 'Deprem Listesi',
+    'You can see all earthquakes as a list': 'Tüm depremleri bir liste olarak görebilirsin',
+    Info: 'Info',
+    'You can understand some colors/shapes by using this button': 'Bu butonu kullanarak bazı renkleri/şekilleri anlayabilirsiniz',
   },
 }

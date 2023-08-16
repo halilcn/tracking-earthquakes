@@ -77,23 +77,27 @@ const FilterList = () => {
       icon: <FiPlay className="filter__icon" />,
       itemCustomClasses: isAnimationActive && 'filter__item--active',
       title: t('animation'),
+      id: 'animation-button',
     },
     {
       type: FILTER_CONTENT_TYPE.ARCHIVE,
       icon: <BsCalendarDate className="filter__icon" />,
       itemCustomClasses: selectedArchiveFilterItem && 'filter__item--active',
       title: t('past earthquakes'),
+      id: 'past-earthquake-button',
     },
     {
       type: FILTER_CONTENT_TYPE.FILTER_PANEL,
       icon: <BiFilterAlt className="filter__icon" />,
       itemCustomClasses: selectedFilterPanelItem && 'filter__item--active',
       title: t('filters'),
+      id: 'filters-button',
     },
     {
       type: FILTER_CONTENT_TYPE.SETTINGS,
       icon: <FiSettings className="filter__icon" />,
       title: t('settings'),
+      id: 'settings-button',
     },
   ]
 
@@ -104,6 +108,7 @@ const FilterList = () => {
         {FILTER_LIST.map(filter => (
           <div key={filter.type} data-type={filter.type} className="filter__item-container">
             <div
+              id={filter.id}
               data-testid={testid.listItem}
               onClick={() => handleSetFilterContentType(filter.type)}
               className={cx('filter__item', 'filter__item--icon', filter.itemCustomClasses || '', {

@@ -1,3 +1,4 @@
+import 'intro.js/introjs.css'
 import ReactGA from 'react-ga'
 
 import AppContainer from './components/app-container'

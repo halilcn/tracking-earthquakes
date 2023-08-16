@@ -1,3 +1,4 @@
+import introJs from 'intro.js'
 import { useEffect, useRef, useState } from 'react'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -11,6 +12,7 @@ import { getAllEarthquakes } from '../../service/earthquakes'
 import firebase from '../../service/firebase'
 import { earthquakeActions, isSelectedAnyArchiveItem } from '../../store/earthquake'
 import { userActions } from '../../store/user'
+import { getFirstGuideStatus, setFirstGuideStatus } from '../../utils/localStorageActions'
 import ErrorPage from '../error-page'
 import Loading from '../loading'
 import PageTop from '../page-top'
@@ -35,6 +37,16 @@ const AppContainer = () => {
       animationCurrentDate: animation.currentDate,
     }
   })
+
+  const handleIntroSteps = async () => {
+    const steps = (await import('../../constants/intro-steps')).default
+
+    introJs()
+      .setOptions({
+        steps,
+      })
+      .start()
+  }
 
   const handleGetEarthquakes = async payload => {
     const { params = {}, newEarthquakeNotification = true } = payload || {}
@@ -136,6 +148,13 @@ const AppContainer = () => {
   useEffectIgnoreFirstRender(() => {
     return startFreshEarthquakesProcess(!!selectedArchiveItem || !!animationCurrentDate)
   }, [selectedArchiveItem, animationCurrentDate])
+
+  useEffect(() => {
+    if (!hasError && !isLoading && getFirstGuideStatus() !== 'true') {
+      handleIntroSteps()
+      setFirstGuideStatus(true)
+    }
+  }, [hasError, isLoading])
 
   return (
     <div data-testid={testid.appContainer} className="app-container">

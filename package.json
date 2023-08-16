@@ -21,6 +21,7 @@
     "firebase": "^9.17.1",
     "framer-motion": "^10.10.0",
     "i18next": "^22.4.15",
+    "intro.js": "^7.2.0",
     "mapbox-gl": "^2.12.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

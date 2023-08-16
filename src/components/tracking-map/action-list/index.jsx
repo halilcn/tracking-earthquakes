@@ -67,6 +67,7 @@ const ActionList = () => {
     <div data-testid={testid.listContainer} className="action-list">
       <motion.div {...actionListProps}>
         <div
+          id="search-button"
           data-testid={testid.searchItem}
           onClick={() => handleActiveList(CONTENT_TYPES.SEARCH)}
           className="action-list__item action-list__item--search">
@@ -74,6 +75,7 @@ const ActionList = () => {
           <div className="action-list__item-bg-filter" />
         </div>
         <div
+          id="earthquake-list-button"
           data-testid={testid.earthquakeListItem}
           onClick={() => handleActiveList(CONTENT_TYPES.EARTHQUAKE_LIST)}
           className="action-list__item action-list__item--earthquake-list">
