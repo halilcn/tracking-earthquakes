@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#3E4EB8" />
     <title>Tracking Earthquakes</title>
-    <link rel="manifest" href="public/pwa/manifest.json" />
+    <link rel="manifest" href="pwa/manifest.json" />
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.css" rel="stylesheet" />
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.js"></script>
     <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
@@ -27,7 +27,7 @@
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', function () {
-          navigator.serviceWorker.register('./public/serviceWorker.js').then(
+          navigator.serviceWorker.register('./serviceWorker.js').then(
             function (registration) {
               console.log('ServiceWorker registration successful with scope: ', registration.scope)
             },
