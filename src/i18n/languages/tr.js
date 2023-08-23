@@ -1,5 +1,6 @@
 export default {
   translation: {
+    'Tracking Earthquakes': 'Deprem Takibi',
     City: 'Şehir',
     "There aren't any earthquakes": 'Hiç deprem yok',
     'Search a place': 'Bir yer ara',
