@@ -325,7 +325,7 @@ const TrackingMap = () => {
       handleMapboxData()
       handleMapboxActions()
     })
-  })
+  }, [])
 
   const enableEarthquakePointPopup = () => {
     const earthquakeID = getEarthquakeIDQueryParam()
