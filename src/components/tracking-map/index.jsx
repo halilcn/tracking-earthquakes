@@ -15,6 +15,7 @@ import {
 } from '../../constants'
 import constantsTestid from '../../constants/testid'
 import getEarthquakes from '../../hooks/getEarthquakes'
+import useSafeEffect from '../../hooks/useSafeEffect'
 import { earthquakeActions } from '../../store/earthquake'
 import {
   changeURL,
@@ -109,8 +110,6 @@ const TrackingMap = () => {
   }
 
   const initialMapbox = useCallback(() => {
-    if (map.current) return
-
     mapboxgl.accessToken = MAPBOX_API_KEY
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
@@ -337,7 +336,7 @@ const TrackingMap = () => {
     handleClickEarthquakePoint(earthquakeProperties)
   }
 
-  useEffect(() => {
+  useSafeEffect(() => {
     initialMapbox()
     handleMapbox()
     enableEarthquakePointPopup()
