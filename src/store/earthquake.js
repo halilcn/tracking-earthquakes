@@ -8,6 +8,7 @@ import {
   DEFAULT_SOURCE_FILTER,
   DEFAULT_TIME_FILTER_VALUE,
 } from '../constants'
+import { getCurrentLanguage } from '../utils'
 import dayjs from '../utils/dayjs'
 import {
   getFaultLineActive,
@@ -69,9 +70,6 @@ export const initialState = {
   customPointCoordinates: null,
   isLoadingData: false,
   archiveDate: getArchiveDateState(),
-  faultLineActive: !(getFaultLineActive() === 'false'),
-  populationDensityActive: getPopulationDensityActive() === 'true',
-  sourceColorActive: getSourceColorActive() === 'true',
   animation: {
     filters: {
       startDate: dayjs().add(-5, 'days').startOf('day').format(),
@@ -82,6 +80,12 @@ export const initialState = {
     isActive: false,
     allEarthquakes: [],
     loopInterval: null,
+  },
+  settings: {
+    language: getCurrentLanguage(),
+    isEnabledFaultLine: !(getFaultLineActive() === 'false'),
+    isEnabledPopulationDensity: getPopulationDensityActive() === 'true',
+    isEnabledSourceColor: getSourceColorActive() === 'true',
   },
 }
 
@@ -143,11 +147,8 @@ export const earthquake = createSlice({
     setAnimationLoopInterval: (state, actions) => {
       state.animation.loopInterval = actions.payload
     },
-    setPopulationDensityActive: (state, actions) => {
-      state.populationDensityActive = actions.payload
-    },
-    setSourceColorActive: (state, actions) => {
-      state.sourceColorActive = actions.payload
+    updateSettings: (state, actions) => {
+      state.settings = { ...state.settings, ...actions.payload }
     },
   },
 })

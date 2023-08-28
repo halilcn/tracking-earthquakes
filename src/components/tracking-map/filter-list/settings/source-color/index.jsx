@@ -10,15 +10,15 @@ import { setSourceColorActive } from '../../../../../utils/localStorageActions'
 const SourceColor = () => {
   const dispatch = useDispatch()
   const { t } = useTranslation()
-  const { sourceColorActive, mapCurrent } = useSelector(state => ({
-    sourceColorActive: state.earthquake.sourceColorActive,
+  const { isEnabledSourceColor, mapCurrent } = useSelector(state => ({
+    isEnabledSourceColor: state.earthquake.settings.isEnabledSourceColor,
     mapCurrent: state.earthquake.mapCurrent,
   }))
 
   const handleChange = e => {
     const currentValue = e.currentTarget.checked
 
-    dispatch(earthquakeActions.setSourceColorActive(currentValue))
+    dispatch(earthquakeActions.updateSettings({ isEnabledSourceColor: currentValue }))
     setSourceColorActive(currentValue)
 
     mapCurrent.setPaintProperty(
@@ -31,7 +31,10 @@ const SourceColor = () => {
   return (
     <div>
       <FormGroup>
-        <FormControlLabel label={t('Earthquake Source Color')} control={<Checkbox checked={sourceColorActive} onChange={handleChange} />} />
+        <FormControlLabel
+          label={t('Earthquake Source Color')}
+          control={<Checkbox checked={isEnabledSourceColor} onChange={handleChange} />}
+        />
       </FormGroup>
     </div>
   )

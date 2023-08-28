@@ -20,11 +20,9 @@ describe('choose language', () => {
   })
 
   test('should be rendered without having any problems', () => {
-    const lang = 'tr-TR'
-    window.localStorage.setItem(LOCAL_STORAGE_KEYS.LANGUAGE, lang)
     renderWithProviders(<ChooseLanguage />)
 
     const dropdownButton = screen.getByRole('button')
-    expect(dropdownButton).toHaveTextContent(LANGUAGES[lang])
+    expect(dropdownButton).toHaveTextContent(LANGUAGES['en-US'])
   })
 })

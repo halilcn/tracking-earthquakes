@@ -42,29 +42,13 @@ import UpdateTimer from './update-timer'
 const TrackingMap = () => {
   const testid = constantsTestid.trackingMap
   const dispatch = useDispatch()
-  const {
-    isActiveCustomPointSelection,
-    customPoints,
-    earthquakeAffectedDistance,
-    faultLineActive,
-    populationDensityActive,
-    sourceColorActive,
-  } = useSelector(state => {
-    const {
-      isActiveCustomPointSelection,
-      customPoints,
-      earthquakeAffectedDistance,
-      faultLineActive,
-      populationDensityActive,
-      sourceColorActive,
-    } = state.earthquake
+  const { isActiveCustomPointSelection, customPoints, earthquakeAffectedDistance, settings } = useSelector(state => {
+    const { isActiveCustomPointSelection, customPoints, earthquakeAffectedDistance, settings } = state.earthquake
     return {
       isActiveCustomPointSelection,
       customPoints,
       earthquakeAffectedDistance,
-      faultLineActive,
-      populationDensityActive,
-      sourceColorActive,
+      settings,
     }
   })
 
@@ -177,11 +161,11 @@ const TrackingMap = () => {
     map.current.addSource(MAPBOX_SOURCES.DATA_CUSTOM_POINTS, { type: 'geojson', data: wrapperForSourceData(customPoints) })
     map.current.addSource(MAPBOX_SOURCES.DATA_FAULT_LINE, {
       type: 'geojson',
-      data: faultLineActive ? faultLines : { type: 'FeatureCollection', features: [] },
+      data: settings.isEnabledFaultLine ? faultLines : { type: 'FeatureCollection', features: [] },
     })
     map.current.addSource(MAPBOX_SOURCES.DATA_POPULATION_DENSITY, {
       type: 'geojson',
-      data: wrapperForSourceData(populationDensityActive ? populationPoints : []),
+      data: wrapperForSourceData(settings.isEnabledPopulationDensity ? populationPoints : []),
     })
 
     map.current.addLayer({
@@ -191,7 +175,7 @@ const TrackingMap = () => {
       paint: {
         'circle-radius': ['get', 'pointSize'],
         'circle-color': ['get', 'pointColor'],
-        'circle-stroke-width': sourceColorActive ? SOURCE_COLOR_ENABLE_VALUE : SOURCE_COLOR_DISABLE_VALUE,
+        'circle-stroke-width': settings.isEnabledSourceColor ? SOURCE_COLOR_ENABLE_VALUE : SOURCE_COLOR_DISABLE_VALUE,
         'circle-stroke-color': ['get', 'sourceColor'],
       },
       filter: ['==', '$type', 'Point'],
@@ -373,14 +357,14 @@ const TrackingMap = () => {
   }, [customPoints])
 
   useEffect(() => {
-    const currentData = faultLineActive ? faultLines : { type: 'FeatureCollection', features: [] }
+    const currentData = settings.isEnabledFaultLine ? faultLines : { type: 'FeatureCollection', features: [] }
     map.current.getSource(MAPBOX_SOURCES.DATA_FAULT_LINE)?.setData(currentData)
-  }, [faultLineActive])
+  }, [settings.isEnabledFaultLine])
 
   useEffect(() => {
-    const currentData = wrapperForSourceData(populationDensityActive ? populationPoints : [])
+    const currentData = wrapperForSourceData(settings.isEnabledPopulationDensity ? populationPoints : [])
     map.current.getSource(MAPBOX_SOURCES.DATA_POPULATION_DENSITY)?.setData(currentData)
-  }, [populationDensityActive])
+  }, [settings.isEnabledPopulationDensity])
 
   const memoizedComponents = useMemo(() => {
     return (

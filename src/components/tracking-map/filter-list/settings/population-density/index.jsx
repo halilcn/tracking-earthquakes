@@ -10,11 +10,11 @@ const PopulationDensity = () => {
   const dispatch = useDispatch()
   const { t } = useTranslation()
 
-  const populationDensityActive = useSelector(state => state.earthquake.populationDensityActive)
+  const isEnabledPopulationDensity = useSelector(state => state.earthquake.settings.isEnabledPopulationDensity)
 
   const handleChange = e => {
     const currentStatus = e.currentTarget.checked
-    dispatch(earthquakeActions.setPopulationDensityActive(currentStatus))
+    dispatch(earthquakeActions.updateSettings({ isEnabledPopulationDensity: currentStatus }))
     setPopulationDensityActive(currentStatus)
   }
 
@@ -23,7 +23,7 @@ const PopulationDensity = () => {
       <FormGroup>
         <FormControlLabel
           label={t('Population Density')}
-          control={<Checkbox checked={populationDensityActive} onChange={handleChange} />}
+          control={<Checkbox checked={isEnabledPopulationDensity} onChange={handleChange} />}
         />
       </FormGroup>
     </div>
