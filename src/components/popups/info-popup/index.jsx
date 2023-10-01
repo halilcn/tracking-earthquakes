@@ -22,8 +22,9 @@ const InfoPopup = props => {
         </div>
         <div className="info-popup__magnitude">
           <div className="info-popup__magnitude-title info-popup__magnitude-title--first">+2</div>
-          {Object.values(INTENSITY_LEVELS).map(intensity => (
+          {Object.values(INTENSITY_LEVELS).map((intensity, index) => (
             <div
+            key={index}
               className="info-popup__magnitude-item"
               style={{ backgroundColor: POINT_COLOR[intensity], width: POINT_SIZE[intensity] * 2, height: POINT_SIZE[intensity] * 2 }}
             />
@@ -61,8 +62,8 @@ const InfoPopup = props => {
           <div className="info-popup__description">{t('Each source of earthquake has different color to detect')}</div>
         </div>
         <div className="info-popup__source-color-content">
-          {Object.keys(SOURCE_COLOR).map(source => (
-            <div className="info-popup__source-color">
+          {Object.keys(SOURCE_COLOR).map((source, index) => (
+            <div key={index} className="info-popup__source-color">
               <div className="info-popup__source-color-text">{source}</div>
               <div style={{ borderColor: SOURCE_COLOR[source] }} className="info-popup__source-color-circle" />
             </div>
