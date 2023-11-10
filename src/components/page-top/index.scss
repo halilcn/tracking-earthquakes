@@ -14,31 +14,10 @@
         color: white;
     }
 
-    &__github-link {
+    &__info-list {
         margin-right: auto;
-
-        > a {
-            display: flex;
-            align-items: center;
-            background-color: rgb(43, 43, 43);
-            color: white;
-            padding: 11px;
-            border-radius: 5px;
-
-            &:hover {
-                background-color: rgb(54, 54, 54);
-            }
-        }
-    }
-
-    &__github-icon {
-        width: 21px;
-        height: 21px;
-    }
-
-    &__github-text {
-        font-size: 15px;
-        margin-left: 10px;
+        display: flex;
+        align-items: center;
     }
 
     &__action-list {
@@ -49,24 +28,18 @@
         font-size: 33px;
         color: rgb(182, 182, 182);
         cursor: pointer;
+        margin-right: 10px;
+
+        &--github {
+            color: rgb(30, 30, 30);
+
+            &:hover {
+                color: rgb(54, 54, 54) !important;
+            }
+        }
 
         &:hover {
             color: rgb(166, 166, 166);
-        }
-    }
-
-    @media only screen and (max-width: $mobile-width) {
-        &__github-link > a {
-            padding: 6px;
-        }
-
-        &__github-icon {
-            width: 15px;
-            height: 15px;
-        }
-
-        &__github-text {
-            font-size: 13px;
         }
     }
 }
