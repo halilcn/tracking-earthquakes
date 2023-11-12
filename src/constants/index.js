@@ -3,6 +3,7 @@ import i18n from '../i18n'
 export const API = {
   KANDILLI: 'https://api.orhanaydogdu.com.tr/deprem',
   USGS: 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson',
+  BACKEND_V1: 'https://tracking-earthquakes-api-51c3d53af347.herokuapp.com/api/v1',
 }
 
 export const APP_URL = 'https://tracking-earthquakes.vercel.app'

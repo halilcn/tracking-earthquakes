@@ -8,6 +8,7 @@ export const LOCAL_STORAGE_KEYS = {
   SOURCE_COLOR: 'SOURCE_COLOR',
   NEW_EARTHQUAKE_SOUND_NOTIFICATION: 'NEW_EARTHQUAKE_SOUND_NOTIFICATION',
   FIRST_GUID_STATUS: 'FIRST_GUID_STATUS',
+  USER_TOKEN: 'USER_TOKEN',
 }
 
 export const setMapType = mapType => localStorage.setItem(LOCAL_STORAGE_KEYS.MAP_TYPE, mapType)
@@ -37,3 +38,7 @@ export const getNewEarthquakeSoundNotification = () => localStorage.getItem(LOCA
 
 export const setFirstGuideStatus = status => localStorage.setItem(LOCAL_STORAGE_KEYS.FIRST_GUID_STATUS, status)
 export const getFirstGuideStatus = () => localStorage.getItem(LOCAL_STORAGE_KEYS.FIRST_GUID_STATUS)
+
+export const setUserToken = token => localStorage.setItem(LOCAL_STORAGE_KEYS.USER_TOKEN, token)
+export const getUserToken = () => localStorage.getItem(LOCAL_STORAGE_KEYS.USER_TOKEN)
+export const removeUserToken = () => localStorage.removeItem(LOCAL_STORAGE_KEYS.USER_TOKEN)

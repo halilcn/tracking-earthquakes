@@ -11,7 +11,7 @@ const ErrorPage = () => {
 
   return (
     <div data-testid={testid.errorPageContainer} className="error-page">
-      <Alert severity="error">{t('Occurred a problem while getting the data on earthquakes')} :/</Alert>
+      <Alert severity="error">{t('Occurred a problem while loading the page')} :/</Alert>
     </div>
   )
 }

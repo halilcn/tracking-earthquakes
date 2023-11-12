@@ -1,13 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit'
 
-import earthquake, { initialState } from './earthquake'
+import auth from './auth'
+import earthquake from './earthquake'
 import user from './user'
 
-export default (options) =>
+export default options =>
   configureStore({
     reducer: {
       earthquake,
       user,
+      auth,
     },
     ...options,
   })

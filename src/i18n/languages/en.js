@@ -4,7 +4,7 @@ export default {
     City: 'City',
     "There aren't any earthquakes": "There aren't any earthquakes",
     'Search a place': 'Search a place',
-    'Occurred a problem while getting the data on earthquakes': 'Occurred a problem while getting the data on earthquakes',
+    'Occurred a problem while loading the page': 'Occurred a problem while loading the page',
     'Occurred a problem': 'Occurred a problem',
     Time: 'Time',
     or: 'or',
@@ -84,5 +84,6 @@ export default {
     'You can see all earthquakes as a list': 'You can see all earthquakes as a list',
     Info: 'Info',
     'You can understand some colors/shapes by using this button': 'You can understand some colors/shapes by using this button',
+    'Sign out': 'Sign out',
   },
 }

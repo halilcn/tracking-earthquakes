@@ -4,7 +4,7 @@ export default {
     City: 'Şehir',
     "There aren't any earthquakes": 'Hiç deprem yok',
     'Search a place': 'Bir yer ara',
-    'Occurred a problem while getting the data on earthquakes': 'Deprem verileri çekilirken bir hata oluştu ',
+    'Occurred a problem while loading the page': 'Sayfa yüklenirken bir problem oluştu',
     'Occurred a problem': 'Bir hata meydana geldi',
     Time: 'Zaman',
     or: 'ya da',
@@ -81,7 +81,8 @@ export default {
     'You can focus anywhere you want': 'İstediğiniz yere odaklanabilirsiniz',
     'Earthquake List': 'Deprem Listesi',
     'You can see all earthquakes as a list': 'Tüm depremleri bir liste olarak görebilirsin',
-    Info: 'Info',
+    Info: 'Bilgi',
     'You can understand some colors/shapes by using this button': 'Bu butonu kullanarak bazı renkleri/şekilleri anlayabilirsiniz',
+    'Sign out': 'Çıkış yap',
   },
 }

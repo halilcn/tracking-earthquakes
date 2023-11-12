@@ -1,38 +1,65 @@
-import { Button } from '@mui/material'
-import { GoogleOAuthProvider } from '@react-oauth/google'
-import { GoogleLogin } from '@react-oauth/google'
+import { CircularProgress } from '@mui/material'
+import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google'
 import { useState } from 'react'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { AiOutlineGithub } from 'react-icons/ai'
 import { BiHelpCircle } from 'react-icons/bi'
+import { useDispatch, useSelector } from 'react-redux'
 
+import { postLogin } from '../../api'
+import { authActions, isLoggedInSelector } from '../../store/auth'
 import { getCurrentLanguage } from '../../utils'
+import { setUserToken } from '../../utils/localStorageActions'
 import InfoPopup from '../popups/info-popup'
 import './index.scss'
+import UserTop from './user-top'
 
-// TODO:
+const googleAuthProviderProps = {
+  clientId: process.env.VITE_GOOGLE_CLIENT_ID,
+}
+
+const POPUP_CONTENT_TYPES = {
+  INFO: 'info',
+}
 
 const PageTop = () => {
-  const POPUP_CONTENT_TYPES = {
-    INFO: 'info',
-  }
-
   const [activePopupContentType, setActivePopupContentType] = useState(null)
+  const [isLoggingIn, setIsLoggingIn] = useState(false)
+
+  const dispatch = useDispatch()
+  const { t } = useTranslation()
+
+  const isLoggedIn = useSelector(isLoggedInSelector)
 
   const disablePopup = () => setActivePopupContentType(null)
   const isActivePopup = type => activePopupContentType === type
 
-  const googleAuthProviderProps = {
-    clientId: process.env.VITE_GOOGLE_CLIENT_ID,
+  const handleOnSuccess = async credentialResponse => {
+    try {
+      setIsLoggingIn(true)
+
+      const res = await postLogin(credentialResponse.credential)
+      const { user } = res.data
+      const { token } = user
+
+      dispatch(authActions.setUser(user))
+      dispatch(authActions.setUserToken(token))
+      setUserToken(token)
+    } catch (err) {
+      alert(t('Occurred a problem'))
+    } finally {
+      setIsLoggingIn(false)
+    }
+  }
+
+  const handleOnError = () => {
+    alert(t('Occurred a problem'))
   }
 
   const googleLoginProps = {
-    onSuccess: credentialResponse => {
-      console.log('credentialResponse', credentialResponse)
-    },
-    onError: () => {
-      console.log('Login Failed')
-    },
+    onSuccess: handleOnSuccess,
+    onError: handleOnError,
     theme: 'filled_black',
     size: 'medium',
     shape: 'pill',
@@ -52,9 +79,16 @@ const PageTop = () => {
         />
       </div>
       <div className="app-top__action-list">
-        <GoogleOAuthProvider {...googleAuthProviderProps}>
-          <GoogleLogin {...googleLoginProps} />
-        </GoogleOAuthProvider>
+        {isLoggedIn ? (
+          <UserTop />
+        ) : (
+          <GoogleOAuthProvider {...googleAuthProviderProps}>
+            <div className={`app-top__login-button ${isLoggingIn && 'app-top__login-button--disabled'}`}>
+              {isLoggingIn && <CircularProgress className="app-top__login-loading" color="inherit" size={20} />}
+              <GoogleLogin {...googleLoginProps} />
+            </div>
+          </GoogleOAuthProvider>
+        )}
       </div>
       <InfoPopup enabled={isActivePopup(POPUP_CONTENT_TYPES.INFO)} disableHandle={disablePopup} />
     </div>

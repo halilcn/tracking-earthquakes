@@ -3,13 +3,14 @@ import { useEffect, useRef, useState } from 'react'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { getCustomPoints } from '../../api'
+import { getCustomPoints, getMe } from '../../api'
 import audio from '../../assets/sounds/new-earthquake.mp3'
 import { MAP_UPDATE_MIN, SOURCES } from '../../constants'
 import constantsTestid from '../../constants/testid'
 import useEffectIgnoreFirstRender from '../../hooks/useEffectIgnoreFirstRender'
 import { getAllEarthquakes } from '../../service/earthquakes'
 import firebase from '../../service/firebase'
+import { authActions, isLoggedInSelector } from '../../store/auth'
 import { earthquakeActions, isSelectedAnyArchiveItem } from '../../store/earthquake'
 import { userActions } from '../../store/user'
 import { getFirstGuideStatus, setFirstGuideStatus } from '../../utils/localStorageActions'
@@ -37,6 +38,7 @@ const AppContainer = () => {
       animationCurrentDate: animation.currentDate,
     }
   })
+  const isLoggedIn = useSelector(isLoggedInSelector)
 
   const handleIntroSteps = async () => {
     const steps = (await import('../../constants/intro-steps')).default
@@ -74,9 +76,14 @@ const AppContainer = () => {
     dispatch(earthquakeActions.setCustomPoints(customPoints))
   }
 
-  const firstGetEarthquakes = async () => {
+  const handleGetMe = async () => {
+    const res = await getMe()
+    dispatch(authActions.setUser(res.data.user))
+  }
+
+  const firstHandleRequests = async () => {
     try {
-      await handleGetEarthquakes()
+      await Promise.all([handleGetEarthquakes(), ...(isLoggedIn ? [handleGetMe()] : [])])
       //await handleGetCustomPoints() // for now it is disabled.
     } catch (err) {
       setHasError(true)
@@ -139,7 +146,7 @@ const AppContainer = () => {
       return
     }
 
-    firstGetEarthquakes()
+    firstHandleRequests()
     listenFirebaseAuth()
     createEarthquakesInterval()
     return removeEarthquakesInterval
