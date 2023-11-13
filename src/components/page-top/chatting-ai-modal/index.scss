@@ -1,0 +1,31 @@
+.chatting-top-header {
+   width: 100%;
+
+    &__title {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__text {
+        font-weight: 700;
+        color: #a0a8b3;
+        margin-left: 3px;
+    }
+
+    &__ai-image {
+        width: 25px;
+        height: 25px;
+    }
+}
+
+.chatting-content {
+    background-color: grey;
+    height: 100%;
+}
+
+.chatting-popup {
+    width: 600px;
+    height: 100%;
+    //max-height: 75%;
+}

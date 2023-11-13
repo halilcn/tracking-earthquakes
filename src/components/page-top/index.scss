@@ -15,6 +15,7 @@
 
     &__action-list {
         display: flex;
+        align-items: center;
     }
 
     &__action-item {
@@ -33,6 +34,66 @@
 
         &:hover {
             color: rgb(166, 166, 166);
+        }
+    }
+
+    &__action-links {
+        margin-right: 40px;
+    }
+
+    &__link {
+        position: relative;
+        display: flex;
+        justify-content: center;
+
+        &:hover {
+            .app-top {
+                &__link-tooltip {
+                    display: block;
+                }
+            }
+        }
+    }
+
+    &__link-text {
+        color: rgb(201, 201, 201);
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+
+        &:hover {
+            color: rgb(174, 174, 174);
+            text-decoration: underline;
+        }
+
+        &--disabled {
+            color: rgb(114, 114, 114);
+            pointer-events: none;
+        }
+    }
+
+    &__link-tooltip {
+        padding: 4px;
+        position: absolute;
+        z-index: 1;
+        background-color: rgb(147, 147, 147);
+        color: rgb(48, 48, 48);
+        font-size: 11px;
+        text-align: center;
+        width: 200%;
+        top: 30px;
+        border-radius: 5px;
+        display: none;
+
+        &:after {
+            content: "";
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: transparent transparent rgb(147, 147, 147) transparent;
         }
     }
 

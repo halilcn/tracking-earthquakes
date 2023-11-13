@@ -85,5 +85,7 @@ export default {
     Info: 'Info',
     'You can understand some colors/shapes by using this button': 'You can understand some colors/shapes by using this button',
     'Sign out': 'Sign out',
+    'AI Chat': 'AI Chat',
+    'Login required': 'Login required',
   },
 }

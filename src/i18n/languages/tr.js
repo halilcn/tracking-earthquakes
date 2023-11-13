@@ -84,5 +84,7 @@ export default {
     Info: 'Bilgi',
     'You can understand some colors/shapes by using this button': 'Bu butonu kullanarak bazı renkleri/şekilleri anlayabilirsiniz',
     'Sign out': 'Çıkış yap',
+    'AI Chat': 'AI Sohbet',
+    'Login required': 'Oturum açmak gerekli',
   },
 }

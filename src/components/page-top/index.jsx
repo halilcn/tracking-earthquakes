@@ -12,6 +12,7 @@ import { authActions, isLoggedInSelector } from '../../store/auth'
 import { getCurrentLanguage } from '../../utils'
 import { setUserToken } from '../../utils/localStorageActions'
 import InfoPopup from '../popups/info-popup'
+import ChattingAIModal from './chatting-ai-modal'
 import './index.scss'
 import UserTop from './user-top'
 
@@ -21,6 +22,7 @@ const googleAuthProviderProps = {
 
 const POPUP_CONTENT_TYPES = {
   INFO: 'info',
+  AI_CHAT: 'ai-chat',
 }
 
 const PageTop = () => {
@@ -57,6 +59,10 @@ const PageTop = () => {
     alert(t('Occurred a problem'))
   }
 
+  const handleClickAIChatItem = () => {
+    setActivePopupContentType(POPUP_CONTENT_TYPES.AI_CHAT)
+  }
+
   const googleLoginProps = {
     onSuccess: handleOnSuccess,
     onError: handleOnError,
@@ -79,6 +85,14 @@ const PageTop = () => {
         />
       </div>
       <div className="app-top__action-list">
+        <div className="app-top__action-links">
+          <div className="app-top__link app-top__link--chat">
+            <div onClick={handleClickAIChatItem} className={`app-top__link-text ${!isLoggedIn ? 'app-top__link-text--disabled' : ''}`}>
+              {t('AI Chat')}
+            </div>
+            {!isLoggedIn && <div className="app-top__link-tooltip">{t('Login required')}</div>}
+          </div>
+        </div>
         {isLoggedIn ? (
           <UserTop />
         ) : (
@@ -91,6 +105,7 @@ const PageTop = () => {
         )}
       </div>
       <InfoPopup enabled={isActivePopup(POPUP_CONTENT_TYPES.INFO)} disableHandle={disablePopup} />
+      {isLoggedIn && <ChattingAIModal enabled={isActivePopup(POPUP_CONTENT_TYPES.AI_CHAT)} disableHandle={disablePopup} />}
     </div>
   )
 }
