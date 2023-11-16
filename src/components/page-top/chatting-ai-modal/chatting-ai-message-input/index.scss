@@ -1,0 +1,37 @@
+.chatting-message-input {
+    //background-color: grey;
+    //height: 70px;
+    width: 100%;
+    padding: 10px;
+
+    &__input-container {
+        background-color: #F6F7F7;
+        display: flex;
+        padding: 12px;
+        border-radius: 30px;
+        border: 2px solid transparent;
+        //border-color: #d3dee8;
+    }
+
+    &__type-text {
+        width: 100%;
+        border-width: 0;
+        background-color: transparent;
+        font-weight: 400;
+
+        &::placeholder {
+            color: rgb(128, 128, 128);
+        }
+    }
+
+    &__send-button {
+        background-color: #1395FF;
+        font-size: 12px;
+        padding: 7px 12px;
+        border-radius: 20px;
+        font-weight: 600;
+        color: white;
+        margin-left: 10px;
+        cursor: pointer;
+    }
+}

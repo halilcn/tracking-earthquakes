@@ -1,5 +1,7 @@
 import AIImage from '../../../../public/ai.png'
 import Popup from '../../popup'
+import ChattingAIMessageInput from './chatting-ai-message-input'
+import ChattingAIMessages from './chatting-ai-messages'
 import './index.scss'
 
 const CustomTopHeader = () => {
@@ -17,8 +19,11 @@ const ChattingAIModal = props => {
   const { enabled, disableHandle } = props
 
   return (
-    <Popup enabled={enabled} disableHandle={disableHandle} CustomTopHeader={CustomTopHeader} customPopupModalClass="chatting-popup">
-      <div className="chatting-content">AI chatting content</div>
+    <Popup enabled={true} disableHandle={disableHandle} CustomTopHeader={CustomTopHeader} customPopupModalClass="chatting-popup">
+      <div className="chatting-popup__content">
+        <ChattingAIMessages />
+        <ChattingAIMessageInput />
+      </div>
     </Popup>
   )
 }

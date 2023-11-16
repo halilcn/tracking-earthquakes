@@ -1,5 +1,5 @@
 .chatting-top-header {
-   width: 100%;
+    width: 100%;
 
     &__title {
         display: flex;
@@ -19,13 +19,14 @@
     }
 }
 
-.chatting-content {
-    background-color: grey;
-    height: 100%;
-}
-
 .chatting-popup {
     width: 600px;
     height: 100%;
-    //max-height: 75%;
+    max-height: 70%;
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
 }
