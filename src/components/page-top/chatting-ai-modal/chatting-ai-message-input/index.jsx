@@ -1,10 +1,31 @@
+import { useState } from 'react'
+
+import ChattingAIMessageTypes from './chatting-ai-message-types'
 import './index.scss'
 
 const ChattingAIMessageInput = () => {
+  const [isFocused, setIsFocused] = useState(false)
+
+  const inputHandleOnFocus = () => {
+    console.log('okay')
+    setIsFocused(true)
+  }
+
+  const inputHandleOnBlur = () => {
+    setIsFocused(false)
+  }
+
   return (
     <div className="chatting-message-input">
-      <div className="chatting-message-input__input-container">
-        <input placeholder='Type your question' className='chatting-message-input__type-text' type="text" />
+      <div className={`chatting-message-input__input-container ${isFocused ? 'chatting-message-input__input-container--focused' : ''}`}>
+        <ChattingAIMessageTypes />
+        <input
+          onFocus={inputHandleOnFocus}
+          onBlur={inputHandleOnBlur}
+          placeholder="Type your question"
+          className="chatting-message-input__type-text"
+          type="text"
+        />
         <div className="chatting-message-input__send-button">Send</div>
       </div>
     </div>

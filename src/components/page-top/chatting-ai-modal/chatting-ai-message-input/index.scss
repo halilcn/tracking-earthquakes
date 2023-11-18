@@ -7,10 +7,15 @@
     &__input-container {
         background-color: #F6F7F7;
         display: flex;
+        align-items: center;
         padding: 12px;
         border-radius: 30px;
         border: 2px solid transparent;
-        //border-color: #d3dee8;
+        transition: .2s;
+
+        &--focused {
+            border-color: #d3dee8;
+        }
     }
 
     &__type-text {
