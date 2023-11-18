@@ -1,5 +1,6 @@
+@import "../../../../styles/variables.scss";
+
 .chatting-messages {
-    //background-color: grey;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -12,28 +13,30 @@
         border-radius: 20px;
         display: flex;
         flex-direction: column;
+        margin: 5px 0;
 
         &--ai {
             align-self: flex-start;
             background-color: #F6F7F7;
-            color: rgb(30, 30, 30);
+            color: rgb(46, 46, 46);
+            border-bottom-left-radius: 0;
         }
 
         &--me {
             background-color: #1395FF;
-            color: white;
             align-self: flex-end;
-            color: rgb(239, 239, 239);
+            color: rgb(247, 247, 247);
+            border-bottom-right-radius: 0;
         }
     }
 
     &__info {
         display: flex;
-        margin-top: 3px;
+        margin-top: 8px;
     }
 
     &__info-item {
-        margin-right: 3px;
+        margin-right: 8px;
         display: flex;
     }
 
@@ -44,5 +47,17 @@
 
     &__info-content {
         margin-left: 4px;
+    }
+
+    &__message-type-img {
+        width: 15px;
+        height: 15px;
+    }
+
+    @media only screen and (max-width: $mobile-width) {
+        &__item {
+            max-width: 90%;
+            padding: 8px;
+        }
     }
 }

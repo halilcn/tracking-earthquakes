@@ -7,7 +7,6 @@ const ChattingAIMessageInput = () => {
   const [isFocused, setIsFocused] = useState(false)
 
   const inputHandleOnFocus = () => {
-    console.log('okay')
     setIsFocused(true)
   }
 
@@ -26,7 +25,7 @@ const ChattingAIMessageInput = () => {
           className="chatting-message-input__type-text"
           type="text"
         />
-        <div className="chatting-message-input__send-button">Send</div>
+        <div className="chatting-message-input__send-button chatting-message-input__send-button--disabled">Send</div>
       </div>
     </div>
   )

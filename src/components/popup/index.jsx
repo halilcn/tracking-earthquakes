@@ -7,9 +7,9 @@ import './index.scss'
 
 const Popup = props => {
   const testid = constantsTestid.popup
-  const { children, title, enabled, disableHandle, CustomTopHeader, customPopupModalClass } = props
+  const { children, title, enabled, disableHandle, customTopHeader, customPopupModalClass } = props
 
-  const hasCustomTopHeader = !!CustomTopHeader
+  const hasCustomTopHeader = !!customTopHeader
 
   const popupBgFilterProps = {
     'data-testid': testid.popupBackground,
@@ -57,7 +57,7 @@ const Popup = props => {
       <motion.div {...popupBgFilterProps} />
       <motion.div {...popupModalProps}>
         <div className={`popup__top ${!hasCustomTopHeader ? 'popup__top--default-header' : ''} `}>
-          {hasCustomTopHeader ? <CustomTopHeader /> : <div className="popup__title">{title}</div>}
+          {hasCustomTopHeader ? customTopHeader : <div className="popup__title">{title}</div>}
           <IoMdClose data-testid={testid.closeButton} className="popup__close-button" onClick={disableHandle} />
         </div>
         <div data-testid={testid.content} className="popup__content">

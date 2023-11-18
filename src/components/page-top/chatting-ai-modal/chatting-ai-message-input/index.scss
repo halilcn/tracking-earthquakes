@@ -1,8 +1,8 @@
+@import '../../../../styles/variables.scss';
+
 .chatting-message-input {
-    //background-color: grey;
-    //height: 70px;
     width: 100%;
-    padding: 10px;
+    padding: 10px 0;
 
     &__input-container {
         background-color: #F6F7F7;
@@ -14,7 +14,7 @@
         transition: .2s;
 
         &--focused {
-            border-color: #d3dee8;
+            border-color: #5eb4ff;
         }
     }
 
@@ -23,6 +23,7 @@
         border-width: 0;
         background-color: transparent;
         font-weight: 400;
+        color: rgb(71, 71, 71);
 
         &::placeholder {
             color: rgb(128, 128, 128);
@@ -32,11 +33,29 @@
     &__send-button {
         background-color: #1395FF;
         font-size: 12px;
-        padding: 7px 12px;
+        padding: 8px 13px;
         border-radius: 20px;
         font-weight: 600;
         color: white;
         margin-left: 10px;
         cursor: pointer;
+        transition: .2s;
+
+        &:hover {
+            background-color: #35a4ff;
+        }
+
+        &--disabled {
+            background-color: rgb(193, 197, 201);
+            color: rgb(108, 108, 108);
+            pointer-events: none;
+        }
+    }
+
+    @media only screen and (max-width: $mobile-width) {
+        &__input-container {
+            padding: 8px;
+            border-width: 1;
+        }
     }
 }
