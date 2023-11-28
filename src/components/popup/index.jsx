@@ -56,13 +56,17 @@ const Popup = props => {
     <div data-testid={testid.popupContainer} className="popup">
       <motion.div {...popupBgFilterProps} />
       <motion.div {...popupModalProps}>
-        <div className={`popup__top ${!hasCustomTopHeader ? 'popup__top--default-header' : ''} `}>
-          {hasCustomTopHeader ? customTopHeader : <div className="popup__title">{title}</div>}
-          <IoMdClose data-testid={testid.closeButton} className="popup__close-button" onClick={disableHandle} />
-        </div>
-        <div data-testid={testid.content} className="popup__content">
-          {children}
-        </div>
+        {enabled && (
+          <>
+            <div className={`popup__top ${!hasCustomTopHeader ? 'popup__top--default-header' : ''} `}>
+              {hasCustomTopHeader ? customTopHeader : <div className="popup__title">{title}</div>}
+              <IoMdClose data-testid={testid.closeButton} className="popup__close-button" onClick={disableHandle} />
+            </div>
+            <div data-testid={testid.content} className="popup__content">
+              {children}
+            </div>
+          </>
+        )}
       </motion.div>
     </div>
   )
