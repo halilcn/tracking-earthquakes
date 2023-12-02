@@ -1,6 +1,5 @@
 import { useState } from 'react'
 
-import ChattingAIMessageTypes from './chatting-ai-message-types'
 import './index.scss'
 
 const ChattingAIMessageInput = () => {
@@ -17,7 +16,6 @@ const ChattingAIMessageInput = () => {
   return (
     <div className="chatting-message-input">
       <div className={`chatting-message-input__input-container ${isFocused ? 'chatting-message-input__input-container--focused' : ''}`}>
-        <ChattingAIMessageTypes />
         <input
           onFocus={inputHandleOnFocus}
           onBlur={inputHandleOnBlur}
