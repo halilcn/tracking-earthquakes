@@ -86,5 +86,7 @@ export default {
     'Sign out': 'Çıkış yap',
     'AI Chat': 'AI Sohbet',
     'Login required': 'Oturum açmak gerekli',
+    'No messages yet. You can ask anything related to earthquakes!': 'Hiç mesaj yok. Depremle ilgili her şeyi sorabilirsiniz!',
+    Type: 'Tip',
   },
 }

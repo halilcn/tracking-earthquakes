@@ -152,3 +152,13 @@ export const MAPBOX_SOURCES = {
 export const SOURCE_COLOR_DISABLE_VALUE = 0
 
 export const SOURCE_COLOR_ENABLE_VALUE = 1.5
+
+export const MESSAGE_OWNER_TYPES = {
+  USER: 'user',
+  AI: 'ai',
+}
+
+export const MESSAGE_TYPES = {
+  GENERAL: 'general',
+  EARTHQUAKE: 'earthquake',
+}

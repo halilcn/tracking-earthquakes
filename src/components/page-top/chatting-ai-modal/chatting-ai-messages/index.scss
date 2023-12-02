@@ -38,6 +38,7 @@
     &__info-item {
         margin-right: 8px;
         display: flex;
+        margin-left: auto;
     }
 
     &__info-title {
@@ -52,6 +53,30 @@
     &__message-type-img {
         width: 15px;
         height: 15px;
+    }
+
+    &__skelton-list {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__skelton {
+        width: 80%;
+        height: 80px;
+        margin: 10px 0;
+        padding: 10px;
+
+        &--user {
+            align-self: flex-end;
+        }
+    }
+
+    &__hello-message {
+        font-size: 12px;
+        text-align: center;
+        color: rgb(158, 158, 158);
+        margin-top: auto;
+        margin-bottom: 20px;
     }
 
     @media only screen and (max-width: $mobile-width) {

@@ -51,3 +51,13 @@ export const getMe = async () => {
   const { data } = await apiAxios.get('/users/me')
   return data
 }
+
+export const getAllMessages = async () => {
+  const { data } = await apiAxios.get('/messages')
+  return data
+}
+
+export const postAIMessage = async (payload) => {
+  const { data } = await apiAxios.post('/messages/ai', payload)
+  return data
+}
