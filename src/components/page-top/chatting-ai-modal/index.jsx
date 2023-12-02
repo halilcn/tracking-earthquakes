@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import AIImage from '../../../../public/ai.png'
 import Popup from '../../popup'
 import ChattingAIMessageInput from './chatting-ai-message-input'
@@ -18,11 +20,13 @@ const CustomTopHeader = () => {
 const ChattingAIModal = props => {
   const { enabled, disableHandle } = props
 
+  const [isAnswering, setIsAnswering] = useState(false)
+
   return (
     <Popup enabled={enabled} disableHandle={disableHandle} customTopHeader={<CustomTopHeader />} customPopupModalClass="chatting-popup">
       <div className="chatting-popup__content">
-        <ChattingAIMessages />
-        <ChattingAIMessageInput />
+        <ChattingAIMessages isAnswering={isAnswering} />
+        <ChattingAIMessageInput setIsAnswering={setIsAnswering} />
       </div>
     </Popup>
   )

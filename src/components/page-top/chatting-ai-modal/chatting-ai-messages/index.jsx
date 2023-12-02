@@ -8,12 +8,15 @@ import { getAllMessages } from '../../../../api'
 import { MESSAGE_OWNER_TYPES, MESSAGE_TYPES } from '../../../../constants'
 import { messageActions } from '../../../../store/message'
 import Skelton from '../../../skeleton'
+import ChattingAiLoadingMessageContent from './chatting-ai-loading-message-content'
 import './index.scss'
 
 const checkIsUserOwnerMessage = type => type === MESSAGE_OWNER_TYPES.USER
 const checkIsGeneralMessage = type => type === MESSAGE_TYPES.GENERAL
 
-const ChattingAIMessages = () => {
+const ChattingAIMessages = props => {
+  const { isAnswering } = props
+
   const [isLoading, setIsLoading] = useState(true)
 
   const dispatch = useDispatch()
@@ -72,6 +75,13 @@ const ChattingAIMessages = () => {
             )}
           </div>
         ))}
+      {isAnswering && (
+        <div className="chatting-messages__item chatting-messages__item--ai chatting-messages__item--loading-message">
+          <div className="chatting-messages__content">
+            <ChattingAiLoadingMessageContent />
+          </div>
+        </div>
+      )}
     </div>
   )
 }
