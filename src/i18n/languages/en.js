@@ -88,6 +88,8 @@ export default {
     'AI Chat': 'AI Chat',
     'Login required': 'Login required',
     'No messages yet. You can ask anything related to earthquakes!': 'No messages yet. You can ask anything related to earthquakes!',
-    Type: 'Types',
+    Type: 'Type',
+    'Type a question': 'Type a question',
+    Send: 'Send',
   },
 }

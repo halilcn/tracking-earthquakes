@@ -26,7 +26,7 @@ const ChattingAIModal = props => {
     <Popup enabled={enabled} disableHandle={disableHandle} customTopHeader={<CustomTopHeader />} customPopupModalClass="chatting-popup">
       <div className="chatting-popup__content">
         <ChattingAIMessages isAnswering={isAnswering} />
-        <ChattingAIMessageInput setIsAnswering={setIsAnswering} />
+        <ChattingAIMessageInput isAnswering={isAnswering} setIsAnswering={setIsAnswering} />
       </div>
     </Popup>
   )

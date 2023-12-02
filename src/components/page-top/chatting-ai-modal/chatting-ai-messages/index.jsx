@@ -11,9 +11,6 @@ import Skelton from '../../../skeleton'
 import ChattingAiLoadingMessageContent from './chatting-ai-loading-message-content'
 import './index.scss'
 
-const checkIsUserOwnerMessage = type => type === MESSAGE_OWNER_TYPES.USER
-const checkIsGeneralMessage = type => type === MESSAGE_TYPES.GENERAL
-
 const ChattingAIMessages = props => {
   const { isAnswering } = props
 
@@ -57,16 +54,16 @@ const ChattingAIMessages = props => {
         allMessages.map(message => (
           <div
             className={`chatting-messages__item ${
-              checkIsUserOwnerMessage(message.owner) ? 'chatting-messages__item--me' : 'chatting-messages__item--ai'
+              message.owner === MESSAGE_OWNER_TYPES.USER ? 'chatting-messages__item--me' : 'chatting-messages__item--ai'
             }`}>
             <div className="chatting-messages__content">{message.content}</div>
-            {checkIsUserOwnerMessage(message.owner) && (
+            {message.owner === MESSAGE_OWNER_TYPES.AI && (
               <div className="chatting-messages__info">
                 <div className="chatting-messages__info-item">
                   <div className="chatting-messages__info-title">{t('Type')}:</div>
                   <div className="chatting-messages__info-content">
                     <img
-                      src={checkIsGeneralMessage(message.type) ? MessageGeneralType : MessageEarthquakeType}
+                      src={message.type === MESSAGE_TYPES.GENERAL ? MessageGeneralType : MessageEarthquakeType}
                       className="chatting-messages__message-type-img"
                     />
                   </div>

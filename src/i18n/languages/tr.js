@@ -88,5 +88,7 @@ export default {
     'Login required': 'Oturum açmak gerekli',
     'No messages yet. You can ask anything related to earthquakes!': 'Hiç mesaj yok. Depremle ilgili her şeyi sorabilirsiniz!',
     Type: 'Tip',
+    'Type a question': 'Bir soru yaz',
+    Send: 'Gönder',
   },
 }
