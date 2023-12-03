@@ -1,5 +1,4 @@
 import { getEarthquakesInTurkey, getEarthquakesInWorld } from '../api'
-import { SOURCES } from '../constants'
 import { convertDateFormatForAPI, prepareEarthquakeKandilli, prepareEarthquakeUsgs } from '../utils'
 import dayjs from '../utils/dayjs'
 
@@ -36,9 +35,8 @@ export const handleEarthquakesUsgs = async (payload = {}) => {
 }
 
 export const getAllEarthquakes = async (payload = {}) => {
-  const allEarthquakes = await Promise.all([
-    handleEarthquakesKandilli(payload[SOURCES.KANDILLI]),
-    handleEarthquakesUsgs(payload[SOURCES.USGS]),
-  ]).then(result => result.flat())
+  const allEarthquakes = await Promise.all([handleEarthquakesKandilli(payload), handleEarthquakesUsgs(payload)]).then(result =>
+    result.flat()
+  )
   return allEarthquakes
 }

@@ -3,7 +3,6 @@ import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { SOURCES } from '../../../../../constants'
 import constantsTestid from '../../../../../constants/testid'
 import useEarthquakeAnimation from '../../../../../hooks/useEarthquakeAnimation'
 import { getAllEarthquakes } from '../../../../../service/earthquakes'
@@ -34,14 +33,8 @@ const ActionButtons = () => {
       handleSetIsLoadingData(true)
 
       const allEarthquakes = await getAllEarthquakes({
-        [SOURCES.KANDILLI]: {
-          startDate: convertDateFormatForAPI(dayjs(animation.filters.startDate)),
-          endDate: convertDateFormatForAPI(dayjs(animation.filters.endDate)),
-        },
-        [SOURCES.USGS]: {
-          startDate: convertDateFormatForAPI(dayjs(animation.filters.startDate)),
-          endDate: convertDateFormatForAPI(dayjs(animation.filters.endDate)),
-        },
+        startDate: convertDateFormatForAPI(dayjs(animation.filters.startDate)),
+        endDate: convertDateFormatForAPI(dayjs(animation.filters.endDate)),
       })
 
       handleSetAnimationAllEarthquakes(allEarthquakes)

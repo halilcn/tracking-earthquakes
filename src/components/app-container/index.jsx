@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { getCustomPoints, getMe } from '../../api'
 import audio from '../../assets/sounds/new-earthquake.mp3'
-import { MAP_UPDATE_MIN, SOURCES } from '../../constants'
+import { MAP_UPDATE_MIN } from '../../constants'
 import constantsTestid from '../../constants/testid'
 import useEffectIgnoreFirstRender from '../../hooks/useEffectIgnoreFirstRender'
 import { getAllEarthquakes } from '../../service/earthquakes'
@@ -83,7 +83,17 @@ const AppContainer = () => {
 
   const firstHandleRequests = async () => {
     try {
-      await Promise.all([handleGetEarthquakes(), ...(isLoggedIn ? [handleGetMe()] : [])])
+      const hasArchiveDates = !!archiveDate.startDate && !!archiveDate.endDate
+      const getEarthquakesPayload = {
+        ...(hasArchiveDates
+          ? {
+              params: { endDate: archiveDate.endDate, startDate: archiveDate.startDate },
+              newEarthquakeNotification: false,
+            }
+          : {}),
+      }
+
+      await Promise.all([handleGetEarthquakes(getEarthquakesPayload), ...(isLoggedIn ? [handleGetMe()] : [])])
       //await handleGetCustomPoints() // for now it is disabled.
     } catch (err) {
       setHasError(true)
@@ -123,29 +133,7 @@ const AppContainer = () => {
     return removeEarthquakesInterval
   }
 
-  const firstGetArchiveEarthquakes = async () => {
-    try {
-      const params = Object.values(SOURCES).reduce(
-        (acc, source) => ({
-          [source]: { endDate: archiveDate.endDate, startDate: archiveDate.startDate },
-          ...acc,
-        }),
-        {}
-      )
-      await handleGetEarthquakes({ params, newEarthquakeNotification: false })
-    } catch (err) {
-      setHasError(true)
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
   useEffect(() => {
-    if (!!archiveDate.startDate && !!archiveDate.endDate) {
-      firstGetArchiveEarthquakes()
-      return
-    }
-
     firstHandleRequests()
     listenFirebaseAuth()
     createEarthquakesInterval()
