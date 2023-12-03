@@ -3,6 +3,9 @@
 .chatting-message-input {
     width: 100%;
     padding: 10px 0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
 
     &__input-container {
         background-color: #F6F7F7;
@@ -50,6 +53,26 @@
             color: rgb(108, 108, 108);
             pointer-events: none;
         }
+    }
+
+    &__no-limit {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        top: -30px;
+        position: absolute;
+        font-size: 11px;
+        background-color: #FFF4E5;
+        font-weight: 400;
+        color: rgb(55, 55, 55);
+        padding: 4px 20px;
+        border-radius: 7px;
+        color: #663C00;
+        align-self: center;
+    }
+
+    &__no-limit-text {
+        margin-left: 5px;
     }
 
     @media only screen and (max-width: $mobile-width) {

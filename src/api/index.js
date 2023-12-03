@@ -57,7 +57,12 @@ export const getAllMessages = async () => {
   return data
 }
 
-export const postAIMessage = async (payload) => {
+export const postAIMessage = async payload => {
   const { data } = await apiAxios.post('/messages/ai', payload)
+  return data
+}
+
+export const getMessageLimits = async () => {
+  const { data } = await apiAxios.get('/message-limits')
   return data
 }

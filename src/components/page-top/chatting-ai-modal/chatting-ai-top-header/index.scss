@@ -1,0 +1,59 @@
+@import "../../../../styles/variables.scss";
+
+.chatting-top-header {
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    &__token-skelton {
+        width: 80px;
+    }
+
+    &__token {
+        position: absolute;
+        display: flex;
+        font-size: 12px;
+        background-color: rgb(245, 245, 245);
+        padding: 6px;
+        border-radius: 5px;
+    }
+
+    &__token-count {
+        font-weight: 600;
+    }
+
+    &__token-text {
+        margin-left: 5px;
+    }
+
+    &__title {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__text {
+        font-weight: 700;
+        color: #a0a8b3;
+        margin-left: 3px;
+        font-size: 16px;
+    }
+
+    &__ai-image {
+        width: 25px;
+        height: 25px;
+    }
+
+    @media only screen and (max-width: $mobile-width) {
+        &__text {
+            font-size: 14px;
+        }
+
+        &__ai-image {
+            width: 20px;
+            height: 20px;
+        }
+    }
+}

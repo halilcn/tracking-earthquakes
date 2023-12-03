@@ -1,15 +1,14 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useDispatch } from 'react-redux'
+import { FaInfoCircle } from 'react-icons/fa'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { postAIMessage } from '../../../../api'
 import { MESSAGE_OWNER_TYPES } from '../../../../constants'
 import { messageActions } from '../../../../store/message'
 import './index.scss'
 
-// TODO: message limit
 // TODO: general error handler
-// TODO: limit usage error handler
 const ChattingAIMessageInput = props => {
   const { isAnswering, setIsAnswering } = props
 
@@ -19,7 +18,11 @@ const ChattingAIMessageInput = props => {
   const dispatch = useDispatch()
   const { t } = useTranslation()
 
-  const isDisabled = message === ''
+  const allMessageLimits = useSelector(state => state.message.allMessageLimits)
+
+  const isTokenNumber = typeof allMessageLimits.token === 'number'
+  const hasEnoughLimit = isTokenNumber && allMessageLimits.token > 0
+  const isDisabled = message === '' || (!hasEnoughLimit && isTokenNumber)
 
   const handleOnFocusMessageInput = () => {
     setIsFocused(true)
@@ -38,14 +41,18 @@ const ChattingAIMessageInput = props => {
     console.log('func trigger', functionCall)
   }
 
-  const handleMessageActionsByResponse = async res => {
-    const functionCall = res.data?.functionCall
+  const handleUpdateTokenLimit = messageToken => {
+    dispatch(messageActions.updateMessageTokenLimit(messageToken))
+  }
+
+  const handleMessageActionsByResponse = async resData => {
+    const functionCall = resData?.functionCall
     if (functionCall) {
       await handleTriggerFunctions(functionCall)
       return
     }
 
-    const message = res.data?.message
+    const message = resData?.message
     if (message) {
       dispatch(messageActions.addMessage(message))
     }
@@ -65,10 +72,22 @@ const ChattingAIMessageInput = props => {
       setMessage('')
       setIsAnswering(true)
 
-      const res = await postAIMessage({
-        content: message,
-      })
-      await handleMessageActionsByResponse(res)
+      const resData = (
+        await postAIMessage({
+          content: message,
+        })
+      ).data
+
+      handleUpdateTokenLimit(resData.totalPromptUsage)
+      await handleMessageActionsByResponse(resData)
+    } catch (err) {
+      const errorMessage = err.response.data?.message
+
+      if (errorMessage === 'An error occurred while creating user message') {
+        dispatch(messageActions.deleteLastUserOwnerMessage())
+      }
+
+      alert(t('Occurred a problem'))
     } finally {
       setIsAnswering(false)
     }
@@ -76,6 +95,12 @@ const ChattingAIMessageInput = props => {
 
   return (
     <div className="chatting-message-input">
+      {!hasEnoughLimit && isTokenNumber && (
+        <div className="chatting-message-input__no-limit">
+          <FaInfoCircle />
+          <div className="chatting-message-input__no-limit-text">{t("You don't have enough limit")}</div>
+        </div>
+      )}
       <div className={`chatting-message-input__input-container ${isFocused ? 'chatting-message-input__input-container--focused' : ''}`}>
         <input
           onFocus={handleOnFocusMessageInput}

@@ -90,5 +90,6 @@ export default {
     Type: 'Tip',
     'Type a question': 'Bir soru yaz',
     Send: 'Gönder',
+    "You don't have enough limit": 'Yeterli limitiniz yok',
   },
 }

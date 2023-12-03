@@ -91,5 +91,6 @@ export default {
     Type: 'Type',
     'Type a question': 'Type a question',
     Send: 'Send',
+    "You don't have enough limit": "You don't have enough limit",
   },
 }
