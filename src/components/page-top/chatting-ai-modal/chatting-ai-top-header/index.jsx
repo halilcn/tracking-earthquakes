@@ -42,7 +42,10 @@ const ChattingAITopHeader = () => {
       </div>
       <div className="chatting-top-header__title">
         <img className="chatting-top-header__ai-image" alt="ai image" src={AIImage} />
-        <div className="chatting-top-header__text">CHAT</div>
+        <div className="chatting-top-header__text">
+          CHAT
+          <div className="chatting-top-header__beta">BETA</div>
+        </div>
       </div>
     </div>
   )

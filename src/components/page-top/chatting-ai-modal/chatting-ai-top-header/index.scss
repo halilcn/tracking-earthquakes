@@ -39,6 +39,23 @@
         color: #a0a8b3;
         margin-left: 3px;
         font-size: 16px;
+        position: relative;
+    }
+
+    &__beta {
+        display: flex;
+        position: absolute;
+        left: 55px;
+        top: 0;
+        font-size: 8px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        font-weight: 600;
+        background-color: #26A84B;
+        color: white;
+        padding: 5px;
+        border-radius: 5px;
     }
 
     &__ai-image {
