@@ -15,6 +15,7 @@ const ChattingAIMessages = props => {
   const { isAnswering } = props
 
   const [isLoading, setIsLoading] = useState(true)
+  const [selectedAiOwnerTypeMessageId, setSelectedAiOwnerTypeMessageId] = useState(null)
 
   const dispatch = useDispatch()
   const { t } = useTranslation()
@@ -27,6 +28,10 @@ const ChattingAIMessages = props => {
     setTimeout(() => {
       lastMessageInspectorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' })
     }, 10)
+
+  const checkIsSelectedAiOwnerTypeMessage = messageId => messageId === selectedAiOwnerTypeMessageId
+  const handleClickAiOwnerMessage = messageId => () =>
+    setSelectedAiOwnerTypeMessageId(checkIsSelectedAiOwnerTypeMessage(messageId) ? null : messageId)
 
   const handleGetMessages = async () => {
     try {
@@ -69,13 +74,15 @@ const ChattingAIMessages = props => {
       )}
       {!isLoading &&
         hasMessage &&
-        allMessages.map(message => (
+        allMessages.map((message, key) => (
           <div
+            {...(message.owner === MESSAGE_OWNER_TYPES.AI ? { onClick: handleClickAiOwnerMessage(message._id) } : {})}
+            key={message._id || key}
             className={`chatting-messages__item ${
               message.owner === MESSAGE_OWNER_TYPES.USER ? 'chatting-messages__item--me' : 'chatting-messages__item--ai'
             }`}>
             <div className="chatting-messages__content">{message.content}</div>
-            {message.owner === MESSAGE_OWNER_TYPES.AI && (
+            {checkIsSelectedAiOwnerTypeMessage(message._id) && message.owner === MESSAGE_OWNER_TYPES.AI && (
               <div className="chatting-messages__info">
                 <div className="chatting-messages__info-item">
                   <div className="chatting-messages__info-title">{t('Type')}:</div>

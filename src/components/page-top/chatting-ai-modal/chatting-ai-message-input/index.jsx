@@ -39,6 +39,12 @@ const ChattingAIMessageInput = props => {
     setMessage(e.target.value)
   }
 
+  const handleOnKeyUpMessageInput = async e => {
+    if (e.key === 'Enter') {
+      await handlePostAIMessage()
+    }
+  }
+
   const handlePastEarthquakeQuestion = async resData => {
     const { functionCall, createdUserMessage } = resData
     const { date } = JSON.parse(functionCall.arguments)
@@ -132,6 +138,10 @@ const ChattingAIMessageInput = props => {
     }
   }
 
+  const handleOnClickSendButton = async () => {
+    await handlePostAIMessage()
+  }
+
   return (
     <div className="chatting-message-input">
       {!hasEnoughLimit && isTokenNumber && (
@@ -145,13 +155,14 @@ const ChattingAIMessageInput = props => {
           onFocus={handleOnFocusMessageInput}
           onBlur={handleOnBlurMessageInput}
           onChange={handleChangeMessageInput}
+          onKeyUp={handleOnKeyUpMessageInput}
           value={message}
           placeholder={t('Type a question')}
           className="chatting-message-input__type-text"
           type="text"
         />
         <div
-          onClick={handlePostAIMessage}
+          onClick={handleOnClickSendButton}
           className={`chatting-message-input__send-button ${
             (isDisabled || isAnswering) && 'chatting-message-input__send-button--disabled'
           }`}>
