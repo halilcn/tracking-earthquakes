@@ -66,3 +66,8 @@ export const getMessageLimits = async () => {
   const { data } = await apiAxios.get('/message-limits')
   return data
 }
+
+export const postAIEarthquakeMessage = async payload => {
+  const { data } = await apiAxios.post('/messages/ai-earthquake', payload)
+  return data
+}

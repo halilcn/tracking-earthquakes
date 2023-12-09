@@ -3,9 +3,12 @@ import { useTranslation } from 'react-i18next'
 import { FaInfoCircle } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { postAIMessage } from '../../../../api'
-import { MESSAGE_OWNER_TYPES } from '../../../../constants'
+import { postAIEarthquakeMessage, postAIMessage } from '../../../../api'
+import { MESSAGE_OWNER_TYPES, SOURCES } from '../../../../constants'
+import { getAllEarthquakes } from '../../../../service/earthquakes'
 import { messageActions } from '../../../../store/message'
+import { convertDateFormatForAPI } from '../../../../utils'
+import dayjs from '../../../../utils/dayjs'
 import './index.scss'
 
 // TODO: general error handler
@@ -36,9 +39,46 @@ const ChattingAIMessageInput = props => {
     setMessage(e.target.value)
   }
 
-  const handleTriggerFunctions = async functionCall => {
-    // TODO:
-    console.log('func trigger', functionCall)
+  const handlePastEarthquakeQuestion = async resData => {
+    const { functionCall, createdUserMessage } = resData
+    const { date } = JSON.parse(functionCall.arguments)
+
+    const selectedDate = dayjs(date, 'DD/MM/YYYY')
+    const payload = {
+      startDate: convertDateFormatForAPI(selectedDate),
+      endDate: convertDateFormatForAPI(selectedDate.add(1, 'day')),
+    }
+
+    const allEarthquakes = (await getAllEarthquakes(payload))
+      .filter(earthquake => {
+        const isSameData = selectedDate.isSame(earthquake.properties.date, 'day')
+        const isAvailableMag = Number(earthquake.properties.mag) > 2
+
+        return isSameData && isAvailableMag
+      })
+      .map(({ properties }) => {
+        const { mag, title, coordinates, date } = properties
+
+        return { coordinates, date, mag, location: title }
+      })
+
+    const answer = (
+      await postAIEarthquakeMessage({
+        userMessageId: createdUserMessage._id,
+        earthquakes: allEarthquakes,
+      })
+    ).data
+
+    dispatch(messageActions.addMessage(answer.message))
+    dispatch(messageActions.updateMessageTokenLimit(answer.totalPromptUsage))
+  }
+
+  const handleTriggerFunctions = async resData => {
+    switch (resData.functionCall.name) {
+      case 'handlePastEarthquakeQuestion':
+        await handlePastEarthquakeQuestion(resData)
+        break
+    }
   }
 
   const handleUpdateTokenLimit = messageToken => {
@@ -46,9 +86,8 @@ const ChattingAIMessageInput = props => {
   }
 
   const handleMessageActionsByResponse = async resData => {
-    const functionCall = resData?.functionCall
-    if (functionCall) {
-      await handleTriggerFunctions(functionCall)
+    if (!!resData?.functionCall) {
+      await handleTriggerFunctions(resData)
       return
     }
 
@@ -81,13 +120,13 @@ const ChattingAIMessageInput = props => {
       handleUpdateTokenLimit(resData.totalPromptUsage)
       await handleMessageActionsByResponse(resData)
     } catch (err) {
-      const errorMessage = err.response.data?.message
+      const errorMessage = err.response?.data?.message
 
       if (errorMessage === 'An error occurred while creating user message') {
         dispatch(messageActions.deleteLastUserOwnerMessage())
       }
 
-      alert(t('Occurred a problem'))
+      alert(errorMessage || t('Occurred a problem'))
     } finally {
       setIsAnswering(false)
     }

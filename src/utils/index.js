@@ -68,13 +68,13 @@ export const prepareEarthquakeKandilli = earthquake => {
   return earthquakeDataStructure({
     depth: depth.toFixed(2),
     mag: mag.toFixed(1),
+    title: title.trim().toLowerCase(),
     date: convertedDate,
     source,
     sourceColor,
     coordinates,
     earthquake_id,
     location_properties,
-    title,
     isNewEarthquake,
     pointColor,
     pointSize,
@@ -99,7 +99,7 @@ export const prepareEarthquakeUsgs = earthquake => {
   return earthquakeDataStructure({
     depth: coordinates[coordinates.length - 1].toFixed(2),
     earthquake_id: id,
-    title: properties.title,
+    title: properties.title.trim().toLowerCase(),
     location_properties: {
       epiCenter: {
         name: properties.title,
