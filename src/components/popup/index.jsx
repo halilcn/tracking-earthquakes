@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { IoMdClose } from 'react-icons/io'
 
 import constantsTestid from '../../constants/testid'
@@ -7,7 +7,9 @@ import './index.scss'
 
 const Popup = props => {
   const testid = constantsTestid.popup
-  const { children, title, enabled, disableHandle, customTopHeader, customPopupModalClass } = props
+  const { children, title, enabled, disableHandle, customTopHeader, customPopupModalClass, shouldReRender = false } = props
+
+  const [isContentEnabled, setIsContentEnabled] = useState(false)
 
   const hasCustomTopHeader = !!customTopHeader
 
@@ -52,11 +54,22 @@ const Popup = props => {
     transition: { ease: 'easeOut', duration: 0.2 },
   }
 
+  useEffect(() => {
+    if (enabled) {
+      setIsContentEnabled(true)
+      return
+    }
+
+    if (shouldReRender && !enabled) {
+      setIsContentEnabled(false)
+    }
+  }, [enabled])
+
   return (
     <div data-testid={testid.popupContainer} className="popup">
       <motion.div {...popupBgFilterProps} />
       <motion.div {...popupModalProps}>
-        {enabled && (
+        {isContentEnabled && (
           <>
             <div className={`popup__top ${!hasCustomTopHeader ? 'popup__top--default-header' : ''} `}>
               {hasCustomTopHeader ? customTopHeader : <div className="popup__title">{title}</div>}
