@@ -24,9 +24,13 @@ export const handleEarthquakesKandilli = async (payload = {}) => {
   return preparedEarthquakesData
 }
 
-export const handleEarthquakesUsgs = async (payload = {}) => {
+const normalizePayloadDatesForOneDay = payload => ({ ...payload, endDate: convertDateFormatForAPI(dayjs(payload.endDate).add(1, 'day')) })
+export const handleEarthquakesUsgs = async (_payload = {}) => {
+  const isSameDate = Object.keys(_payload).length > 0 && dayjs(_payload?.startDate).isSame(dayjs(_payload?.endDate))
+  const payload = isSameDate ? normalizePayloadDatesForOneDay(_payload) : _payload
+
   const requestParams = {
-    starttime: payload?.startDate ?? convertDateFormatForAPI(dayjs().add(-1, 'day')),
+    starttime: payload?.startDate ?? convertDateFormatForAPI(dayjs()),
     endtime: payload?.endDate ?? convertDateFormatForAPI(dayjs().add(1, 'day')),
   }
   const { features } = await getEarthquakesInWorld(requestParams)

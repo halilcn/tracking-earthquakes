@@ -83,8 +83,8 @@ const FilterArchive = () => {
 
     handleUpdateArchiveDate(payload)
     if (payload[ARCHIVE_DATE_FIELDS.START_DATE] && payload[ARCHIVE_DATE_FIELDS.END_DATE]) {
+      handleSetArchiveDataParam(payload)
       await handleGetArchiveEarthquakes(payload)
-      handleSetArchiveDataParam()
     }
   }
 
@@ -131,6 +131,7 @@ const FilterArchive = () => {
             onChange={e => handleChooseDate(e, ARCHIVE_DATE_FIELDS.END_DATE)}
             value={archiveDate[ARCHIVE_DATE_FIELDS.END_DATE] ? dayjs(archiveDate[ARCHIVE_DATE_FIELDS.END_DATE]) : null}
             maxDate={dayjs()}
+            minDate={dayjs(archiveDate[ARCHIVE_DATE_FIELDS.START_DATE])}
           />
         </LocalizationProvider>
       </div>
