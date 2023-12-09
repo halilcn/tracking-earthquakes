@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -18,9 +18,15 @@ const ChattingAIMessages = props => {
 
   const dispatch = useDispatch()
   const { t } = useTranslation()
+  const lastMessageInspectorRef = useRef(null)
 
   const allMessages = useSelector(store => store.message.allMessages)
   const hasMessage = allMessages.length > 0
+
+  const scrollToLastMessage = () =>
+    setTimeout(() => {
+      lastMessageInspectorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' })
+    }, 10)
 
   const handleGetMessages = async () => {
     try {
@@ -36,6 +42,18 @@ const ChattingAIMessages = props => {
   useEffect(() => {
     handleGetMessages()
   }, [])
+
+  useEffect(() => {
+    if (isAnswering) {
+      scrollToLastMessage()
+    }
+  }, [isAnswering])
+
+  useEffect(() => {
+    if (hasMessage) {
+      scrollToLastMessage()
+    }
+  }, [allMessages])
 
   return (
     <div className="chatting-messages">
@@ -79,6 +97,7 @@ const ChattingAIMessages = props => {
           </div>
         </div>
       )}
+      <div ref={lastMessageInspectorRef} />
     </div>
   )
 }
