@@ -15,7 +15,11 @@ describe('popup', () => {
 
   test('should be triggered disable handle function when clicking close button', () => {
     const mockDisableHandle = jest.fn()
-    renderWithProviders(<Popup disableHandle={mockDisableHandle}>test</Popup>)
+    renderWithProviders(
+      <Popup enabled={true} disableHandle={mockDisableHandle}>
+        test
+      </Popup>
+    )
 
     fireEvent.click(screen.getByTestId(testid.closeButton))
 
@@ -24,7 +28,7 @@ describe('popup', () => {
 
   test('should be have same content with children content', () => {
     const mockContent = '<div>test content</div>'
-    renderWithProviders(<Popup>{mockContent}</Popup>)
+    renderWithProviders(<Popup enabled={true}>{mockContent}</Popup>)
 
     expect(screen.getByTestId(testid.content)).toHaveTextContent(mockContent)
   })
