@@ -91,5 +91,13 @@ export default {
     'Type a question': 'Bir soru yaz',
     Send: 'Gönder',
     "You don't have enough limit": 'Yeterli limitiniz yok',
+    'You can ask anything related to earthquakes': 'Depremle ilgili her şeyi sorabilirsiniz',
+    'You can ask anything related to earthquakes that occurred in the past. For now, it is only valid for a day':
+      'Geçmişte meydana gelen depremlerle ilgili her şeyi sorabilirsiniz. Şimdilik sadece bir gün için geçerlidir',
+    Example: 'Örnek',
+    'What does depth mean in an earthquake': 'Depremde derinlik ne anlama gelir',
+    'What was the biggest occurred earthquake on 8 June 2023': '8 Haziran 2023"te meydana gelen en büyük deprem hangisiydi',
+    "You have tokens to ask questions. You can't ask a question after the tokens run out":
+      'Soru sormak için jetonlarınız var. Jetonlar bittikten sonra soru soramazsınız',
   },
 }

@@ -92,5 +92,13 @@ export default {
     'Type a question': 'Type a question',
     Send: 'Send',
     "You don't have enough limit": "You don't have enough limit",
+    'You can ask anything related to earthquakes': 'You can ask anything related to earthquakes',
+    'You can ask anything related to earthquakes that occurred in the past. For now, it is only valid for a day':
+      'You can ask anything related to earthquakes that occurred in the past. For now, it is only valid for a day',
+    Example: 'Example',
+    'What does depth mean in an earthquake': 'What does depth mean in an earthquake',
+    'What was the biggest occurred earthquake on 8 June 2023': 'What was the biggest occurred earthquake on 8 June 2023',
+    "You have tokens to ask questions. You can't ask a question after the tokens run out":
+      "You have tokens to ask questions. You can't ask a question after the tokens run out",
   },
 }
