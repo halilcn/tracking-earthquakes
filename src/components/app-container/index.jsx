@@ -13,7 +13,7 @@ import firebase from '../../service/firebase'
 import { authActions, isLoggedInSelector } from '../../store/auth'
 import { earthquakeActions, isSelectedAnyArchiveItem } from '../../store/earthquake'
 import { userActions } from '../../store/user'
-import { getFirstGuideStatus, setFirstGuideStatus } from '../../utils/localStorageActions'
+import { getFirstGuideStatus, removeUserToken, setFirstGuideStatus } from '../../utils/localStorageActions'
 import ErrorPage from '../error-page'
 import Loading from '../loading'
 import PageTop from '../page-top'
@@ -93,7 +93,18 @@ const AppContainer = () => {
           : {}),
       }
 
-      await Promise.all([handleGetEarthquakes(getEarthquakesPayload), ...(isLoggedIn ? [handleGetMe()] : [])])
+      const [earthquakesRequests, userInfoRequest] = await Promise.allSettled([
+        handleGetEarthquakes(getEarthquakesPayload),
+        ...(isLoggedIn ? [handleGetMe()] : []),
+      ])
+
+      if (userInfoRequest?.status === 'rejected') {
+        dispatch(authActions.removeUserToken())
+        removeUserToken()
+      }
+
+      if (earthquakesRequests?.status === 'rejected') setHasError(true)
+
       //await handleGetCustomPoints() // for now it is disabled.
     } catch (err) {
       setHasError(true)
