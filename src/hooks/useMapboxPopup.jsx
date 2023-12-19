@@ -21,7 +21,6 @@ const useMapboxPopup = () => {
 
     const popupContainer = document.createElement('div')
     ReactDOM.render(popupContent, popupContainer)
-    console.log('mapCurrentRef.current', mapCurrentRef.current);
     new mapboxgl.Popup().setLngLat(coordinates).setDOMContent(popupContainer).addTo(mapCurrentRef.current)
   }
 
