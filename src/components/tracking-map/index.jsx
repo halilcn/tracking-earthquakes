@@ -112,7 +112,6 @@ const TrackingMap = () => {
     })
 
     dispatch(earthquakeActions.setMapCurrent(map.current))
-    setIsMapMounted(true)
   })
 
   const handleMapboxActions = () => {
@@ -324,6 +323,8 @@ const TrackingMap = () => {
 
       handleMapboxData()
       handleMapboxActions()
+
+      setIsMapMounted(true)
     })
   }, [])
 
