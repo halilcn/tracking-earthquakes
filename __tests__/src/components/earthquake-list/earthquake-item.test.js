@@ -10,38 +10,38 @@ import { renderWithProviders } from '../../../utils/renderWithProviders'
 describe('earthquake item', () => {
   const testid = constantTestId.earthquakeItem
 
+  const mockEarthquake = {
+    properties: {
+      title: 'test',
+      coordinates: [1, 1],
+      isNewEarthquake: false,
+      mag: 1,
+      depth: 1,
+      date: dayjs(),
+    },
+  }
+
+  const mockDefaultProps = {
+    index: 1,
+    style: {},
+    handleOnClickItem: jest.fn(),
+    handleActionListDisable: jest.fn(),
+    earthquake: mockEarthquake,
+  }
+
   test('should be rendered without having any problems', () => {
-    const props = {
-      index: 1,
-      style: {},
-      earthquake: {
-        properties: {
-          title: 'test',
-          coordinates: [1, 1],
-          isNewEarthquake: false,
-          mag: 1,
-          depth: 1,
-          date: dayjs(),
-        },
-      },
-      handleActionListDisable: jest.fn(),
-    }
-    renderWithProviders(<EarthquakeItem {...props} />)
+    renderWithProviders(<EarthquakeItem {...mockDefaultProps} />)
     expect(screen.getByTestId(testid.itemContainer)).toBeInTheDocument()
   })
 
   test('should be rendered new earthquake icon when the isNewEarthquake prop is true', () => {
     const props = {
-      index: 1,
-      style: {},
+      ...mockDefaultProps,
       earthquake: {
+        ...mockEarthquake,
         properties: {
-          title: 'test',
-          coordinates: [1, 1],
+          ...mockEarthquake.properties,
           isNewEarthquake: true,
-          mag: 1,
-          depth: 1,
-          date: dayjs(),
         },
       },
       handleActionListDisable: () => {},
@@ -56,18 +56,7 @@ describe('earthquake item', () => {
 
     const mockCallback = jest.fn()
     const props = {
-      index: 1,
-      style: {},
-      earthquake: {
-        properties: {
-          title: 'test',
-          coordinates: [1, 1],
-          isNewEarthquake: false,
-          mag: 1,
-          depth: 1,
-          date: dayjs(),
-        },
-      },
+      ...mockDefaultProps,
       handleActionListDisable: mockCallback,
     }
     renderWithProviders(<EarthquakeItem {...props} />, {
@@ -84,18 +73,7 @@ describe('earthquake item', () => {
 
     const mockCallback = jest.fn()
     const props = {
-      index: 1,
-      style: {},
-      earthquake: {
-        properties: {
-          title: 'test',
-          coordinates: [1, 1],
-          isNewEarthquake: false,
-          mag: 1,
-          depth: 1,
-          date: dayjs(),
-        },
-      },
+      ...mockDefaultProps,
       handleActionListDisable: mockCallback,
     }
     renderWithProviders(<EarthquakeItem {...props} />, {
@@ -105,5 +83,20 @@ describe('earthquake item', () => {
     fireEvent.click(screen.getByTestId(testid.itemButton))
 
     expect(mockCallback.mock.calls).toHaveLength(0)
+  })
+
+  test('should be called function when clicking the button', () => {
+    const mockCallback = jest.fn()
+    const props = {
+      ...mockDefaultProps,
+      handleOnClickItem: mockCallback,
+    }
+    renderWithProviders(<EarthquakeItem {...props} />, {
+      preloadedState: { earthquake: getEarthquakeState({ mapCurrent: { flyTo: () => {} } }) },
+    })
+
+    fireEvent.click(screen.getByTestId(testid.itemButton))
+
+    expect(mockCallback).toHaveBeenCalled()
   })
 })

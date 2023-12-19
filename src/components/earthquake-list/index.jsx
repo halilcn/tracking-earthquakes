@@ -6,6 +6,10 @@ import { FixedSizeList } from 'react-window'
 
 import constantsTestid from '../../constants/testid'
 import getEarthquakes from '../../hooks/getEarthquakes'
+import useMapboxPopup from '../../hooks/useMapboxPopup'
+import { changeURL } from '../../utils'
+import { setEarthquakeIDQueryParam } from '../../utils/queryParamsActions'
+import MapEarthquakePopup from '../tracking-map/map-popups/map-earthquake-popup'
 import dayjs from './../../utils/dayjs'
 import EarthquakeItem from './earthquake-item'
 import './index.scss'
@@ -20,6 +24,7 @@ const EarthquakeList = ({ handleActionListDisable }) => {
   const earthquakes = getEarthquakes()
     .filter(earthquake => earthquake.properties.location_properties.epiCenter.name?.toLowerCase().includes(textFilter.toLowerCase()))
     .sort((a, b) => (dayjs(a.properties.date).isAfter(b.properties.date) ? -1 : 1))
+  const { enableMapboxPopup, disableAllMapboxPopup } = useMapboxPopup()
 
   const handleChangeTextFilter = e => setTextFilter(e.target.value)
 
@@ -56,6 +61,19 @@ const EarthquakeList = ({ handleActionListDisable }) => {
     className: 'earthquake-list__list',
   }
 
+  const handleOnClickItem = earthquake => {
+    const { properties } = earthquake
+
+    disableAllMapboxPopup()
+    enableMapboxPopup({
+      coordinates: properties.coordinates,
+      popupContent: <MapEarthquakePopup earthquake={properties} />,
+    })
+
+    const url = setEarthquakeIDQueryParam(properties.earthquake_id)
+    changeURL(url)
+  }
+
   return (
     <div data-testid={testid.listContainer} className="earthquake-list">
       <div className="earthquake-list__filter-text">
@@ -67,6 +85,7 @@ const EarthquakeList = ({ handleActionListDisable }) => {
             <FixedSizeList {...fixedSizeListProps}>
               {({ index, style }) => (
                 <EarthquakeItem
+                  handleOnClickItem={handleOnClickItem}
                   handleActionListDisable={handleActionListDisable}
                   earthquake={earthquakes[index]}
                   index={index}

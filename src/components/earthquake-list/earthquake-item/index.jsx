@@ -8,41 +8,44 @@ import dayjs from '../../../utils/dayjs'
 import './index.scss'
 
 const EarthquakeItem = props => {
-  const { index, style, earthquake, handleActionListDisable } = props
+  const { index, style, earthquake, handleActionListDisable, handleOnClickItem } = props
   const testid = constantsTestId.earthquakeItem
 
+  const earthquakeProperties = earthquake.properties
   const mapCurrent = useSelector(state => state.earthquake.mapCurrent)
 
-  const handleFocusPoint = coordinates => {
+  const handleFocusPoint = () => {
     if (isMobile()) handleActionListDisable()
     mapCurrent.flyTo({
-      center: coordinates,
+      center: earthquakeProperties.coordinates,
       essential: true,
-      zoom: 10,
+      zoom: 5,
     })
+
+    handleOnClickItem(earthquake)
   }
 
   return (
     <ListItem data-testid={testid.itemContainer} className="earthquake-raw" style={style} key={index} component="div">
       <ListItemButton
         data-testid={testid.itemButton}
-        onClick={() => handleFocusPoint(earthquake.properties.coordinates)}
-        className={`earthquake-raw__button ${earthquake.properties.isNewEarthquake && 'earthquake-raw__button--new'}`}>
-        {earthquake.properties.isNewEarthquake && (
+        onClick={handleFocusPoint}
+        className={`earthquake-raw__button ${earthquakeProperties.isNewEarthquake && 'earthquake-raw__button--new'}`}>
+        {earthquakeProperties.isNewEarthquake && (
           <div data-testid={testid.newEarthquakeIcon} className="earthquake-raw__just-now">
             &#8226;
           </div>
         )}
         <div className="earthquake-raw__line">
-          <div className="earthquake-raw__item earthquake-raw__item--intensity">{earthquake.properties.mag}</div>
+          <div className="earthquake-raw__item earthquake-raw__item--intensity">{earthquakeProperties.mag}</div>
           <div className="earthquake-raw__circle-character">&#9679;</div>
-          <div className="earthquake-raw__item earthquake-raw__item--depth">{earthquake.properties.depth} km</div>
+          <div className="earthquake-raw__item earthquake-raw__item--depth">{earthquakeProperties.depth} km</div>
           <div className="earthquake-raw__circle-character">&#9679;</div>
           <div className="earthquake-raw__item earthquake-raw__item--date">
-            {dayjs(earthquake.properties.date).format('HH:mm ddd (UTCZ)')}
+            {dayjs(earthquakeProperties.date).format('HH:mm ddd (UTCZ)')}
           </div>
         </div>
-        <div className="earthquake-raw__item earthquake-raw__item--title">{earthquake.properties.title}</div>
+        <div className="earthquake-raw__item earthquake-raw__item--title">{earthquakeProperties.title}</div>
       </ListItemButton>
     </ListItem>
   )

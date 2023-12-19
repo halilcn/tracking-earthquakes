@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef } from 'react'
-import ReactDOM from 'react-dom'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import faultLines from '../../assets/static-data/fault-lines.json'
@@ -15,6 +14,7 @@ import {
 } from '../../constants'
 import constantsTestid from '../../constants/testid'
 import getEarthquakes from '../../hooks/getEarthquakes'
+import useMapboxPopup from '../../hooks/useMapboxPopup'
 import useSafeEffect from '../../hooks/useSafeEffect'
 import { earthquakeActions } from '../../store/earthquake'
 import {
@@ -41,6 +41,9 @@ import UpdateTimer from './update-timer'
 
 const TrackingMap = () => {
   const testid = constantsTestid.trackingMap
+
+  const [isMapMounted, setIsMapMounted] = useState(false)
+
   const dispatch = useDispatch()
   const { isActiveCustomPointSelection, customPoints, earthquakeAffectedDistance, settings } = useSelector(state => {
     const { isActiveCustomPointSelection, customPoints, earthquakeAffectedDistance, settings } = state.earthquake
@@ -55,6 +58,7 @@ const TrackingMap = () => {
   const mapType = MAP_TYPE[getMapType()] || MAP_TYPE.DARK
   const queryLatLong = getLatLongQueryParam()
   const earthquakes = getEarthquakes()
+  const { enableMapboxPopup, disableAllMapboxPopup } = useMapboxPopup()
 
   const mapContainer = useRef(null)
   const map = useRef(null)
@@ -78,19 +82,24 @@ const TrackingMap = () => {
     return MAP_DEFAULT_ZOOM
   }
 
-  const handleClickEarthquakePoint = earthquake => {
-    const newEarthquake = {
-      ...earthquake,
-      coordinates: typeof earthquake.coordinates === 'string' ? JSON.parse(earthquake.coordinates) : earthquake.coordinates,
+  const enableEarthquakePoint = _earthquake => {
+    const earthquake = {
+      ..._earthquake,
+      coordinates: typeof _earthquake.coordinates === 'string' ? JSON.parse(_earthquake.coordinates) : _earthquake.coordinates,
     }
-    const earthquakePopupContainer = document.createElement('div')
-    ReactDOM.render(<MapEarthquakePopup earthquake={newEarthquake} />, earthquakePopupContainer)
-    new mapboxgl.Popup().setLngLat(newEarthquake.coordinates).setDOMContent(earthquakePopupContainer).addTo(map.current)
 
-    handleEarthquakeDistance(newEarthquake)
+    enableMapboxPopup({
+      coordinates: earthquake.coordinates,
+      popupContent: <MapEarthquakePopup earthquake={earthquake} />,
+    })
+    handleEarthquakeDistance(earthquake)
 
-    const url = setEarthquakeIDQueryParam(newEarthquake.earthquake_id)
+    const url = setEarthquakeIDQueryParam(earthquake.earthquake_id)
     changeURL(url)
+  }
+
+  const handleClickEarthquakePoint = earthquake => {
+    enableEarthquakePoint(earthquake)
   }
 
   const initialMapbox = useCallback(() => {
@@ -103,6 +112,7 @@ const TrackingMap = () => {
     })
 
     dispatch(earthquakeActions.setMapCurrent(map.current))
+    setIsMapMounted(true)
   })
 
   const handleMapboxActions = () => {
@@ -117,25 +127,32 @@ const TrackingMap = () => {
 
     map.current.on('click', MAPBOX_SOURCES.LAYER_FAULT_LINE, e => {
       e.preventDefault()
+
       const { id, properties } = e.features[0]
 
       map.current.setFeatureState({ source: MAPBOX_SOURCES.DATA_FAULT_LINE, id }, { selected: true })
       selectedFaultLineIndex.current = id
-      new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(getPopupForFaultLine(properties)).addTo(map.current)
+
+      const { lat, lng } = e.lngLat
+      enableMapboxPopup({
+        coordinates: [lng, lat],
+        popupContent: getPopupForFaultLine(properties),
+      })
     })
 
+    // TODO: console log error
     map.current.on('click', e => {
-      if (e.defaultPrevented === false) {
-        // TODO:
-        clearEarthquakeDistance()
+      if (e.defaultPrevented !== false) return
 
-        const url = deleteEarthquakeIDQueryParam()
-        changeURL(url)
+      clearEarthquakeDistance()
 
-        if (selectedFaultLineIndex.current) {
-          map.current.setFeatureState({ source: MAPBOX_SOURCES.DATA_FAULT_LINE, id: selectedFaultLineIndex.current }, { selected: false })
-          selectedFaultLineIndex.current = null
-        }
+      disableAllMapboxPopup()
+      const url = deleteEarthquakeIDQueryParam()
+      changeURL(url)
+
+      if (selectedFaultLineIndex.current) {
+        map.current.setFeatureState({ source: MAPBOX_SOURCES.DATA_FAULT_LINE, id: selectedFaultLineIndex.current }, { selected: false })
+        selectedFaultLineIndex.current = null
       }
     })
 
@@ -310,21 +327,26 @@ const TrackingMap = () => {
     })
   }, [])
 
-  const enableEarthquakePointPopup = () => {
+  const enableEarthquakePointByQueryParam = () => {
     const earthquakeID = getEarthquakeIDQueryParam()
     if (!earthquakeID) return
 
     const earthquakeProperties = earthquakes.find(earthquake => earthquake.properties.earthquake_id == earthquakeID)?.properties
     if (!earthquakeProperties) return
 
-    handleClickEarthquakePoint(earthquakeProperties)
+    enableEarthquakePoint(earthquakeProperties)
   }
 
   useSafeEffect(() => {
     initialMapbox()
     handleMapbox()
-    enableEarthquakePointPopup()
   }, [])
+
+  useEffect(() => {
+    if (!isMapMounted) return
+
+    enableEarthquakePointByQueryParam()
+  }, [isMapMounted])
 
   useEffect(() => {
     if (!isActiveCustomPointSelection) {
