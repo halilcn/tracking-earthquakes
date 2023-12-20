@@ -188,3 +188,5 @@ export const debounce = (func, delay) => {
 export const changeURL = url => {
   history.pushState({}, '', url)
 }
+
+export const copyText = text => navigator.clipboard.writeText(text)

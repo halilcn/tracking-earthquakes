@@ -3,7 +3,6 @@ import React from 'react'
 
 import MapEarthquakePopup from '../../../../../src/components/tracking-map/map-popups/map-earthquake-popup'
 import constantsTestid from '../../../../../src/constants/testid'
-import { URL_QUERY_PARAMS } from '../../../../../src/utils/queryParamsActions'
 
 describe('map earthquake popup', () => {
   const testid = constantsTestid.mapEarthquakePopup
@@ -47,20 +46,5 @@ describe('map earthquake popup', () => {
   test('should be rendered without having any errors', () => {
     render(<MapEarthquakePopup earthquake={earthquakeProperties} />)
     expect(screen.queryByTestId(testid.container)).toBeInTheDocument()
-  })
-
-  test('should be have all query parameters of share buttons', () => {
-    render(<MapEarthquakePopup earthquake={earthquakeProperties} />)
-
-    const twitterShareButton = screen.getByTestId(testid.twitterShareButton)
-    const whatsappShareButton = screen.getByTestId(testid.whatsappShareButton)
-
-    expect(twitterShareButton.href).toContain(URL_QUERY_PARAMS.LAT_LONG)
-    expect(twitterShareButton.href).toContain(URL_QUERY_PARAMS.PAST_EARTHQUAKE_DATES)
-    expect(twitterShareButton.href).toContain(URL_QUERY_PARAMS.EARTHQUAKE_ID)
-
-    expect(whatsappShareButton.href).toContain(URL_QUERY_PARAMS.LAT_LONG)
-    expect(whatsappShareButton.href).toContain(URL_QUERY_PARAMS.PAST_EARTHQUAKE_DATES)
-    expect(whatsappShareButton.href).toContain(URL_QUERY_PARAMS.EARTHQUAKE_ID)
   })
 })

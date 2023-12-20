@@ -100,5 +100,9 @@ export default {
     'What was the biggest occurred earthquake on 8 June 2023': 'What was the biggest occurred earthquake on 8 June 2023',
     "You have tokens to ask questions. You can't ask a question after the tokens run out":
       "You have tokens to ask questions. You can't ask a question after the tokens run out",
+    Share: 'Share',
+    'Copied!': 'Copied!',
+    'New Earthquake': 'New Earthquake',
+    Earthquake: 'Earthquake',
   },
 }

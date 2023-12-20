@@ -99,5 +99,9 @@ export default {
     'What was the biggest occurred earthquake on 8 June 2023': '8 Haziran 2023"te meydana gelen en büyük deprem hangisiydi',
     "You have tokens to ask questions. You can't ask a question after the tokens run out":
       'Soru sormak için jetonlarınız var. Jetonlar bittikten sonra soru soramazsınız',
+    Share: 'Paylaş',
+    'Copied!': 'Kopyalandı!',
+    'New Earthquake': 'Yeni Deprem',
+    Earthquake: 'Deprem',
   },
 }
