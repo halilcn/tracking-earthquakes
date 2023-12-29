@@ -103,5 +103,11 @@ export default {
     'Copied!': 'Kopyalandı!',
     'New Earthquake': 'Yeni Deprem',
     Earthquake: 'Deprem',
+    Location: 'Konum',
+    'Newest First': 'Yakın Tarihli',
+    'Oldest First': 'Uzak Tarihli',
+    'Largest Magnitude First': 'Büyük Olana Göre',
+    'Smallest Magnitude First': 'Küçük Olana Göre',
+    Sorting: 'Sıralama',
   },
 }

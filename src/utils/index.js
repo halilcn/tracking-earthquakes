@@ -190,3 +190,22 @@ export const changeURL = url => {
 }
 
 export const copyText = text => navigator.clipboard.writeText(text)
+
+export const replaceTurkishToEnglish = text =>
+  text
+    .replace('Ğ', 'g')
+    .replaceAll('Ü', 'u')
+    .replaceAll('Ş', 's')
+    .replaceAll('I', 'i')
+    .replaceAll('İ', 'i')
+    .replaceAll('Ö', 'o')
+    .replaceAll('Ç', 'c')
+    .replaceAll('ğ', 'g')
+    .replaceAll('ü', 'u')
+    .replaceAll('ş', 's')
+    .replaceAll('ı', 'i')
+    .replaceAll('ö', 'o')
+    .replaceAll('ç', 'c')
+
+export const includeText = (text, filterText) =>
+  replaceTurkishToEnglish(text).toLocaleLowerCase('en-US').includes(replaceTurkishToEnglish(filterText).toLocaleLowerCase('en-US'))

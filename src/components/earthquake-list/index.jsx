@@ -1,56 +1,61 @@
-import { Box, TextField } from '@mui/material'
+import { Box } from '@mui/material'
 import { useEffect, useState } from 'react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FixedSizeList } from 'react-window'
 
+import { SORTING_TYPE_VALUES } from '../../constants'
 import constantsTestid from '../../constants/testid'
 import getEarthquakes from '../../hooks/getEarthquakes'
 import useMapboxPopup from '../../hooks/useMapboxPopup'
-import { changeURL } from '../../utils'
+import { changeURL, includeText } from '../../utils'
+import dayjs from '../../utils/dayjs'
 import { setEarthquakeIDQueryParam } from '../../utils/queryParamsActions'
 import MapEarthquakePopup from '../tracking-map/map-popups/map-earthquake-popup'
-import dayjs from './../../utils/dayjs'
+import EarthquakeFilters, { EARTHQUAKE_LIST_SORTING_TYPES } from './earthquake-filters'
 import EarthquakeItem from './earthquake-item'
 import './index.scss'
+
+const boxProps = {
+  sx: { width: '100%', height: '100%', bgcolor: 'transparent', color: 'white' },
+}
 
 const EarthquakeList = ({ handleActionListDisable }) => {
   const testid = constantsTestid.earthquakeList
   const { t } = useTranslation()
 
-  const [textFilter, setTextFilter] = useState('')
   const [listHeight, setListHeight] = useState(0)
+  const [allFilters, setAllFilters] = useState({
+    text: '',
+    sorting: {
+      type: EARTHQUAKE_LIST_SORTING_TYPES.DATE,
+      value: SORTING_TYPE_VALUES.ASC,
+    },
+  })
 
-  const earthquakes = getEarthquakes()
-    .filter(earthquake => earthquake.properties.location_properties.epiCenter.name?.toLowerCase().includes(textFilter.toLowerCase()))
-    .sort((a, b) => (dayjs(a.properties.date).isAfter(b.properties.date) ? -1 : 1))
   const { enableMapboxPopup, disableAllMapboxPopup } = useMapboxPopup()
 
-  const handleChangeTextFilter = e => setTextFilter(e.target.value)
+  const earthquakeSorting = (a, b) => {
+    const sortingValue = allFilters.sorting.value
+
+    switch (allFilters.sorting.type) {
+      case EARTHQUAKE_LIST_SORTING_TYPES.DATE:
+        return dayjs(a.properties.date).isAfter(b.properties.date) ? sortingValue : 0
+      case EARTHQUAKE_LIST_SORTING_TYPES.MAG:
+        const firstMag = parseFloat(a.properties.mag)
+        const secondMag = parseFloat(b.properties.mag)
+
+        return sortingValue === SORTING_TYPE_VALUES.ASC ? secondMag - firstMag : firstMag - secondMag
+    }
+  }
+  const earthquakeFilter = earthquake => includeText(earthquake.properties.title, allFilters.text)
+
+  const earthquakes = getEarthquakes().filter(earthquakeFilter).sort(earthquakeSorting)
 
   useEffect(() => {
     const earthquakeListHeight = document.getElementsByClassName('earthquake-list__list-container')[0]?.offsetHeight
     setListHeight(earthquakeListHeight)
   }, [])
-
-  const boxProps = {
-    sx: { width: '100%', height: '100%', bgcolor: 'transparent', color: 'white' },
-  }
-
-  const textFieldProps = {
-    label: t('Anywhere'),
-    variant: 'standard',
-    sx: {
-      input: {
-        color: 'white',
-      },
-      label: {
-        color: 'white',
-      },
-      width: '100%',
-    },
-    onChange: handleChangeTextFilter,
-  }
 
   const fixedSizeListProps = {
     height: listHeight,
@@ -76,9 +81,7 @@ const EarthquakeList = ({ handleActionListDisable }) => {
 
   return (
     <div data-testid={testid.listContainer} className="earthquake-list">
-      <div className="earthquake-list__filter-text">
-        <TextField {...textFieldProps} />
-      </div>
+      <EarthquakeFilters allFilters={allFilters} setAllFilters={setAllFilters} />
       <div className="earthquake-list__list-container">
         {earthquakes.length > 0 ? (
           <Box data-testid={testid.list} {...boxProps}>

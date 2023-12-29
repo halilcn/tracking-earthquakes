@@ -104,5 +104,11 @@ export default {
     'Copied!': 'Copied!',
     'New Earthquake': 'New Earthquake',
     Earthquake: 'Earthquake',
+    Location: 'Location',
+    'Newest First': 'Newest First',
+    'Oldest First': 'Oldest First',
+    'Largest Magnitude First': 'Largest Magnitude First',
+    'Smallest Magnitude First': 'Smallest Magnitude First',
+    Sorting: 'Sorting',
   },
 }

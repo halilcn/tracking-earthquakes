@@ -162,3 +162,8 @@ export const MESSAGE_TYPES = {
   GENERAL: 'general',
   EARTHQUAKE: 'earthquake',
 }
+
+export const SORTING_TYPE_VALUES = {
+  DESC: 1,
+  ASC: -1,
+}
