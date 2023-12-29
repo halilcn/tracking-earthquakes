@@ -1,0 +1,13 @@
+.earthquake-info {
+    padding: 0 20px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    color: white;
+
+    &__text {
+        font-size: 11px;
+        font-weight: 500;
+        margin-left: 5px;
+    }
+}

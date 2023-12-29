@@ -110,5 +110,6 @@ export default {
     'Largest Magnitude First': 'Largest Magnitude First',
     'Smallest Magnitude First': 'Smallest Magnitude First',
     Sorting: 'Sorting',
+    'Total of {count} earthquakes': 'Total of {count} earthquakes',
   },
 }

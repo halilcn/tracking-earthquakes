@@ -109,5 +109,6 @@ export default {
     'Largest Magnitude First': 'Büyük Olana Göre',
     'Smallest Magnitude First': 'Küçük Olana Göre',
     Sorting: 'Sıralama',
+    'Total of {count} earthquakes': 'Toplam {count} deprem',
   },
 }

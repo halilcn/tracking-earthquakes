@@ -13,6 +13,7 @@ import dayjs from '../../utils/dayjs'
 import { setEarthquakeIDQueryParam } from '../../utils/queryParamsActions'
 import MapEarthquakePopup from '../tracking-map/map-popups/map-earthquake-popup'
 import EarthquakeFilters, { EARTHQUAKE_LIST_SORTING_TYPES } from './earthquake-filters'
+import EarthquakeInfo from './earthquake-info'
 import EarthquakeItem from './earthquake-item'
 import './index.scss'
 
@@ -82,6 +83,7 @@ const EarthquakeList = ({ handleActionListDisable }) => {
   return (
     <div data-testid={testid.listContainer} className="earthquake-list">
       <EarthquakeFilters allFilters={allFilters} setAllFilters={setAllFilters} />
+      <EarthquakeInfo earthquakesCount={earthquakes.length} />
       <div className="earthquake-list__list-container">
         {earthquakes.length > 0 ? (
           <Box data-testid={testid.list} {...boxProps}>
