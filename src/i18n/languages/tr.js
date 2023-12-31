@@ -110,5 +110,6 @@ export default {
     'Smallest Magnitude First': 'Küçük Olana Göre',
     Sorting: 'Sıralama',
     'Total of {count} earthquakes': 'Toplam {count} deprem',
+    Loading: 'Yükleniyor',
   },
 }

@@ -1,7 +1,8 @@
-import { Box } from '@mui/material'
+import { Box, CircularProgress } from '@mui/material'
 import { useEffect, useState } from 'react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { useSelector } from 'react-redux'
 import { FixedSizeList } from 'react-window'
 
 import { SORTING_TYPE_VALUES } from '../../constants'
@@ -35,6 +36,7 @@ const EarthquakeList = ({ handleActionListDisable }) => {
   })
 
   const { enableMapboxPopup, disableAllMapboxPopup } = useMapboxPopup()
+  const isLoadingData = useSelector(state => state.earthquake.isLoadingData)
 
   const earthquakeSorting = (a, b) => {
     const sortingValue = allFilters.sorting.value
@@ -55,7 +57,6 @@ const EarthquakeList = ({ handleActionListDisable }) => {
 
   useEffect(() => {
     const earthquakeListHeight = document.getElementsByClassName('earthquake-list__list-container')[0]?.offsetHeight
-    console.log('earthquakeListHeight', earthquakeListHeight)
     setListHeight(earthquakeListHeight)
   }, [])
 
@@ -84,9 +85,15 @@ const EarthquakeList = ({ handleActionListDisable }) => {
   return (
     <div data-testid={testid.listContainer} className="earthquake-list">
       <EarthquakeFilters allFilters={allFilters} setAllFilters={setAllFilters} />
-      <EarthquakeInfo earthquakesCount={earthquakes.length} />
+      {!isLoadingData && <EarthquakeInfo earthquakesCount={earthquakes.length} />}
       <div className="earthquake-list__list-container">
-        {earthquakes.length > 0 ? (
+        {isLoadingData && (
+          <div className="earthquake-list__loading">
+            <CircularProgress size={20} />
+            <div className="earthquake-list__loading-text">{t('Loading')}</div>
+          </div>
+        )}
+        {!isLoadingData && earthquakes.length > 0 && (
           <Box data-testid={testid.list} {...boxProps}>
             <FixedSizeList {...fixedSizeListProps}>
               {({ index, style }) => (
@@ -100,7 +107,8 @@ const EarthquakeList = ({ handleActionListDisable }) => {
               )}
             </FixedSizeList>
           </Box>
-        ) : (
+        )}
+        {!isLoadingData && earthquakes.length === 0 && (
           <div data-testid={testid.noEarthquakeWarn} className="earthquake-list__no-earthquake-warning">
             {t("There aren't any earthquakes")}
           </div>
