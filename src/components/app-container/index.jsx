@@ -28,6 +28,8 @@ const AppContainer = () => {
   const [hasError, setHasError] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
 
+  const notifiedNewEarthquakeIdsRef = useRef([])
+
   const selectedArchiveItem = useSelector(isSelectedAnyArchiveItem)
   const { newEarthquakeSound, animationCurrentDate, archiveDate } = useSelector(state => {
     const { earthquakeNotification, animation, archiveDate } = state.earthquake
@@ -63,11 +65,17 @@ const AppContainer = () => {
   }
 
   const handleNewEarthquakeNotification = earthquakes => {
-    const hasNewEarthquakes = earthquakes.some(earthquake => earthquake.properties.isNewEarthquake)
-    if (hasNewEarthquakes) {
-      const sound = new Audio(audio)
-      sound.play()
-    }
+    const newEarthquakes = earthquakes.filter(earthquake => earthquake.properties.isNewEarthquake)
+    if (newEarthquakes.length === 0) return
+
+    const newEarthquakeIDs = newEarthquakes.reduce((acc, newEarthquake) => [...acc, newEarthquake.properties.earthquake_id], [])
+    const isNotifiedAllNewEarthquakes = newEarthquakeIDs.every(earthquakeID => notifiedNewEarthquakeIdsRef.current.includes(earthquakeID))
+    if (isNotifiedAllNewEarthquakes) return
+
+    const sound = new Audio(audio)
+    sound.play()
+
+    notifiedNewEarthquakeIdsRef.current = [...new Set([...notifiedNewEarthquakeIdsRef.current, ...newEarthquakeIDs])]
   }
 
   const handleGetCustomPoints = async () => {
@@ -85,10 +93,10 @@ const AppContainer = () => {
     try {
       const hasArchiveDates = !!archiveDate.startDate && !!archiveDate.endDate
       const getEarthquakesPayload = {
+        newEarthquakeNotification: false,
         ...(hasArchiveDates
           ? {
               params: { endDate: archiveDate.endDate, startDate: archiveDate.startDate },
-              newEarthquakeNotification: false,
             }
           : {}),
       }
@@ -139,7 +147,9 @@ const AppContainer = () => {
       removeEarthquakesInterval()
       return
     }
-    handleGetEarthquakes()
+    handleGetEarthquakes({
+      newEarthquakeNotification: false,
+    })
     createEarthquakesInterval()
     return removeEarthquakesInterval
   }
