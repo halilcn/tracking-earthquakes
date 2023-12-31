@@ -8,13 +8,13 @@
         left: 0;
         top: 0;
         position: fixed;
-        z-index: 2;
+        z-index: 99;
     }
 
     &__modal {
         position: fixed;
         background-color: rgb(255, 255, 255);
-        z-index: 3;
+        z-index: 99;
         width: 500px;
         display: flex;
         flex-direction: column;
