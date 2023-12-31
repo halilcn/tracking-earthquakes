@@ -41,9 +41,7 @@ const EarthquakeItem = props => {
           <div className="earthquake-raw__circle-character">&#9679;</div>
           <div className="earthquake-raw__item earthquake-raw__item--depth">{earthquakeProperties.depth} km</div>
           <div className="earthquake-raw__circle-character">&#9679;</div>
-          <div className="earthquake-raw__item earthquake-raw__item--date">
-            {dayjs(earthquakeProperties.date).format('HH:mm ddd (UTCZ)')}
-          </div>
+          <div className="earthquake-raw__item earthquake-raw__item--date">{dayjs(earthquakeProperties.date).format('DD MMM ddd - HH:mm')}</div>
         </div>
         <div className="earthquake-raw__item earthquake-raw__item--title">{earthquakeProperties.title}</div>
       </ListItemButton>

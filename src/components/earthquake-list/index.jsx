@@ -55,6 +55,7 @@ const EarthquakeList = ({ handleActionListDisable }) => {
 
   useEffect(() => {
     const earthquakeListHeight = document.getElementsByClassName('earthquake-list__list-container')[0]?.offsetHeight
+    console.log('earthquakeListHeight', earthquakeListHeight)
     setListHeight(earthquakeListHeight)
   }, [])
 

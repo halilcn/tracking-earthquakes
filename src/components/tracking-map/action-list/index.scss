@@ -21,8 +21,7 @@
             background-color: rgb(227, 227, 227);
         }
 
-        &--earthquake-list {
-        }
+        &--earthquake-list {}
     }
 
     &__item-icon {
@@ -49,6 +48,8 @@
         height: 100%;
         z-index: 3;
         background-color: #3c3d3f;
+        display: flex;
+        flex-direction: column;
     }
 
     &__close-button {
@@ -57,9 +58,16 @@
     }
 
     &__close-button-icon {
-        font-size: 25px;
+        font-size: 33px;
         cursor: pointer;
         color: rgb(194, 194, 194);
+        background-color: #464749;
+        padding: 7px;
+        border-radius: 100%;
+
+        &:hover {
+            background-color: #4f4f51;
+        }
     }
 
     @media only screen and (max-width: $mobile-width) {

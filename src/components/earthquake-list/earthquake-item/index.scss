@@ -6,8 +6,14 @@
         flex-direction: column !important;
         align-items: flex-start !important;
         border-radius: 10px !important;
-        border: 1px solid transparent !important;
+        border: 2px solid transparent !important;
         background-color: #313133 !important;
+        transition: .2s !important;
+
+        &:hover {
+            background-color: #38383a !important;
+            transform: scale(1.02);
+        }
 
         &--new {
             border-color: rgb(138, 138, 138) !important;

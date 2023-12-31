@@ -25,7 +25,7 @@ const MapEarthquakePopup = props => {
         </div>
       </div>
       <div className="earthquake-popup__info">
-        <div>&#x2022; {dayjs(earthquake.date).format('HH:mm dddd (UTCZ)')}</div>
+        <div>&#x2022; {dayjs(earthquake.date).format('DD MMM ddd - HH:mm (UTCZ)')}</div>
         <div>&#x2022; {t('{kmCount} km deep').replace('{kmCount}', earthquake.depth)}</div>
         <div>&#x2022; {earthquake.title.toLowerCase()}</div>
       </div>
