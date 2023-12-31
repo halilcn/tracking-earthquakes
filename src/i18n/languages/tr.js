@@ -111,5 +111,6 @@ export default {
     Sorting: 'Sıralama',
     'Total of {count} earthquakes': 'Toplam {count} deprem',
     Loading: 'Yükleniyor',
+    'Maximum of 2 months date range can be selected': 'Maksimum 2 aylık tarih aralığı seçilebilir',
   },
 }

@@ -49,6 +49,7 @@ export const ARCHIVE_CERTAIN_TIMES = {
   7: i18n.t('Last {dayCount} day').replace('{dayCount}', '7'),
   15: i18n.t('Last {dayCount} day').replace('{dayCount}', '15'),
   30: i18n.t('Last {dayMonth} month').replace('{dayMonth}', '1'),
+  60: i18n.t('Last {dayMonth} month').replace('{dayMonth}', '2'),
 }
 
 export const DEFAULT_TIME_FILTER_VALUE = 6

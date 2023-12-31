@@ -16,6 +16,16 @@
         align-items: center;
     }
 
+    &__custom-dates-info {
+        display: flex;
+        margin-top: 6px;
+    }
+
+    &__custom-dates-info-text {
+        font-size: 11px;
+        margin-left: 5px;
+    }
+
     &__clear-filters {
         margin-top: 20px;
     }

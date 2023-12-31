@@ -5,6 +5,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { CiCircleInfo } from 'react-icons/ci'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { ARCHIVE_CERTAIN_TIMES } from '../../../../constants'
@@ -20,6 +21,10 @@ const ARCHIVE_DATE_FIELDS = {
   START_DATE: 'startDate',
   END_DATE: 'endDate',
 }
+
+const datePickerSlotProps = { textField: { size: 'small' } }
+
+const MAX_DAYS_BETWEEN_ARCHIVE_DAYS = 60
 
 const handleSetArchiveDataParam = dates => {
   const url = setPastEarthquakeDatesQueryParam(dates)
@@ -76,10 +81,19 @@ const FilterArchive = () => {
     }
   }
 
-  const handleChooseDate = async (date, type) => {
+  const handleChooseDate = type => async date => {
     const convertedDate = convertDateFormatForAPI(date)
-    const otherDateType = type === ARCHIVE_DATE_FIELDS.START_DATE ? ARCHIVE_DATE_FIELDS.END_DATE : ARCHIVE_DATE_FIELDS.START_DATE
+    const isStartDateType = type === ARCHIVE_DATE_FIELDS.START_DATE
+    const otherDateType = isStartDateType ? ARCHIVE_DATE_FIELDS.END_DATE : ARCHIVE_DATE_FIELDS.START_DATE
     const payload = { [otherDateType]: archiveDate[otherDateType], [type]: convertedDate }
+
+    const isSelectedMoreThanMaxDays =
+      isStartDateType &&
+      payload[ARCHIVE_DATE_FIELDS.END_DATE] &&
+      dayjs(payload[ARCHIVE_DATE_FIELDS.START_DATE])
+        .add(MAX_DAYS_BETWEEN_ARCHIVE_DAYS, 'days')
+        .isBefore(dayjs(payload[ARCHIVE_DATE_FIELDS.END_DATE]))
+    if (isSelectedMoreThanMaxDays) payload[ARCHIVE_DATE_FIELDS.END_DATE] = null
 
     handleUpdateArchiveDate(payload)
     if (payload[ARCHIVE_DATE_FIELDS.START_DATE] && payload[ARCHIVE_DATE_FIELDS.END_DATE]) {
@@ -93,12 +107,27 @@ const FilterArchive = () => {
     handleDeleteArchiveDataParam()
   }
 
+  const getArchiveDateValue = type => (archiveDate[type] ? dayjs(archiveDate[type]) : null)
+
+  const getEndPickerMaxDate = () => {
+    if (!archiveDate[ARCHIVE_DATE_FIELDS.START_DATE]) return dayjs()
+
+    const endPickerMaxDate = dayjs(archiveDate[ARCHIVE_DATE_FIELDS.START_DATE]).add(MAX_DAYS_BETWEEN_ARCHIVE_DAYS, 'days')
+    const isInTheNextDays = dayjs().isBefore(endPickerMaxDate)
+    if (isInTheNextDays) return dayjs()
+
+    return endPickerMaxDate
+  }
+  const endPickerMinDate = dayjs(archiveDate[ARCHIVE_DATE_FIELDS.START_DATE])
+  const startPickerMaxDate = archiveDate[ARCHIVE_DATE_FIELDS.END_DATE] ? dayjs(archiveDate[ARCHIVE_DATE_FIELDS.END_DATE]) : dayjs()
+
   return (
     <div data-testid={testid.container} className="filter-archive">
       <div className="filter-archive__certain-dates">
         <FormControl fullWidth>
           <InputLabel id="certain-date">{t('Time')}</InputLabel>
           <Select
+            label={t('Time')}
             size="small"
             className="filter-archive__certain-date-input"
             value={archiveDate.certainDate || 0}
@@ -116,24 +145,28 @@ const FilterArchive = () => {
       <div className="filter-archive__custom-dates">
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <MobileDatePicker
-            slotProps={{ textField: { size: 'small' } }}
+            slotProps={datePickerSlotProps}
             label={t('Start of Date')}
             className="filter-archive__custom-date-item"
-            onChange={e => handleChooseDate(e, ARCHIVE_DATE_FIELDS.START_DATE)}
-            value={archiveDate[ARCHIVE_DATE_FIELDS.START_DATE] ? dayjs(archiveDate[ARCHIVE_DATE_FIELDS.START_DATE]) : null}
-            maxDate={archiveDate[ARCHIVE_DATE_FIELDS.END_DATE] ? dayjs(archiveDate[ARCHIVE_DATE_FIELDS.END_DATE]) : dayjs()}
+            onChange={handleChooseDate(ARCHIVE_DATE_FIELDS.START_DATE)}
+            value={getArchiveDateValue(ARCHIVE_DATE_FIELDS.START_DATE)}
+            maxDate={startPickerMaxDate}
           />
           <div className="filter-archive__hyphen">-</div>
           <MobileDatePicker
-            slotProps={{ textField: { size: 'small' } }}
+            slotProps={datePickerSlotProps}
             label={t('End of Date')}
             className="filter-archive__custom-date-item"
-            onChange={e => handleChooseDate(e, ARCHIVE_DATE_FIELDS.END_DATE)}
-            value={archiveDate[ARCHIVE_DATE_FIELDS.END_DATE] ? dayjs(archiveDate[ARCHIVE_DATE_FIELDS.END_DATE]) : null}
-            maxDate={dayjs()}
-            minDate={dayjs(archiveDate[ARCHIVE_DATE_FIELDS.START_DATE])}
+            onChange={handleChooseDate(ARCHIVE_DATE_FIELDS.END_DATE)}
+            value={getArchiveDateValue(ARCHIVE_DATE_FIELDS.END_DATE)}
+            maxDate={getEndPickerMaxDate()}
+            minDate={endPickerMinDate}
           />
         </LocalizationProvider>
+      </div>
+      <div className="filter-archive__custom-dates-info">
+        <CiCircleInfo size={15} />
+        <div className="filter-archive__custom-dates-info-text">{t('Maximum of 2 months date range can be selected')}</div>
       </div>
       {selectedFilterItem && (
         <div data-testid={testid.clearButton} onClick={handleClearButton} className="filter-archive__clear-filters">

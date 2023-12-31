@@ -112,5 +112,6 @@ export default {
     Sorting: 'Sorting',
     'Total of {count} earthquakes': 'Total of {count} earthquakes',
     Loading: 'Loading',
+    'Maximum of 2 months date range can be selected': 'Maximum of 2 months date range can be selected',
   },
 }
