@@ -168,3 +168,15 @@ export const SORTING_TYPE_VALUES = {
   DESC: 1,
   ASC: -1,
 }
+
+export const MAP_TIMER_ACTION = {
+  START: 'START',
+  CLEAR: 'CLEAR',
+  NONE_ACTION: 'NONE_ACTION',
+}
+
+export const MAP_TIMER_STATUS = {
+  TIMER: 'TIMER',
+  ARCHIVE: 'ARCHIVE',
+  ANIMATION: 'ANIMATION',
+}

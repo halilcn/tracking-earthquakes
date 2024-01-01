@@ -1,100 +1,124 @@
-import { useEffect, useRef, useState } from 'react'
+import classNames from 'classnames'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { GrUpdate } from 'react-icons/gr'
 import { MdUpdate } from 'react-icons/md'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { MAP_UPDATE_MIN } from '../../../constants'
+import { MAP_TIMER_ACTION, MAP_TIMER_STATUS, MAP_UPDATE_MIN } from '../../../constants'
 import constantsTestid from '../../../constants/testid'
-import { isSelectedAnyArchiveItem } from '../../../store/earthquake'
+import { earthquakeActions } from '../../../store/earthquake'
 import dayjs from '../../../utils/dayjs'
 import './index.scss'
 
 const UpdateTimer = () => {
   const testid = constantsTestid.updateTimer
-  const { t } = useTranslation()
-  const selectedArchive = useSelector(isSelectedAnyArchiveItem)
-  const { isAnimationActive, archiveDate } = useSelector(state => {
-    const { animation, archiveDate } = state.earthquake
-
-    return { archiveDate, isAnimationActive: !!animation.currentDate }
-  })
 
   const [time, setTime] = useState(MAP_UPDATE_MIN)
-  const timeInterval = useRef(null)
 
-  const isEnableArchiveDate = selectedArchive
-  const isEnableTimer = !isEnableArchiveDate && !isAnimationActive
+  const { archiveDate, isLoadingData, mapTimerAction, mapTimerStatus } = useSelector(state => {
+    const { archiveDate, isLoadingData, mapTimerAction, mapTimerStatus } = state.earthquake
+
+    return { archiveDate, isLoadingData, mapTimerAction, mapTimerStatus }
+  })
+
+  const isEnabledToForceUpdate = mapTimerStatus === MAP_TIMER_STATUS.TIMER && !isLoadingData
+
+  const timeInterval = useRef(null)
+  const { t } = useTranslation()
+  const dispatch = useDispatch()
 
   const createTimeInterval = () => {
     if (timeInterval.current) return
     timeInterval.current = setInterval(() => {
-      setTime(time => (time === 0 ? MAP_UPDATE_MIN : time - 1))
+      setTime(time => (time === 1 ? MAP_UPDATE_MIN : time - 1))
     }, 1000)
   }
 
   const removeTimeInterval = () => {
+    if (!timeInterval.current) return
+
     clearInterval(timeInterval.current)
     timeInterval.current = null
     setTime(MAP_UPDATE_MIN)
   }
 
-  const triggerFreshTime = status => {
-    if (status) {
-      removeTimeInterval()
-      return
-    }
-    createTimeInterval()
-    return removeTimeInterval
-  }
+  const getArchiveDateText = () => {
+    const archiveDateFormat = 'MMM D YYYY'
 
-  const getArchiveDate = () => {
-    if (archiveDate.certainDate) {
-      return `${dayjs().add(-archiveDate.certainDate, 'day').format('MMM D YYYY')} / ${dayjs().format('MMM D YYYY')}`
-    }
-
-    if (archiveDate.startDate && archiveDate.endDate) {
-      return `${dayjs(archiveDate.startDate).format('MMM D YYYY')} / ${dayjs(archiveDate.endDate).format('MMM D YYYY')}`
+    switch (true) {
+      case !!archiveDate.certainDate:
+        return `${dayjs().add(-archiveDate.certainDate, 'day').format(archiveDateFormat)} / ${dayjs().format(archiveDateFormat)}`
+      case !!(archiveDate.startDate && archiveDate.endDate):
+        return `${dayjs(archiveDate.startDate).format(archiveDateFormat)} / ${dayjs(archiveDate.endDate).format(archiveDateFormat)}`
     }
   }
 
   useEffect(() => {
-    createTimeInterval()
-    return removeTimeInterval
+    switch (mapTimerAction) {
+      case MAP_TIMER_ACTION.START:
+        createTimeInterval()
+        return
+      case MAP_TIMER_ACTION.CLEAR:
+        removeTimeInterval()
+        return
+    }
+
+    dispatch(earthquakeActions.updateMapTimerStatus(MAP_TIMER_ACTION.NONE_ACTION))
+  }, [mapTimerAction])
+
+  useEffect(() => {
+    return () => {
+      removeTimeInterval()
+    }
   }, [])
 
-  useEffect(() => {
-    return triggerFreshTime(selectedArchive)
-  }, [selectedArchive])
+  const memoizedTimerStatusContent = useMemo(() => {
+    const updateTimerTypeClass = classNames('update-timer__timer-type', { 'update-timer__timer-type--disabled': !isEnabledToForceUpdate })
 
-  useEffect(() => {
-    return triggerFreshTime(isAnimationActive)
-  }, [isAnimationActive])
+    return (
+      <div className={updateTimerTypeClass}>
+        <GrUpdate className="update-timer__icon" />
+        <div className="update-timer__timer-minutes">{time}</div>
+        <div>{t('minutes')}</div>
+        <div className="update-timer__bg-filter" />
+      </div>
+    )
+  }, [time, isEnabledToForceUpdate])
+
+  const memoizedArchiveStatusContent = useMemo(
+    () => (
+      <div className="update-timer__archive-type">
+        <MdUpdate size={18} className="update-timer__icon" />
+        <span>{getArchiveDateText()}</span>
+        <div className="update-timer__bg-filter" />
+      </div>
+    ),
+    [archiveDate]
+  )
+
+  const getContent = () => {
+    switch (mapTimerStatus) {
+      case MAP_TIMER_STATUS.ARCHIVE:
+        return memoizedArchiveStatusContent
+      case MAP_TIMER_STATUS.TIMER:
+        return memoizedTimerStatusContent
+      default:
+        return ''
+    }
+  }
+
+  const handleForceGetEarthquakes = () => {
+    dispatch(earthquakeActions.updateForceUpdate(true))
+  }
 
   return (
-    <>
-      {isEnableArchiveDate && (
-        <div data-testid={testid.archiveTimerContainer} className="update-timer">
-          <div className="update-timer__content">
-            <MdUpdate size={18} className="update-timer__icon" />
-            <span>{getArchiveDate()}</span>
-            <div className="update-timer__bg-filter" />
-          </div>
-        </div>
-      )}
-      {isEnableTimer && (
-        <div data-testid={testid.timerContainer} className="update-timer">
-          <div className="update-timer__content">
-            <GrUpdate className="update-timer__icon" />{' '}
-            <span>
-              {time} {t('minutes')}
-            </span>
-            <div className="update-timer__bg-filter" />
-          </div>
-        </div>
-      )}
-    </>
+    <div data-testid={testid.timerContainer} className="update-timer">
+      <div className="update-timer__content" {...(isEnabledToForceUpdate ? { onClick: handleForceGetEarthquakes } : {})}>
+        {getContent()}
+      </div>
+    </div>
   )
 }
 

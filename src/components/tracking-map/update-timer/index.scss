@@ -11,7 +11,6 @@
 
     &__content {
         font-size: 13px;
-        padding: 11px;
         margin-top: 30px;
         position: relative;
         color: rgb(44, 44, 44);
@@ -19,8 +18,42 @@
         align-items: center;
     }
 
+    &__timer-type {
+        padding: 11px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &:not(&--disabled):hover {
+            cursor: pointer;
+
+            &:hover {
+                .update-timer {
+                    &__icon {
+                        transform: rotate(180deg);
+                    }
+
+                    &__bg-filter {
+                        background-color: rgb(239, 239, 239);
+                    }
+                }
+            }
+        }
+    }
+
+    &__timer-minutes {
+        width: 25px;
+        text-align: center;
+    }
+
+    &__archive-type {
+        padding: 11px;
+        display: flex;
+        justify-content: center;
+    }
+
     &__icon {
-        margin-right: 7px;
+        transition: .3s;
     }
 
     &__bg-filter {

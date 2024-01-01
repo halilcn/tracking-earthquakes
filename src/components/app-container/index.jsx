@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { getCustomPoints, getMe } from '../../api'
 import audio from '../../assets/sounds/new-earthquake.mp3'
-import { MAP_UPDATE_MIN } from '../../constants'
+import { MAP_TIMER_ACTION, MAP_TIMER_STATUS, MAP_UPDATE_MIN } from '../../constants'
 import constantsTestid from '../../constants/testid'
 import useEffectIgnoreFirstRender from '../../hooks/useEffectIgnoreFirstRender'
 import { getAllEarthquakes } from '../../service/earthquakes'
@@ -31,16 +31,19 @@ const AppContainer = () => {
   const notifiedNewEarthquakeIdsRef = useRef([])
 
   const selectedArchiveItem = useSelector(isSelectedAnyArchiveItem)
-  const { newEarthquakeSound, animationCurrentDate, archiveDate } = useSelector(state => {
-    const { earthquakeNotification, animation, archiveDate } = state.earthquake
+  const { newEarthquakeSound, animationCurrentDate, archiveDate, forceUpdate } = useSelector(state => {
+    const { earthquakeNotification, animation, archiveDate, forceUpdate } = state.earthquake
 
     return {
       archiveDate,
+      forceUpdate,
       newEarthquakeSound: earthquakeNotification.newEarthquakeSound,
       animationCurrentDate: animation.currentDate,
     }
   })
   const isLoggedIn = useSelector(isLoggedInSelector)
+
+  const hasArchiveDates = !!archiveDate.startDate && !!archiveDate.endDate
 
   const handleIntroSteps = async () => {
     const steps = (await import('../../constants/intro-steps')).default
@@ -91,7 +94,6 @@ const AppContainer = () => {
 
   const firstHandleRequests = async () => {
     try {
-      const hasArchiveDates = !!archiveDate.startDate && !!archiveDate.endDate
       const getEarthquakesPayload = {
         newEarthquakeNotification: false,
         ...(hasArchiveDates
@@ -130,9 +132,13 @@ const AppContainer = () => {
 
   const createEarthquakesInterval = () => {
     if (earthquakeIntervalRef.current) return
+
     earthquakeIntervalRef.current = setInterval(() => {
       handleGetEarthquakes()
     }, MAP_UPDATE_MIN * 1000)
+
+    dispatch(earthquakeActions.updateMapTimerAction(MAP_TIMER_ACTION.START))
+    dispatch(earthquakeActions.updateMapTimerStatus(MAP_TIMER_STATUS.TIMER))
   }
 
   const removeEarthquakesInterval = () => {
@@ -140,30 +146,63 @@ const AppContainer = () => {
 
     clearInterval(earthquakeIntervalRef.current)
     earthquakeIntervalRef.current = null
+
+    dispatch(earthquakeActions.updateMapTimerAction(MAP_TIMER_ACTION.CLEAR))
   }
 
-  const startFreshEarthquakesProcess = status => {
+  const startFreshEarthquakesProcess = status => async mapTimerStatus => {
     if (status) {
       removeEarthquakesInterval()
+      dispatch(earthquakeActions.updateMapTimerStatus(mapTimerStatus))
       return
     }
-    handleGetEarthquakes({
+
+    dispatch(earthquakeActions.updateMapTimerStatus(MAP_TIMER_STATUS.TIMER))
+
+    await handleGetEarthquakes({
       newEarthquakeNotification: false,
     })
     createEarthquakesInterval()
-    return removeEarthquakesInterval
   }
 
   useEffect(() => {
-    firstHandleRequests()
-    listenFirebaseAuth()
-    createEarthquakesInterval()
+    ;(async () => {
+      await firstHandleRequests()
+      listenFirebaseAuth()
+
+      if (hasArchiveDates) {
+        dispatch(earthquakeActions.updateMapTimerAction(MAP_TIMER_ACTION.CLEAR))
+        dispatch(earthquakeActions.updateMapTimerStatus(MAP_TIMER_STATUS.ARCHIVE))
+      } else {
+        createEarthquakesInterval()
+      }
+    })()
+
     return removeEarthquakesInterval
   }, [])
 
+  // TODO: there is an error related to StrictMode in dev env. It is valid for only dev env
   useEffectIgnoreFirstRender(() => {
-    return startFreshEarthquakesProcess(!!selectedArchiveItem || !!animationCurrentDate)
-  }, [selectedArchiveItem, animationCurrentDate])
+    startFreshEarthquakesProcess(!!selectedArchiveItem)(MAP_TIMER_STATUS.ARCHIVE)
+  }, [selectedArchiveItem])
+
+  useEffectIgnoreFirstRender(() => {
+    startFreshEarthquakesProcess(!!animationCurrentDate)(MAP_TIMER_STATUS.ANIMATION)
+  }, [animationCurrentDate])
+
+  useEffect(() => {
+    if (!forceUpdate) return
+    ;(async () => {
+      removeEarthquakesInterval()
+
+      await handleGetEarthquakes({
+        newEarthquakeNotification: false,
+      })
+      createEarthquakesInterval()
+
+      dispatch(earthquakeActions.updateForceUpdate(false))
+    })()
+  }, [forceUpdate])
 
   useEffect(() => {
     if (!hasError && !isLoading && getFirstGuideStatus() !== 'true') {

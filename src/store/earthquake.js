@@ -7,6 +7,7 @@ import {
   DEFAULT_MAGNITUDE_FILTER_VALUE,
   DEFAULT_SOURCE_FILTER,
   DEFAULT_TIME_FILTER_VALUE,
+  MAP_TIMER_ACTION,
 } from '../constants'
 import { getCurrentLanguage } from '../utils'
 import dayjs from '../utils/dayjs'
@@ -87,6 +88,9 @@ export const initialState = {
     isEnabledPopulationDensity: getPopulationDensityActive() === 'true',
     isEnabledSourceColor: getSourceColorActive() === 'true',
   },
+  mapTimerAction: MAP_TIMER_ACTION.NONE_ACTION,
+  mapTimerStatus: '',
+  forceUpdate: false,
 }
 
 export const earthquake = createSlice({
@@ -149,6 +153,15 @@ export const earthquake = createSlice({
     },
     updateSettings: (state, actions) => {
       state.settings = { ...state.settings, ...actions.payload }
+    },
+    updateMapTimerStatus: (state, actions) => {
+      state.mapTimerStatus = actions.payload
+    },
+    updateMapTimerAction: (state, actions) => {
+      state.mapTimerAction = actions.payload
+    },
+    updateForceUpdate: (state, actions) => {
+      state.forceUpdate = actions.payload
     },
   },
 })

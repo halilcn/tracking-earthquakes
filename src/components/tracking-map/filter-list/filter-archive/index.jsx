@@ -56,7 +56,6 @@ const FilterArchive = () => {
 
     handleUpdateArchiveDate({ certainDate })
     await handleGetArchiveEarthquakes(params)
-    handleSetArchiveDataParam(params)
   }
 
   const handleArchiveEarthquakesKandilli = async params => {
@@ -73,7 +72,10 @@ const FilterArchive = () => {
     try {
       dispatch(earthquakeActions.setIsLoadingData(true))
       dispatch(earthquakeActions.setEarthquakes([]))
+
       await Promise.all([handleArchiveEarthquakesKandilli(params), handleArchiveEarthquakesUsgs(params)])
+
+      handleSetArchiveDataParam(params)
     } catch (err) {
       alert(t('Occurred a problem'))
     } finally {
@@ -97,7 +99,6 @@ const FilterArchive = () => {
 
     handleUpdateArchiveDate(payload)
     if (payload[ARCHIVE_DATE_FIELDS.START_DATE] && payload[ARCHIVE_DATE_FIELDS.END_DATE]) {
-      handleSetArchiveDataParam(payload)
       await handleGetArchiveEarthquakes(payload)
     }
   }
