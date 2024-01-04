@@ -99,17 +99,6 @@ export const MAP_DEFAULT_COORDINATES = [35.163262, 39.431293]
 
 export const MAP_DEFAULT_ZOOM = 2.5
 
-export const FIREBASE_CONFIG = {
-  authDomain: 'tracking-earthquake.firebaseapp.com',
-  projectId: 'tracking-earthquake',
-  storageBucket: 'tracking-earthquake.appspot.com',
-  messagingSenderId: process.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.VITE_FIREBASE_APP_ID,
-  apiKey: process.env.VITE_FIREBASE_API_KEY,
-}
-
-export const FIREBASE_CUSTOM_POINTS_DB_NAME = 'custom-points'
-
 export const SOURCES = {
   KANDILLI: 'kandilli',
   USGS: 'usgs',
@@ -138,11 +127,9 @@ export const DEFAULT_API_DATE_FORMAT = 'YYYY-MM-DD'
 
 export const MAPBOX_SOURCES = {
   DATA_EARTHQUAKES: 'data-earthquakes',
-  DATA_CUSTOM_POINTS: 'data-earthquakes-custom-points',
   DATA_AFFECTED_DISTANCE: 'data-earthquakes-affected-distance',
   DATA_FAULT_LINE: 'data-fault-line',
   DATA_POPULATION_DENSITY: 'data-population-density',
-  LAYER_CUSTOM_POINTS: 'layer-earthquakes-custom-points',
   LAYER_DATA_CIRCLE: 'data-earthquakes-circle-layer',
   LAYER_DATA_PULSING: 'layer-earthquakes-pulsing',
   LAYER_DATA_AFFECTED_DISTANCE: 'layer-earthquakes-affected-distance',

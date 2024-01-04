@@ -116,24 +116,7 @@ export const prepareEarthquakeUsgs = earthquake => {
   })
 }
 
-export const prepareCustomPoint = params => {
-  const { coordinates, ...otherParams } = params
-  return {
-    type: 'Feature',
-    geometry: { type: 'Point', coordinates },
-    properties: {
-      coordinates,
-      ...otherParams,
-    },
-  }
-}
-
 export const wrapperForSourceData = earthquakes => ({ type: 'FeatureCollection', features: earthquakes })
-
-export const getPopupForCustomPoint = customPoint => `
-<div><b>Oluşturan Kişi:</b> ${customPoint.username}</div>
-<div><b>Açıklama:</b> ${customPoint.description}</div>
-`
 
 export const getPopupForFaultLine = faultLine => `
 <div><b>${i18n.t('Layer')}:</b> ${faultLine.LAYER}</div>

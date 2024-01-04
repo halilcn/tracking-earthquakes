@@ -20,7 +20,6 @@ import { earthquakeActions } from '../../store/earthquake'
 import {
   changeURL,
   debounce,
-  getPopupForCustomPoint,
   getPopupForFaultLine,
   prepareEarthquakeDistance,
   wrapperForSourceData,
@@ -45,11 +44,9 @@ const TrackingMap = () => {
   const [isMapMounted, setIsMapMounted] = useState(false)
 
   const dispatch = useDispatch()
-  const { isActiveCustomPointSelection, customPoints, earthquakeAffectedDistance, settings } = useSelector(state => {
-    const { isActiveCustomPointSelection, customPoints, earthquakeAffectedDistance, settings } = state.earthquake
+  const { earthquakeAffectedDistance, settings } = useSelector(state => {
+    const { earthquakeAffectedDistance, settings } = state.earthquake
     return {
-      isActiveCustomPointSelection,
-      customPoints,
       earthquakeAffectedDistance,
       settings,
     }
@@ -62,7 +59,6 @@ const TrackingMap = () => {
 
   const mapContainer = useRef(null)
   const map = useRef(null)
-  const customPointMarker = useRef(null)
   const selectedFaultLineIndex = useRef(null)
 
   const handleEarthquakeDistance = properties => {
@@ -120,10 +116,6 @@ const TrackingMap = () => {
       handleClickEarthquakePoint(e.features[0].properties)
     })
 
-    map.current.on('click', MAPBOX_SOURCES.LAYER_CUSTOM_POINTS, e => {
-      new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(getPopupForCustomPoint(e.features[0].properties)).addTo(map.current)
-    })
-
     map.current.on('click', MAPBOX_SOURCES.LAYER_FAULT_LINE, e => {
       e.preventDefault()
 
@@ -174,7 +166,6 @@ const TrackingMap = () => {
       type: 'geojson',
       data: wrapperForSourceData(earthquakeAffectedDistance),
     })
-    map.current.addSource(MAPBOX_SOURCES.DATA_CUSTOM_POINTS, { type: 'geojson', data: wrapperForSourceData(customPoints) })
     map.current.addSource(MAPBOX_SOURCES.DATA_FAULT_LINE, {
       type: 'geojson',
       data: settings.isEnabledFaultLine ? faultLines : { type: 'FeatureCollection', features: [] },
@@ -193,17 +184,6 @@ const TrackingMap = () => {
         'circle-color': ['get', 'pointColor'],
         'circle-stroke-width': settings.isEnabledSourceColor ? SOURCE_COLOR_ENABLE_VALUE : SOURCE_COLOR_DISABLE_VALUE,
         'circle-stroke-color': ['get', 'sourceColor'],
-      },
-      filter: ['==', '$type', 'Point'],
-    })
-
-    map.current.addLayer({
-      id: MAPBOX_SOURCES.LAYER_CUSTOM_POINTS,
-      source: MAPBOX_SOURCES.DATA_CUSTOM_POINTS,
-      type: 'symbol',
-      layout: {
-        'icon-image': 'location-icon',
-        'icon-size': 0.7,
       },
       filter: ['==', '$type', 'Point'],
     })
@@ -316,10 +296,6 @@ const TrackingMap = () => {
     map.current.on('load', () => {
       map.current.resize()
       map.current.addImage('pulsing-dot', pulsingDot, { pixelRatio: 2 })
-      map.current.loadImage('https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png', (error, image) => {
-        if (error) throw error
-        map.current.addImage('location-icon', image)
-      })
 
       handleMapboxData()
       handleMapboxActions()
@@ -350,34 +326,12 @@ const TrackingMap = () => {
   }, [isMapMounted])
 
   useEffect(() => {
-    if (!isActiveCustomPointSelection) {
-      customPointMarker.current?.remove()
-      customPointMarker.current = null
-      return
-    }
-
-    customPointMarker.current = new mapboxgl.Marker({
-      draggable: true,
-    })
-      .setLngLat([35.1942, 39.245])
-      .addTo(map.current)
-
-    customPointMarker.current.on('dragend', () => {
-      dispatch(earthquakeActions.setCustomPointCoordinates(customPointMarker.current.getLngLat()))
-    })
-  }, [isActiveCustomPointSelection])
-
-  useEffect(() => {
     map.current.getSource(MAPBOX_SOURCES.DATA_EARTHQUAKES)?.setData(wrapperForSourceData(earthquakes))
   }, [earthquakes])
 
   useEffect(() => {
     map.current.getSource(MAPBOX_SOURCES.DATA_AFFECTED_DISTANCE)?.setData(wrapperForSourceData([earthquakeAffectedDistance])) // We need to set as an array
   }, [earthquakeAffectedDistance])
-
-  useEffect(() => {
-    map.current.getSource(MAPBOX_SOURCES.DATA_CUSTOM_POINTS)?.setData(wrapperForSourceData(customPoints))
-  }, [customPoints])
 
   useEffect(() => {
     const currentData = settings.isEnabledFaultLine ? faultLines : { type: 'FeatureCollection', features: [] }

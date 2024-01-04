@@ -65,10 +65,7 @@ export const initialState = {
   earthquakeNotification: {
     newEarthquakeSound: getNewEarthquakeSoundNotification() === 'true',
   },
-  customPoints: [],
   mapCurrent: null,
-  isActiveCustomPointSelection: false,
-  customPointCoordinates: null,
   isLoadingData: false,
   archiveDate: getArchiveDateState(),
   animation: {
@@ -114,18 +111,6 @@ export const earthquake = createSlice({
     },
     setMapCurrent: (state, actions) => {
       state.mapCurrent = actions.payload
-    },
-    setIsActiveCustomPointSelection: (state, actions) => {
-      state.isActiveCustomPointSelection = actions.payload || !state.isActiveCustomPointSelection
-    },
-    setCustomPointCoordinates: (state, actions) => {
-      state.customPointCoordinates = actions.payload
-    },
-    setCustomPoints: (state, actions) => {
-      state.customPoints = actions.payload
-    },
-    addCustomPoints: (state, actions) => {
-      state.customPoints = [...state.customPoints, actions.payload]
     },
     setIsLoadingData: (state, actions) => {
       state.isLoadingData = actions.payload

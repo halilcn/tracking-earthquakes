@@ -3,16 +3,14 @@ import { useEffect, useRef, useState } from 'react'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { getCustomPoints, getMe } from '../../api'
+import { getMe } from '../../api'
 import audio from '../../assets/sounds/new-earthquake.mp3'
 import { MAP_TIMER_ACTION, MAP_TIMER_STATUS, MAP_UPDATE_MIN } from '../../constants'
 import constantsTestid from '../../constants/testid'
 import useEffectIgnoreFirstRender from '../../hooks/useEffectIgnoreFirstRender'
 import { getAllEarthquakes } from '../../service/earthquakes'
-import firebase from '../../service/firebase'
 import { authActions, isLoggedInSelector } from '../../store/auth'
 import { earthquakeActions, isSelectedAnyArchiveItem } from '../../store/earthquake'
-import { userActions } from '../../store/user'
 import { getFirstGuideStatus, removeUserToken, setFirstGuideStatus } from '../../utils/localStorageActions'
 import ErrorPage from '../error-page'
 import Loading from '../loading'
@@ -81,12 +79,6 @@ const AppContainer = () => {
     notifiedNewEarthquakeIdsRef.current = [...new Set([...notifiedNewEarthquakeIdsRef.current, ...newEarthquakeIDs])]
   }
 
-  const handleGetCustomPoints = async () => {
-    const customPoints = await getCustomPoints()
-
-    dispatch(earthquakeActions.setCustomPoints(customPoints))
-  }
-
   const handleGetMe = async () => {
     const res = await getMe()
     dispatch(authActions.setUser(res.data.user))
@@ -114,20 +106,11 @@ const AppContainer = () => {
       }
 
       if (earthquakesRequests?.status === 'rejected') setHasError(true)
-
-      //await handleGetCustomPoints() // for now it is disabled.
     } catch (err) {
       setHasError(true)
     } finally {
       setIsLoading(false)
     }
-  }
-
-  const listenFirebaseAuth = () => {
-    firebase.auth().onAuthStateChanged(user => {
-      dispatch(userActions.setAuth(user))
-      dispatch(userActions.setIsLoadedAuthInformation(true))
-    })
   }
 
   const createEarthquakesInterval = () => {
@@ -168,7 +151,6 @@ const AppContainer = () => {
   useEffect(() => {
     ;(async () => {
       await firstHandleRequests()
-      listenFirebaseAuth()
 
       if (hasArchiveDates) {
         dispatch(earthquakeActions.updateMapTimerAction(MAP_TIMER_ACTION.CLEAR))
