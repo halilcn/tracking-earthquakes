@@ -172,7 +172,7 @@ const FilterArchive = () => {
       {selectedFilterItem && (
         <div data-testid={testid.clearButton} onClick={handleClearButton} className="filter-archive__clear-filters">
           <Button className="filter-archive__clear-button" variant="contained" color="error">
-            {t('REMOVE')}
+            <div>{t('REMOVE')}</div>
           </Button>
         </div>
       )}

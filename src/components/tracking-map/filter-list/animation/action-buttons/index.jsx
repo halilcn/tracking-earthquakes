@@ -104,28 +104,28 @@ const ActionButtons = () => {
       case !animation.currentDate && !animation.isActive:
         return (
           <Button data-testid={testid.startButton} fullWidth disabled={isLoadingData} variant="contained" onClick={handleStartAnimation}>
-            {t('start')}
+            <div>{t('start')}</div>
           </Button>
         )
       case animation.currentDate && animation.isActive:
         return (
           <Button data-testid={testid.stopButton} fullWidth color="error" variant="contained" onClick={handleStopAnimation}>
-            {t('stop')}
+            <div>{t('stop')}</div>
           </Button>
         )
       case animation.currentDate && !animation.isActive:
         return (
           <div data-testid={testid.decideButtons} className="animation-actions__decide-buttons">
             <Button data-testid={testid.clearButton} fullWidth color="error" variant="contained" onClick={handleClear}>
-              {t('clear')}
+              <div>{t('clear')}</div>
             </Button>
             {isCompletedAnimation ? (
               <Button fullWidth color="inherit" variant="contained" onClick={handleAgainStart}>
-                {t('again start')}
+                <div>{t('again start')}</div>
               </Button>
             ) : (
               <Button data-testid={testid.continueButton} fullWidth color="info" variant="contained" onClick={handleContinue}>
-                {t('continue')}
+                <div>{t('continue')}</div>
               </Button>
             )}
           </div>

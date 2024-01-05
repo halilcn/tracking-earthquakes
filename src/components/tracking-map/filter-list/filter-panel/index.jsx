@@ -63,7 +63,7 @@ const FilterPanel = () => {
             className="filter-panel__clear-button"
             variant="contained"
             color="error">
-            {t('REMOVE')}
+            <div>{t('REMOVE')}</div>
           </Button>
         )}
       </div>
