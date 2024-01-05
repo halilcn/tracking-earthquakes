@@ -1,6 +1,6 @@
 import cx from 'classnames'
 import { motion } from 'framer-motion'
-import { useCallback, useState } from 'react'
+import { useMemo, useState } from 'react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { BiFilterAlt } from 'react-icons/bi'
@@ -18,14 +18,15 @@ import './index.scss'
 import LoadingData from './loading-data'
 import Settings from './settings'
 
+const FILTER_CONTENT_TYPE = {
+  ANIMATION: 'animation',
+  ARCHIVE: 'archive',
+  FILTER_PANEL: 'filterPanel',
+  SETTINGS: 'settings',
+}
+
 const FilterList = () => {
   const testid = constantsTestid.filterList
-  const FILTER_CONTENT_TYPE = {
-    ANIMATION: 'animation',
-    ARCHIVE: 'archive',
-    FILTER_PANEL: 'filterPanel',
-    SETTINGS: 'settings',
-  }
 
   const { t } = useTranslation()
 
@@ -36,14 +37,14 @@ const FilterList = () => {
   const selectedFilterPanelItem = useSelector(isSelectedAnyFilterPanelItem)
   const isAnimationActive = useSelector(state => state.earthquake.animation.currentDate)
 
-  const MemoizedFilterContent = useCallback(() => {
+  const memoizedFilterContent = useMemo(() => {
     if (filterContentType === FILTER_CONTENT_TYPE.ANIMATION) return <Animation />
     if (filterContentType === FILTER_CONTENT_TYPE.ARCHIVE) return <FilterArchive />
     if (filterContentType === FILTER_CONTENT_TYPE.FILTER_PANEL) return <FilterPanel />
     if (filterContentType === FILTER_CONTENT_TYPE.SETTINGS) return <Settings />
   }, [filterContentType])
 
-  const MemoizedFilterText = useCallback(() => {
+  const memoizedFilterText = useMemo(() => {
     if (filterContentType === FILTER_CONTENT_TYPE.ANIMATION) return t('ANIMATION')
     if (filterContentType === FILTER_CONTENT_TYPE.ARCHIVE) return t('PAST EARTHQUAKES')
     if (filterContentType === FILTER_CONTENT_TYPE.FILTER_PANEL) return t('FILTERS')
@@ -52,7 +53,7 @@ const FilterList = () => {
 
   const isSelectedType = type => type === filterContentType && filterContentEnable
 
-  const handleSetFilterContentType = type => {
+  const handleSetFilterContentType = type => () => {
     if (isSelectedType(type)) {
       setFilterContentEnable(false)
       return
@@ -111,7 +112,7 @@ const FilterList = () => {
             <div
               id={filter.id}
               data-testid={testid.listItem}
-              onClick={() => handleSetFilterContentType(filter.type)}
+              onClick={handleSetFilterContentType(filter.type)}
               className={cx('filter__item', 'filter__item--icon', filter.itemCustomClasses || '', {
                 'filter__item--selected': isSelectedType(filter.type),
               })}>
@@ -126,11 +127,9 @@ const FilterList = () => {
         ))}
       </div>
       <motion.div {...filterContentProp}>
-        <div className="filter__title">
-          <MemoizedFilterText />
-        </div>
+        <div className="filter__title">{memoizedFilterText}</div>
         <div data-testid={testid.content} className="filter__content-container">
-          <MemoizedFilterContent />
+          {memoizedFilterContent}
         </div>
       </motion.div>
     </div>
