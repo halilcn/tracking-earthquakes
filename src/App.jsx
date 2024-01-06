@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/react'
 import 'intro.js/introjs.css'
 import { useEffect } from 'react'
 import ReactGA from 'react-ga'
@@ -10,6 +11,10 @@ import './i18n'
 import './styles/default.scss'
 
 ReactGA.initialize(process.env.VITE_TRACKING_ID)
+Sentry.init({
+  dsn: process.env.SENTRY_DSN,
+  integrations: [],
+})
 
 const App = () => {
   const { t } = useTranslation()
