@@ -1,0 +1,51 @@
+@import "../../styles/variables.scss";
+
+.general-error {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &__left {
+        width: 500px;
+    }
+
+    &__title {
+        font-size: 35px;
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+
+    &__info {
+        margin-top: 10px;
+        font-weight: 400;
+    }
+
+    &__error-img {
+        width: 500px;
+    }
+
+    @media only screen and (max-width: $mobile-width) {
+        flex-direction: column;
+
+        &__title {
+            font-size: 25px;
+        }
+
+        &__left {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        &__info {
+            text-align: center;
+        }
+
+        &__error-img {
+            width: 300px;
+        }
+    }
+}

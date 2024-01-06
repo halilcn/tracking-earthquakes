@@ -112,5 +112,8 @@ export default {
     'Total of {count} earthquakes': 'Toplam {count} deprem',
     Loading: 'Yükleniyor',
     'Maximum of 2 months date range can be selected': 'Maksimum 2 aylık tarih aralığı seçilebilir',
+    'Something went wrong': 'Bir şeyler yanlış gitti',
+    'We are working on it and we will get it fixed as soon as possible':
+      'Bunun üzerinde çalışıyoruz ve mümkün olan en kısa sürede düzelteceğiz',
   },
 }

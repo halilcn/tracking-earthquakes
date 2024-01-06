@@ -113,5 +113,8 @@ export default {
     'Total of {count} earthquakes': 'Total of {count} earthquakes',
     Loading: 'Loading',
     'Maximum of 2 months date range can be selected': 'Maximum of 2 months date range can be selected',
+    'Something went wrong': 'Something went wrong',
+    'We are working on it and we will get it fixed as soon as possible':
+      'We are working on it and we will get it fixed as soon as possible',
   },
 }

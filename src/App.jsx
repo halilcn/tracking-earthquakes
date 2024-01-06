@@ -4,6 +4,8 @@ import ReactGA from 'react-ga'
 import { useTranslation } from 'react-i18next'
 
 import AppContainer from './components/app-container'
+import ErrorBoundary from './components/error-boundary'
+import GeneralErrorPage from './components/general-error-page'
 import './i18n'
 import './styles/default.scss'
 
@@ -19,4 +21,12 @@ const App = () => {
   return <AppContainer />
 }
 
-export default App
+const withErrorBoundary = WrapperComponent => () => {
+  return (
+    <ErrorBoundary ErrorFallbackComponent={GeneralErrorPage}>
+      <WrapperComponent />
+    </ErrorBoundary>
+  )
+}
+
+export default withErrorBoundary(App)
