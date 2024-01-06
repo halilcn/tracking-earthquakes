@@ -11,10 +11,12 @@ import './i18n'
 import './styles/default.scss'
 
 ReactGA.initialize(process.env.VITE_TRACKING_ID)
-Sentry.init({
-  dsn: process.env.SENTRY_DSN,
-  integrations: [],
-})
+if (process.env.ENVIRONMENT === 'production') {
+  Sentry.init({
+    dsn: process.env.SENTRY_DSN,
+    integrations: [],
+  })
+}
 
 const App = () => {
   const { t } = useTranslation()
