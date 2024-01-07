@@ -74,11 +74,20 @@ const UpdateTimer = () => {
     }
   }, [])
 
+  const handleForceGetEarthquakes = () => {
+    dispatch(earthquakeActions.updateForceUpdate(true))
+  }
+
   const memoizedTimerStatusContent = useMemo(() => {
-    const updateTimerTypeClass = classNames('update-timer__timer-type', { 'update-timer__timer-type--disabled': !isEnabledToForceUpdate })
+    const isRequestedRecent = time >= MAP_UPDATE_MIN - 5
+    const isDisabled = isRequestedRecent || !isEnabledToForceUpdate
+
+    const updateTimerTypeClass = classNames('update-timer__timer-type', {
+      'update-timer__timer-type--disabled': isDisabled,
+    })
 
     return (
-      <div className={updateTimerTypeClass}>
+      <div onClick={handleForceGetEarthquakes} className={updateTimerTypeClass}>
         <GrUpdate className="update-timer__icon" />
         <div className="update-timer__timer-minutes">{time}</div>
         <div>{t('minutes')}</div>
@@ -91,7 +100,7 @@ const UpdateTimer = () => {
     () => (
       <div className="update-timer__archive-type">
         <MdUpdate size={18} className="update-timer__icon" />
-        <span>{getArchiveDateText()}</span>
+        <span className='update-timer__archive-type-text'>{getArchiveDateText()}</span>
         <div className="update-timer__bg-filter" />
       </div>
     ),
@@ -109,15 +118,9 @@ const UpdateTimer = () => {
     }
   }
 
-  const handleForceGetEarthquakes = () => {
-    dispatch(earthquakeActions.updateForceUpdate(true))
-  }
-
   return (
     <div data-testid={testid.timerContainer} className="update-timer">
-      <div className="update-timer__content" {...(isEnabledToForceUpdate ? { onClick: handleForceGetEarthquakes } : {})}>
-        {getContent()}
-      </div>
+      <div className="update-timer__content">{getContent()}</div>
     </div>
   )
 }

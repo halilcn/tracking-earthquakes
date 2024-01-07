@@ -30,7 +30,7 @@
             &:hover {
                 .update-timer {
                     &__icon {
-                        transform: rotate(180deg);
+                        transform: rotate(70deg);
                     }
 
                     &__bg-filter {
@@ -38,6 +38,10 @@
                     }
                 }
             }
+        }
+
+        &--disabled {
+            pointer-events: none;
         }
     }
 
@@ -50,6 +54,11 @@
         padding: 11px;
         display: flex;
         justify-content: center;
+        align-items: center;
+    }
+
+    &__archive-type-text {
+        margin-left: 5px;
     }
 
     &__icon {
@@ -72,8 +81,15 @@
     @media only screen and (max-width: $mobile-width) {
         &__content {
             font-size: 10px !important;
-            padding: 4px !important;
             margin-top: 23px;
+        }
+
+        &__timer-type {
+            padding: 6px;
+        }
+
+        &__archive-type {
+            padding: 6px;
         }
     }
 }
