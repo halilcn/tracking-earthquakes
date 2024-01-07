@@ -22,11 +22,10 @@ const AppContainer = () => {
   const testid = constantsTestid.appContainer
   const dispatch = useDispatch()
   const earthquakeIntervalRef = useRef(null)
+  const notifiedNewEarthquakeIdsRef = useRef([])
 
   const [hasError, setHasError] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
-
-  const notifiedNewEarthquakeIdsRef = useRef([])
 
   const selectedArchiveItem = useSelector(isSelectedAnyArchiveItem)
   const { newEarthquakeSound, animationCurrentDate, archiveDate, forceUpdate } = useSelector(state => {
@@ -62,14 +61,21 @@ const AppContainer = () => {
 
     dispatch(earthquakeActions.setEarthquakes(earthquakes))
     dispatch(earthquakeActions.setIsLoadingData(false))
-    if (newEarthquakeNotification && newEarthquakeSound) handleNewEarthquakeNotification(earthquakes)
+    if (newEarthquakeSound) handleNewEarthquakeNotification({ earthquakes, newEarthquakeNotification })
   }
 
-  const handleNewEarthquakeNotification = earthquakes => {
-    const newEarthquakes = earthquakes.filter(earthquake => earthquake.properties.isNewEarthquake)
-    if (newEarthquakes.length === 0) return
+  const handleNewEarthquakeNotification = payload => {
+    const { earthquakes, newEarthquakeNotification } = payload
 
-    const newEarthquakeIDs = newEarthquakes.reduce((acc, newEarthquake) => [...acc, newEarthquake.properties.earthquake_id], [])
+    const newEarthquakeIDs = earthquakes
+      .filter(earthquake => earthquake.properties.isNewEarthquake)
+      .reduce((acc, newEarthquake) => [...acc, newEarthquake.properties.earthquake_id], [])
+    if (newEarthquakeIDs.length === 0) return
+    if (!newEarthquakeNotification) {
+      notifiedNewEarthquakeIdsRef.current = [...newEarthquakeIDs]
+      return
+    }
+
     const isNotifiedAllNewEarthquakes = newEarthquakeIDs.every(earthquakeID => notifiedNewEarthquakeIdsRef.current.includes(earthquakeID))
     if (isNotifiedAllNewEarthquakes) return
 
