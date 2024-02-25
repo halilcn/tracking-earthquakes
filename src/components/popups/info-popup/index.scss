@@ -84,4 +84,30 @@
         font-size: 11px;
         margin-right: 7px;
     }
+
+    &__open-source-link {
+        margin-top: 7px;
+
+        &>a {
+            color: black;
+            font-size: 30px;
+        }
+    }
+
+    &__list-container {
+        display: flex;
+        flex-direction: column;
+        margin-top: 10px;
+    }
+
+    &__container-title {
+        font-size: 20px;
+        font-weight: 500;
+        color: rgb(44, 44, 44);
+        font-style: italic;
+    }
+
+    &__list {
+        padding: 0 12px;
+    }
 }

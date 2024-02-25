@@ -1,6 +1,6 @@
 export default {
   translation: {
-    'Tracking Earthquakes': 'Tracking Earthquakes',
+    'Track Earthquakes': 'Track Earthquakes',
     City: 'City',
     "There aren't any earthquakes": "There aren't any earthquakes",
     'Search a place': 'Search a place',
@@ -116,5 +116,10 @@ export default {
     'Something went wrong': 'Something went wrong',
     'We are working on it and we will get it fixed as soon as possible':
       'We are working on it and we will get it fixed as soon as possible',
+    Help: 'Help',
+    Guide: 'Guide',
+    General: 'General',
+    'Open Source': 'Open Source',
+    'This project is open source': 'This project is open source',
   },
 }

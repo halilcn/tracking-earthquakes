@@ -6,8 +6,6 @@ export const API = {
   BACKEND_V1: 'https://tracking-earthquakes-api-51c3d53af347.herokuapp.com/api/v1',
 }
 
-export const APP_URL = 'https://tracking-earthquakes.vercel.app'
-
 export const INTENSITY_LEVELS = {
   LEVEL_1: 'LEVEL_1',
   LEVEL_2: 'LEVEL_2',
@@ -167,3 +165,5 @@ export const MAP_TIMER_STATUS = {
   ARCHIVE: 'ARCHIVE',
   ANIMATION: 'ANIMATION',
 }
+
+export const GITHUB_URL = 'https://github.com/halilcn/tracking-earthquakes'

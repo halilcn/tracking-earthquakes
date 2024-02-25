@@ -1,6 +1,6 @@
 export default {
   translation: {
-    'Tracking Earthquakes': 'Deprem Takibi',
+    'Track Earthquakes': 'Depremleri Takip Edin',
     City: 'Şehir',
     "There aren't any earthquakes": 'Hiç deprem yok',
     'Search a place': 'Bir yer ara',
@@ -115,5 +115,9 @@ export default {
     'Something went wrong': 'Bir şeyler yanlış gitti',
     'We are working on it and we will get it fixed as soon as possible':
       'Bunun üzerinde çalışıyoruz ve mümkün olan en kısa sürede düzelteceğiz',
+    Help: 'Yardım',
+    Guide: 'Kılavuz',
+    General: 'Genel',
+    'This project is open source': 'Bu proje açık kaynaktır',
   },
 }

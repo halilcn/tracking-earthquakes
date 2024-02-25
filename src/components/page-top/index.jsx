@@ -3,15 +3,15 @@ import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google'
 import { useState } from 'react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { AiOutlineGithub } from 'react-icons/ai'
-import { BiHelpCircle } from 'react-icons/bi'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { postLogin } from '../../api'
+import { GITHUB_URL } from '../../constants'
 import { authActions, isLoggedInSelector } from '../../store/auth'
 import { getCurrentLanguage } from '../../utils'
 import { setUserToken } from '../../utils/localStorageActions'
 import InfoPopup from '../popups/info-popup'
+import BlackLogo from './../../../public/logo_black.svg'
 import ChattingAIModal from './chatting-ai-modal'
 import './index.scss'
 import UserTop from './user-top'
@@ -75,17 +75,20 @@ const PageTop = () => {
   return (
     <div className="app-top">
       <div className="app-top__info-list">
-        <a href="https://github.com/halilcn/tracking-earthquakes" target="_blank">
-          <AiOutlineGithub className="app-top__action-item app-top__action-item--github" />
+        <a className="app-top__logo" href={GITHUB_URL} target="_blank">
+          <img src={BlackLogo} />
         </a>
-        <BiHelpCircle
-          id="info-popup-button"
-          onClick={() => setActivePopupContentType(POPUP_CONTENT_TYPES.INFO)}
-          className="app-top__action-item"
-        />
       </div>
       <div className="app-top__action-list">
         <div className="app-top__action-links">
+          <div
+            id="info-popup-button"
+            className="app-top__link app-top__link"
+            onClick={() => setActivePopupContentType(POPUP_CONTENT_TYPES.INFO)}>
+            <div onClick={handleClickAIChatItem} className="app-top__link-text">
+              {t('Help')}
+            </div>
+          </div>
           <div className="app-top__link app-top__link--chat">
             <div onClick={handleClickAIChatItem} className={`app-top__link-text ${!isLoggedIn ? 'app-top__link-text--disabled' : ''}`}>
               {t('AI Chat')}

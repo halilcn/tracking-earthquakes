@@ -22,7 +22,7 @@ const App = () => {
   const { t } = useTranslation()
 
   useEffect(() => {
-    document.title = t('Tracking Earthquakes')
+    document.title = t('Track Earthquakes')
   }, [])
 
   return <AppContainer />
