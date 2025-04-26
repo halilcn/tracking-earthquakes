@@ -42,9 +42,6 @@ export default {
   magnitudeFilter: {
     magnitudeContainer: 'magnitude-filter-container',
   },
-  sourceFilter: {
-    sourceContainer: 'source-filter-container',
-  },
   timeFilter: {
     timeContainer: 'time-filter-container',
   },

@@ -6,7 +6,6 @@ export const URL_QUERY_PARAMS = {
   MAGNITUDE: 'magnitude',
   DEPTH: 'depth',
   TIME: 'time',
-  SOURCES: 'sources',
 }
 
 const urlParams = new URLSearchParams(window.location.search)

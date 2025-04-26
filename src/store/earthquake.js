@@ -5,7 +5,6 @@ import {
   DEFAULT_API_DATE_FORMAT,
   DEFAULT_DEPTH_FILTER,
   DEFAULT_MAGNITUDE_FILTER_VALUE,
-  DEFAULT_SOURCE_FILTER,
   DEFAULT_TIME_FILTER_VALUE,
   MAP_TIMER_ACTION,
 } from '../constants'
@@ -24,7 +23,6 @@ export const defaultEarthquakeFilterState = {
   time: DEFAULT_TIME_FILTER_VALUE,
   magnitude: DEFAULT_MAGNITUDE_FILTER_VALUE,
   depth: DEFAULT_DEPTH_FILTER,
-  sources: DEFAULT_SOURCE_FILTER,
 }
 
 const getArchiveDateState = () => {
@@ -161,9 +159,8 @@ export const isSelectedAnyFilterPanelItem = state => {
   const isLiveEarthquake = !state.earthquake.animation.isActive && !isSelectedAnyArchiveItem(state)
   const magnitude = earthquakeFilter.magnitude !== DEFAULT_MAGNITUDE_FILTER_VALUE
   const depth = earthquakeFilter.depth !== DEFAULT_DEPTH_FILTER
-  const sources = earthquakeFilter.sources.filter(source => DEFAULT_SOURCE_FILTER.includes(source)).length !== DEFAULT_SOURCE_FILTER.length
 
-  return (time && isLiveEarthquake) || magnitude || depth || sources
+  return (time && isLiveEarthquake) || magnitude || depth
 }
 
 export const earthquakeActions = earthquake.actions

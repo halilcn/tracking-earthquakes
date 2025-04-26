@@ -15,7 +15,6 @@ import { deleteEarthquakeFiltersQueryParam } from '../../../../utils/queryParams
 import DepthFilter from './depth-filter'
 import './index.scss'
 import MagnitudeFilter from './magnitude-filter'
-import SourceFilter from './source-filter'
 import TimeFilter from './time-filter'
 
 const FilterPanel = () => {
@@ -52,9 +51,6 @@ const FilterPanel = () => {
         </div>
         <div className="filter-panel__item">
           <DepthFilter />
-        </div>
-        <div className="filter-panel__item">
-          <SourceFilter />
         </div>
         {selectedFilterPanelItem && (
           <Button

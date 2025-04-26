@@ -28,7 +28,6 @@ export default {
     Language: 'Dil',
     Depth: 'Derinlik',
     All: 'Tümü',
-    Sources: 'Kaynaklar',
     'Earthquake Magnitude': 'Deprem Büyüklüğü',
     'Live Earthquake': 'Canlı Deprem',
     Info: 'Bilgi',
@@ -81,7 +80,6 @@ export default {
     'You can focus anywhere you want': 'İstediğiniz yere odaklanabilirsiniz',
     'Earthquake List': 'Deprem Listesi',
     'You can see all earthquakes as a list': 'Tüm depremleri bir liste olarak görebilirsin',
-    Info: 'Bilgi',
     'You can understand some colors/shapes by using this button': 'Bu butonu kullanarak bazı renkleri/şekilleri anlayabilirsiniz',
     'Sign out': 'Çıkış yap',
     'AI Chat': 'AI Sohbet',
@@ -119,5 +117,7 @@ export default {
     Guide: 'Kılavuz',
     General: 'Genel',
     'This project is open source': 'Bu proje açık kaynaktır',
+    'Data Sources': 'Veri Kaynakları',
+    'Earthquake data for specific regions is collected from local sources (e.g. AFAD for Turkey)': 'Belirli bölgelerdeki deprem verileri yerel kaynaklardan toplanmaktadır (örn: Türkiye için AFAD)',
   },
 }

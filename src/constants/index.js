@@ -107,8 +107,6 @@ export const SOURCE_COLOR = {
   [SOURCES.USGS]: '#F44DF7',
 }
 
-export const DEFAULT_SOURCE_FILTER = Object.values(SOURCES)
-
 export const ANIMATION_RANGES = {
   5: i18n.t('{minCount} minutes').replace('{minCount}', 5),
   15: i18n.t('{minCount} minutes').replace('{minCount}', 15),

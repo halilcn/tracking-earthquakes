@@ -29,7 +29,6 @@ export default {
     Language: 'Language',
     Depth: 'Depth',
     All: 'All',
-    Sources: 'Sources',
     'Earthquake Magnitude': 'Earthquake Magnitude',
     'Live Earthquake': 'Live Earthquake',
     Info: 'Info',
@@ -121,5 +120,7 @@ export default {
     General: 'General',
     'Open Source': 'Open Source',
     'This project is open source': 'This project is open source',
+    'Data Sources': 'Data Sources',
+    'Earthquake data for specific regions is collected from local sources (e.g. AFAD for Turkey)': 'Earthquake data for specific regions is collected from local sources (e.g. AFAD for Turkey)',
   },
 }

@@ -30,6 +30,12 @@ const InfoPopup = props => {
               </div>
             </div>
           </div>
+          <div className="info-popup__item">
+            <div className="info-popup__label">
+              <div className="info-popup__title">{t('Data Sources')}</div>
+              <div className="info-popup__description">{t('Earthquake data for specific regions is collected from local sources (e.g. AFAD for Turkey)')}</div>
+            </div>
+          </div>
         </div>
       </div>
       <div className="info-popup__list-container">

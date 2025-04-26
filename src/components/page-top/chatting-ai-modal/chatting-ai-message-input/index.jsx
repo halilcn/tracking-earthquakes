@@ -4,7 +4,7 @@ import { FaInfoCircle } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { postAIEarthquakeMessage, postAIMessage } from '../../../../api'
-import { MESSAGE_OWNER_TYPES, SOURCES } from '../../../../constants'
+import { MESSAGE_OWNER_TYPES } from '../../../../constants'
 import { getAllEarthquakes } from '../../../../service/earthquakes'
 import { messageActions } from '../../../../store/message'
 import { convertDateFormatForAPI } from '../../../../utils'
