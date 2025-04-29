@@ -45,9 +45,6 @@ export default {
   timeFilter: {
     timeContainer: 'time-filter-container',
   },
-  loading: {
-    loadingContainer: 'loading-container',
-  },
   errorPage: {
     errorPageContainer: 'error-page-container',
   },

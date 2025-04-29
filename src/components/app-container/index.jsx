@@ -13,9 +13,9 @@ import { authActions, isLoggedInSelector } from '../../store/auth'
 import { earthquakeActions, isSelectedAnyArchiveItem } from '../../store/earthquake'
 import { getFirstGuideStatus, removeUserToken, setFirstGuideStatus } from '../../utils/localStorageActions'
 import ErrorPage from '../error-page'
-import Loading from '../loading'
 import PageTop from '../page-top'
 import TrackingMap from '../tracking-map'
+import AppLoading from './app-loading'
 import './index.scss'
 
 const AppContainer = () => {
@@ -201,7 +201,7 @@ const AppContainer = () => {
 
   return (
     <div data-testid={testid.appContainer} className="app-container">
-      {isLoading && <Loading />}
+      {isLoading && <AppLoading />}
       {hasError && <ErrorPage />}
       {!hasError && !isLoading && (
         <>

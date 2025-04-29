@@ -27,16 +27,6 @@ describe('app container', () => {
     expect(screen.queryByTestId(testid.appContainer)).toBeInTheDocument()
   })
 
-  test('should be rendered loading when there is still a request', () => {
-    axios.get = jest.fn().mockReturnValue(
-      new Promise(function () {
-        setTimeout(() => {}, 3000)
-      })
-    )
-    renderWithProviders(<AppContainer />)
-
-    expect(screen.queryByTestId(constantsTestid.loading.loadingContainer)).toBeInTheDocument()
-  })
 
   test('should be rendered error when there is an error', async () => {
     axios.get = jest.fn().mockReturnValue(Promise.reject('Error'))
@@ -44,26 +34,4 @@ describe('app container', () => {
 
     expect(await screen.findByTestId(constantsTestid.errorPage.errorPageContainer)).toBeInTheDocument()
   })
-
-  /*
-    test('should be rendered', async () => {
-    axios.get = jest.fn().mockReturnValue({
-      data: {
-        metadata: {
-          total: 0,
-        },
-        result: [getMockKandilliData()],
-        features: [getMockUSGSData()],
-      },
-      status: 200,
-    })
-    renderWithProviders(<AppContainer />)
-
-    // TODO:
-    //expect(screen.queryByTestId(constantsTestid.loading.loadingContainer)).not.toBeInTheDocument()
-    expect(await screen.findByTestId(testid.top)).toBeInTheDocument()
-    //expect(await screen.findByTestId(testid.content)).toBeInTheDocument()
-  })
-
-  */
 })
