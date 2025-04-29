@@ -1,0 +1,55 @@
+.custom-map-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  &__item {
+    background-color: #fff;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+    font-size: 17px;
+
+    &:hover {
+      background-color: #ebebeb;
+    }
+
+    &--disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  }
+
+  &__zoom-controls {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    overflow: hidden;
+    height: 60px;
+
+    &:hover {
+      background-color: #fff;
+    }
+  }
+
+  &__zoom-control-item {
+    width: 100%;
+    height: 100%;
+    font-size: 12px;
+    padding: 5px;
+
+    &:hover {
+      background-color: #ebebeb;
+    }
+  }
+}

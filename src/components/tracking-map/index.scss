@@ -6,4 +6,8 @@
     &__map-container {
         height: 100%;
     }
+
+    .mapboxgl-ctrl-bottom-right {
+        display: none;
+    }
 }

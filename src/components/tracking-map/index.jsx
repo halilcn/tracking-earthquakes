@@ -8,22 +8,18 @@ import {
   MAPBOX_SOURCES,
   MAP_DEFAULT_COORDINATES,
   MAP_DEFAULT_ZOOM,
+  MAP_DEFAULT_ZOOM_HOME,
   MAP_TYPE,
   SOURCE_COLOR_DISABLE_VALUE,
   SOURCE_COLOR_ENABLE_VALUE,
 } from '../../constants'
 import constantsTestid from '../../constants/testid'
 import getEarthquakes from '../../hooks/getEarthquakes'
+import useCurrentPosition from '../../hooks/useCurrentPosition'
 import useMapboxPopup from '../../hooks/useMapboxPopup'
 import useSafeEffect from '../../hooks/useSafeEffect'
 import { earthquakeActions } from '../../store/earthquake'
-import {
-  changeURL,
-  debounce,
-  getPopupForFaultLine,
-  prepareEarthquakeDistance,
-  wrapperForSourceData,
-} from '../../utils'
+import { changeURL, debounce, getPopupForFaultLine, prepareEarthquakeDistance, wrapperForSourceData } from '../../utils'
 import { getMapType } from '../../utils/localStorageActions'
 import {
   deleteEarthquakeIDQueryParam,
@@ -36,7 +32,10 @@ import ActionList from './action-list'
 import FilterList from './filter-list'
 import './index.scss'
 import MapEarthquakePopup from './map-popups/map-earthquake-popup'
+import MapTools from './map-tools'
 import UpdateTimer from './update-timer'
+
+const getDefaultGeoJsonData = ({ features = [] } = {}) => ({ type: 'FeatureCollection', features })
 
 const TrackingMap = () => {
   const testid = constantsTestid.trackingMap
@@ -44,6 +43,7 @@ const TrackingMap = () => {
   const [isMapMounted, setIsMapMounted] = useState(false)
 
   const dispatch = useDispatch()
+  const { currentPosition, isAllowed: isCurrentPositionAllowed } = useCurrentPosition()
   const { earthquakeAffectedDistance, settings } = useSelector(state => {
     const { earthquakeAffectedDistance, settings } = state.earthquake
     return {
@@ -61,22 +61,33 @@ const TrackingMap = () => {
   const map = useRef(null)
   const selectedFaultLineIndex = useRef(null)
 
+  const centerOfMap = (() => {
+    switch (true) {
+      case !!queryLatLong:
+        return queryLatLong
+      case isCurrentPositionAllowed && !!currentPosition.lang && !!currentPosition.lat:
+        return [currentPosition.lang, currentPosition.lat]
+      default:
+        return MAP_DEFAULT_COORDINATES
+    }
+  })()
+  const zoomOfMap = (() => {
+    switch (true) {
+      case !!queryLatLong && queryLatLong.length === 3:
+        return queryLatLong[2]
+      case isCurrentPositionAllowed && !!currentPosition.lang && !!currentPosition.lat:
+        return MAP_DEFAULT_ZOOM_HOME
+      default:
+        return MAP_DEFAULT_ZOOM
+    }
+  })()
+
   const handleEarthquakeDistance = properties => {
     const earthquakeAffectedDistance = prepareEarthquakeDistance(properties)
     dispatch(earthquakeActions.setEarthquakeAffectedDistance(earthquakeAffectedDistance))
   }
 
   const clearEarthquakeDistance = () => dispatch(earthquakeActions.setEarthquakeAffectedDistance({}))
-
-  const getCenterOfMap = () => {
-    if (queryLatLong) return queryLatLong
-    return MAP_DEFAULT_COORDINATES
-  }
-
-  const getZoomOfMap = () => {
-    if (queryLatLong && queryLatLong.length === 3) return queryLatLong[2]
-    return MAP_DEFAULT_ZOOM
-  }
 
   const enableEarthquakePoint = _earthquake => {
     const earthquake = {
@@ -103,8 +114,8 @@ const TrackingMap = () => {
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: mapType,
-      zoom: getZoomOfMap(),
-      center: getCenterOfMap(),
+      zoom: zoomOfMap,
+      center: centerOfMap,
     })
 
     dispatch(earthquakeActions.setMapCurrent(map.current))
@@ -168,11 +179,28 @@ const TrackingMap = () => {
     })
     map.current.addSource(MAPBOX_SOURCES.DATA_FAULT_LINE, {
       type: 'geojson',
-      data: settings.isEnabledFaultLine ? faultLines : { type: 'FeatureCollection', features: [] },
+      data: settings.isEnabledFaultLine ? faultLines : getDefaultGeoJsonData(),
     })
     map.current.addSource(MAPBOX_SOURCES.DATA_POPULATION_DENSITY, {
       type: 'geojson',
       data: wrapperForSourceData(settings.isEnabledPopulationDensity ? populationPoints : []),
+    })
+
+    map.current.addSource(MAPBOX_SOURCES.DATA_CURRENT_POSITION, {
+      type: 'geojson',
+      data: getDefaultGeoJsonData(), // We should pass empty data because of the current position state is not filled yet
+    })
+
+    map.current.addLayer({
+      id: MAPBOX_SOURCES.LAYER_CURRENT_POSITION,
+      type: 'circle',
+      source: MAPBOX_SOURCES.DATA_CURRENT_POSITION,
+      paint: {
+        'circle-radius': 8,
+        'circle-color': '#4287f5',
+        'circle-stroke-width': 3,
+        'circle-stroke-color': '#FFFFFF',
+      },
     })
 
     map.current.addLayer({
@@ -334,7 +362,7 @@ const TrackingMap = () => {
   }, [earthquakeAffectedDistance])
 
   useEffect(() => {
-    const currentData = settings.isEnabledFaultLine ? faultLines : { type: 'FeatureCollection', features: [] }
+    const currentData = settings.isEnabledFaultLine ? faultLines : getDefaultGeoJsonData()
     map.current.getSource(MAPBOX_SOURCES.DATA_FAULT_LINE)?.setData(currentData)
   }, [settings.isEnabledFaultLine])
 
@@ -343,12 +371,36 @@ const TrackingMap = () => {
     map.current.getSource(MAPBOX_SOURCES.DATA_POPULATION_DENSITY)?.setData(currentData)
   }, [settings.isEnabledPopulationDensity])
 
+  useEffect(() => {
+    if (!isCurrentPositionAllowed || !currentPosition.lang || !currentPosition.lat) return
+
+    map.current.flyTo({
+      center: centerOfMap,
+      zoom: zoomOfMap,
+    })
+
+    map.current.getSource(MAPBOX_SOURCES.DATA_CURRENT_POSITION)?.setData(
+      getDefaultGeoJsonData({
+        features: [
+          {
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [currentPosition.lang, currentPosition.lat],
+            },
+          },
+        ],
+      })
+    )
+  }, [JSON.stringify(currentPosition), isCurrentPositionAllowed, isMapMounted])
+
   const memoizedComponents = useMemo(() => {
     return (
       <>
         <ActionList />
         <UpdateTimer />
         <FilterList />
+        <MapTools />
       </>
     )
   }, [])

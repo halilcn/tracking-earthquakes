@@ -96,6 +96,7 @@ export const MAP_UPDATE_MIN = 60
 export const MAP_DEFAULT_COORDINATES = [35.163262, 39.431293]
 
 export const MAP_DEFAULT_ZOOM = 2.5
+export const MAP_DEFAULT_ZOOM_HOME = 6
 
 export const SOURCES = {
   KANDILLI: 'kandilli',
@@ -126,11 +127,13 @@ export const MAPBOX_SOURCES = {
   DATA_AFFECTED_DISTANCE: 'data-earthquakes-affected-distance',
   DATA_FAULT_LINE: 'data-fault-line',
   DATA_POPULATION_DENSITY: 'data-population-density',
+  DATA_CURRENT_POSITION: 'data-current-position',
   LAYER_DATA_CIRCLE: 'data-earthquakes-circle-layer',
   LAYER_DATA_PULSING: 'layer-earthquakes-pulsing',
   LAYER_DATA_AFFECTED_DISTANCE: 'layer-earthquakes-affected-distance',
   LAYER_FAULT_LINE: 'layer-fault-line',
   LAYER_POPULATION_DENSITY: 'layer-population-density',
+  LAYER_CURRENT_POSITION: 'layer-current-position',
 }
 
 export const SOURCE_COLOR_DISABLE_VALUE = 0
