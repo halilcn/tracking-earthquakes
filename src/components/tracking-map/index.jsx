@@ -41,6 +41,7 @@ const TrackingMap = () => {
   const testid = constantsTestid.trackingMap
 
   const [isMapMounted, setIsMapMounted] = useState(false)
+  const [isEnabledMapActions, setIsEnabledMapActions] = useState(true)
 
   const dispatch = useDispatch()
   const { currentPosition, isAllowed: isCurrentPositionAllowed } = useCurrentPosition()
@@ -82,6 +83,10 @@ const TrackingMap = () => {
     }
   })()
 
+  const handleChangeIsEnabledMapActions = value => {
+    setIsEnabledMapActions(value)
+  }
+
   const handleEarthquakeDistance = properties => {
     const earthquakeAffectedDistance = prepareEarthquakeDistance(properties)
     dispatch(earthquakeActions.setEarthquakeAffectedDistance(earthquakeAffectedDistance))
@@ -121,54 +126,68 @@ const TrackingMap = () => {
     dispatch(earthquakeActions.setMapCurrent(map.current))
   })
 
-  const handleMapboxActions = () => {
-    map.current.on('click', MAPBOX_SOURCES.LAYER_DATA_CIRCLE, e => {
-      e.preventDefault()
-      handleClickEarthquakePoint(e.features[0].properties)
+  const handleDataCircleLayerClick = useCallback(e => {
+    e.preventDefault()
+    handleClickEarthquakePoint(e.features[0].properties)
+  }, [])
+  const handleFaultLineLayerClick = useCallback(e => {
+    e.preventDefault()
+
+    const { id, properties } = e.features[0]
+
+    map.current.setFeatureState({ source: MAPBOX_SOURCES.DATA_FAULT_LINE, id }, { selected: true })
+    selectedFaultLineIndex.current = id
+
+    const { lat, lng } = e.lngLat
+    enableMapboxPopup({
+      coordinates: [lng, lat],
+      popupContent: getPopupForFaultLine(properties),
     })
+  }, [])
+  const handleMapGeneralClick = useCallback(e => {
+    if (e.defaultPrevented !== false) return
 
-    map.current.on('click', MAPBOX_SOURCES.LAYER_FAULT_LINE, e => {
-      e.preventDefault()
+    clearEarthquakeDistance()
 
-      const { id, properties } = e.features[0]
+    disableAllMapboxPopup()
+    const url = deleteEarthquakeIDQueryParam()
+    changeURL(url)
 
-      map.current.setFeatureState({ source: MAPBOX_SOURCES.DATA_FAULT_LINE, id }, { selected: true })
-      selectedFaultLineIndex.current = id
-
-      const { lat, lng } = e.lngLat
-      enableMapboxPopup({
-        coordinates: [lng, lat],
-        popupContent: getPopupForFaultLine(properties),
-      })
-    })
-
-    // TODO: console log error
-    map.current.on('click', e => {
-      if (e.defaultPrevented !== false) return
-
-      clearEarthquakeDistance()
-
-      disableAllMapboxPopup()
-      const url = deleteEarthquakeIDQueryParam()
+    if (selectedFaultLineIndex.current) {
+      map.current.setFeatureState({ source: MAPBOX_SOURCES.DATA_FAULT_LINE, id: selectedFaultLineIndex.current }, { selected: false })
+      selectedFaultLineIndex.current = null
+    }
+  }, [])
+  const handleMapGeneralMouseMove = useCallback(
+    debounce(() => {
+      const url = setLatLongQueryParam([
+        map.current.getCenter().lng.toFixed(2),
+        map.current.getCenter().lat.toFixed(2),
+        map.current.getZoom().toFixed(2),
+      ])
       changeURL(url)
+    }, 300),
+    []
+  )
 
-      if (selectedFaultLineIndex.current) {
-        map.current.setFeatureState({ source: MAPBOX_SOURCES.DATA_FAULT_LINE, id: selectedFaultLineIndex.current }, { selected: false })
-        selectedFaultLineIndex.current = null
-      }
-    })
+  const handleMapboxActions = () => {
+    map.current.on('click', MAPBOX_SOURCES.LAYER_DATA_CIRCLE, handleDataCircleLayerClick)
+    map.current.on('click', MAPBOX_SOURCES.LAYER_FAULT_LINE, handleFaultLineLayerClick)
+    // TODO: console log error
+    map.current.on('click', handleMapGeneralClick)
 
-    map.current.on(
-      'move',
-      debounce(() => {
-        const url = setLatLongQueryParam([
-          map.current.getCenter().lng.toFixed(2),
-          map.current.getCenter().lat.toFixed(2),
-          map.current.getZoom().toFixed(2),
-        ])
-        changeURL(url)
-      }, 300)
-    )
+    map.current.on('move', handleMapGeneralMouseMove)
+  }
+
+  // The actions should be same with the actions that can be enabled again
+  const handleDisableSomeActions = () => {
+    map.current.off('click', MAPBOX_SOURCES.LAYER_DATA_CIRCLE, handleDataCircleLayerClick)
+    map.current.off('click', MAPBOX_SOURCES.LAYER_FAULT_LINE, handleFaultLineLayerClick)
+  }
+  // The actions should be same with the actions that can be disabled again
+  const handleEnableSomeActions = () => {
+    map.current.on('click', MAPBOX_SOURCES.LAYER_DATA_CIRCLE, handleDataCircleLayerClick)
+    map.current.on('click', MAPBOX_SOURCES.LAYER_FAULT_LINE, handleFaultLineLayerClick)
   }
 
   const handleMapboxData = () => {
@@ -350,6 +369,18 @@ const TrackingMap = () => {
   useEffect(() => {
     if (!isMapMounted) return
 
+    // Some actions should be disabled when map actions are disabled
+    if (!isEnabledMapActions) {
+      handleDisableSomeActions()
+      return
+    }
+
+    handleEnableSomeActions()
+  }, [isEnabledMapActions])
+
+  useEffect(() => {
+    if (!isMapMounted) return
+
     enableEarthquakePointByQueryParam()
   }, [isMapMounted])
 
@@ -400,7 +431,7 @@ const TrackingMap = () => {
         <ActionList />
         <UpdateTimer />
         <FilterList />
-        <MapTools />
+        <MapTools handleChangeIsEnabledMapActions={handleChangeIsEnabledMapActions} />
       </>
     )
   }, [])

@@ -19,6 +19,7 @@
     justify-content: center;
     transition: 0.2s;
     font-size: 17px;
+    color: rgb(65, 65, 65);
 
     &:hover {
       background-color: #ebebeb;
@@ -27,6 +28,15 @@
     &--disabled {
       opacity: 0.5;
       pointer-events: none;
+    }
+
+    &--active {
+      background-color: #4287f5;
+      color: white;
+
+      &:hover {
+        background-color: #3366cc;
+      }
     }
   }
 
