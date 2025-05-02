@@ -121,6 +121,8 @@ export default {
     'Open Source': 'Open Source',
     'This project is open source': 'This project is open source',
     'Data Sources': 'Data Sources',
-    'Earthquake data for specific regions is collected from local sources (e.g. AFAD for Turkey)': 'Earthquake data for specific regions is collected from local sources (e.g. AFAD for Turkey)',
+    'Earthquake data for specific regions is collected from local sources (e.g. AFAD for Turkey)':
+      'Earthquake data for specific regions is collected from local sources (e.g. AFAD for Turkey)',
+    'USGS and AFAD resources are used': '<source1>USGS</source1> and <source2>AFAD</source2> resources are used',
   },
 }

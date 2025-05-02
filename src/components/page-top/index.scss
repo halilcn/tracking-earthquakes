@@ -13,6 +13,25 @@
         align-items: center;
     }
 
+    &__sources {
+        font-size: 10px;
+        color: rgb(201, 201, 201);
+        position: absolute;
+        bottom: -7px;
+        left: 7px;
+        font-weight: 300;
+    }
+
+    &__source-link {
+        text-decoration: none;
+        color: rgb(201, 201, 201);
+        font-weight: 700;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
     &__logo {
         display: flex;
     }
@@ -113,6 +132,28 @@
 
         &__link-text {
             font-size: 11px;
+        }
+
+        &__sources {
+            font-size: 8px;
+            font-weight: 200;
+            left: 4px;
+        }
+
+        &__source-link {
+            font-weight: 600;
+        }
+
+        &__login-button {
+            display: none;
+        }
+
+        &__link--chat {
+            display: none;
+        }
+
+        &__action-links {
+            margin-right: 0px;
         }
     }
 }

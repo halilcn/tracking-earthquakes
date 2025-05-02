@@ -2,7 +2,7 @@ import { CircularProgress } from '@mui/material'
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google'
 import { useState } from 'react'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { postLogin } from '../../api'
@@ -78,6 +78,15 @@ const PageTop = () => {
         <a className="app-top__logo" href={GITHUB_URL} target="_blank">
           <img src={BlackLogo} />
         </a>
+        <div className="app-top__sources">
+          <Trans
+            i18nKey="USGS and AFAD resources are used"
+            components={{
+              source1: <a target="_blank" className="app-top__source-link" href="https://www.usgs.gov/" />,
+              source2: <a target="_blank" className="app-top__source-link" href="https://www.afad.gov.tr/" />,
+            }}
+          />
+        </div>
       </div>
       <div className="app-top__action-list">
         <div className="app-top__action-links">

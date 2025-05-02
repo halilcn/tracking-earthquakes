@@ -1,3 +1,5 @@
+@import "../../../styles/variables.scss";
+
 .custom-map-controls {
   position: absolute;
   bottom: 20px;
@@ -61,5 +63,13 @@
     &:hover {
       background-color: #ebebeb;
     }
+  }
+}
+
+
+@media only screen and (max-width: $mobile-width) {
+  .custom-map-controls {
+    right: 15px;
+    bottom: 15px;
   }
 }

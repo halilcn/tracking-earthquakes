@@ -118,6 +118,8 @@ export default {
     General: 'Genel',
     'This project is open source': 'Bu proje açık kaynaktır',
     'Data Sources': 'Veri Kaynakları',
-    'Earthquake data for specific regions is collected from local sources (e.g. AFAD for Turkey)': 'Belirli bölgelerdeki deprem verileri yerel kaynaklardan toplanmaktadır (örn: Türkiye için AFAD)',
+    'Earthquake data for specific regions is collected from local sources (e.g. AFAD for Turkey)':
+      'Belirli bölgelerdeki deprem verileri yerel kaynaklardan toplanmaktadır (örn: Türkiye için AFAD)',
+    'USGS and AFAD resources are used': '<source1>USGS</source1> ve <source2>AFAD</source2> kaynakları kullanılır',
   },
 }
