@@ -1,6 +1,7 @@
 export default {
   translation: {
     'Track Earthquakes': 'Track Earthquakes',
+    'Latest Earthquakes': 'Latest Earthquakes',
     City: 'City',
     "There aren't any earthquakes": "There aren't any earthquakes",
     'Search a place': 'Search a place',
