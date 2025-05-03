@@ -22,13 +22,43 @@
 
     &__just-now {
         position: absolute;
-        right: 10px;
+        right: 5px;
         top: 5px;
         color: rgb(255, 255, 255);
+        animation: blink 1s infinite;
+        font-size: 30px;
+        width: 15px;
+        height: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    @keyframes blink {
+        0% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0.2;
+        }
+
+        100% {
+            opacity: 1;
+        }
     }
 
     &__item {
         margin: 3px 0;
+        display: flex;
+        align-items: center;
+
+        &--tag {
+            background-color: #59595e;
+            padding: 5px 8px;
+            border-radius: 5px;
+            margin-left: 10px;
+        }
 
         &--intensity {
             font-weight: 700;
@@ -36,11 +66,11 @@
         }
 
         &--depth {
-            font-size: 15px;
+            font-size: 12px;
         }
 
         &--date {
-            font-size: 15px;
+            font-size: 12px;
         }
 
         &--title {
@@ -49,13 +79,13 @@
         }
     }
 
+    &__item-icon {
+        margin-right: 5px;
+    }
+
     &__line {
         display: flex;
         align-items: center;
-    }
-
-    &__circle-character {
-        margin: 0 20px;
     }
 
     @media only screen and (max-width: $mobile-width) {
@@ -70,20 +100,16 @@
             }
 
             &--depth {
-                font-size: 12px;
+                font-size: 11px;
             }
 
             &--date {
-                font-size: 12px;
+                font-size: 11px;
             }
 
             &--title {
                 font-size: 12px;
             }
-        }
-
-        &__circle-character {
-            margin: 0 15px;
         }
     }
 }
