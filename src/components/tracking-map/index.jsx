@@ -28,6 +28,7 @@ import {
   setEarthquakeIDQueryParam,
   setLatLongQueryParam,
 } from '../../utils/queryParamsActions'
+import { TOP_HEADER_HEIGHT } from '../app-container'
 import ActionList from './action-list'
 import FilterList from './filter-list'
 import './index.scss'
@@ -438,7 +439,7 @@ const TrackingMap = () => {
 
   return (
     <div data-testid={testid.mapContainer} className="tracking-map">
-      <div className="tracking-map__map-container" ref={mapContainer} />
+      <div className="tracking-map__map-container" style={{ height: `calc(100% + ${TOP_HEADER_HEIGHT}px)` }} ref={mapContainer} />
       {memoizedComponents}
     </div>
   )

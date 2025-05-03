@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion'
 import introJs from 'intro.js'
 import { useEffect, useRef, useState } from 'react'
 import React from 'react'
@@ -11,12 +12,15 @@ import useEffectIgnoreFirstRender from '../../hooks/useEffectIgnoreFirstRender'
 import { getAllEarthquakes } from '../../service/earthquakes'
 import { authActions, isLoggedInSelector } from '../../store/auth'
 import { earthquakeActions, isSelectedAnyArchiveItem } from '../../store/earthquake'
+import { isMobile } from '../../utils'
 import { getFirstGuideStatus, removeUserToken, setFirstGuideStatus } from '../../utils/localStorageActions'
 import ErrorPage from '../error-page'
 import PageTop from '../page-top'
 import TrackingMap from '../tracking-map'
 import AppLoading from './app-loading'
 import './index.scss'
+
+export const TOP_HEADER_HEIGHT = isMobile() ? 45 : 70
 
 const AppContainer = () => {
   const testid = constantsTestid.appContainer
@@ -39,6 +43,7 @@ const AppContainer = () => {
     }
   })
   const isLoggedIn = useSelector(isLoggedInSelector)
+  const { isCollapsedTopHeader } = useSelector(state => state.app)
 
   const hasArchiveDates = !!archiveDate.startDate && !!archiveDate.endDate
 
@@ -199,15 +204,43 @@ const AppContainer = () => {
     }
   }, [hasError, isLoading])
 
+  const topHeaderProps = {
+    className: 'app-container__top',
+    animate: isCollapsedTopHeader ? 'closed' : 'open',
+    initial: false,
+    variants: {
+      closed: {
+        transform: `translateY(-${TOP_HEADER_HEIGHT}px)`,
+        marginBottom: -TOP_HEADER_HEIGHT,
+        transition: {
+          transform: { duration: 0.35, ease: 'easeInOut' },
+          marginBottom: { duration: 0.3, ease: 'easeOut' },
+        },
+      },
+      open: {
+        transform: 'translateY(0)',
+        marginBottom: 0,
+        transition: {
+          transform: { duration: 0.3, ease: 'easeOut' },
+          marginBottom: { duration: 0.35, ease: 'easeInOut' },
+        },
+        transitionEnd: {
+          transform: 'none',
+        },
+      },
+    },
+    'data-testid': testid.top,
+  }
+
   return (
     <div data-testid={testid.appContainer} className="app-container">
       {isLoading && <AppLoading />}
       {hasError && <ErrorPage />}
       {!hasError && !isLoading && (
         <>
-          <div data-testid={testid.top} className="app-container__top">
+          <motion.div {...topHeaderProps}>
             <PageTop />
-          </div>
+          </motion.div>
           <div data-testid={testid.content} className="app-container__content">
             <TrackingMap />
           </div>

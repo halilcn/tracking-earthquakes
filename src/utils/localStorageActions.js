@@ -9,6 +9,7 @@ export const LOCAL_STORAGE_KEYS = {
   NEW_EARTHQUAKE_SOUND_NOTIFICATION: 'NEW_EARTHQUAKE_SOUND_NOTIFICATION',
   FIRST_GUID_STATUS: 'FIRST_GUID_STATUS',
   USER_TOKEN: 'USER_TOKEN',
+  COLLAPSED_TOP_HEADER: 'COLLAPSED_TOP_HEADER',
 }
 
 export const setMapType = mapType => localStorage.setItem(LOCAL_STORAGE_KEYS.MAP_TYPE, mapType)
@@ -42,3 +43,6 @@ export const getFirstGuideStatus = () => localStorage.getItem(LOCAL_STORAGE_KEYS
 export const setUserToken = token => localStorage.setItem(LOCAL_STORAGE_KEYS.USER_TOKEN, token)
 export const getUserToken = () => localStorage.getItem(LOCAL_STORAGE_KEYS.USER_TOKEN)
 export const removeUserToken = () => localStorage.removeItem(LOCAL_STORAGE_KEYS.USER_TOKEN)
+
+export const setCollapsedTopHeader = status => localStorage.setItem(LOCAL_STORAGE_KEYS.COLLAPSED_TOP_HEADER, status)
+export const getCollapsedTopHeader = () => localStorage.getItem(LOCAL_STORAGE_KEYS.COLLAPSED_TOP_HEADER)
