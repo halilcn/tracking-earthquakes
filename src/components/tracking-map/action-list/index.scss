@@ -14,11 +14,13 @@
         font-size: 0;
         cursor: pointer;
         border-radius: 100px;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
         position: relative;
+        transition: all 0.2s ease;
 
         &:hover {
-            background-color: rgb(227, 227, 227);
+            background-color: rgb(235, 235, 235);
+            transform: scale(1.05);
         }
 
         &--earthquake-list {}

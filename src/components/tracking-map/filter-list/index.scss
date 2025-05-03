@@ -13,13 +13,13 @@
     }
 
     &__item-container {
-        margin-left: 25px;
+        margin-left: 15px;
         display: flex;
         flex-direction: column;
         align-items: center;
 
         &:hover {
-            & > .filter__item-text {
+            &>.filter__item-text {
                 opacity: 1;
                 top: 70px;
                 visibility: visible;
@@ -29,18 +29,21 @@
 
     &__item {
         border-radius: 100px;
+        transition: all 0.2s ease;
 
         &:hover {
-            background-color: rgb(227, 227, 227);
+            background-color: rgb(235, 235, 235);
+            transform: scale(1.05);
         }
 
         &--selected {
             background-color: rgb(255, 255, 255) !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         &--active {
-            box-shadow: 0px 0px 27px 0px rgb(255, 255, 255);
-            background-color: rgb(236, 236, 236);
+            box-shadow: 0px 0px 20px 0px rgba(255, 255, 255, 0.8);
+            background-color: rgb(240, 240, 240);
         }
 
         &--icon {
@@ -53,6 +56,7 @@
 
     &__icon {
         font-size: 22px;
+        transition: transform 0.2s ease;
     }
 
     &__icon-blur {
@@ -74,7 +78,7 @@
     &__item-text {
         font-size: 11px;
         position: absolute;
-        padding: 4px;
+        padding: 6px 8px;
         top: 30px;
         text-align: center;
         opacity: 0;
@@ -84,6 +88,8 @@
         border-radius: 5px;
         color: rgb(55, 55, 55);
         visibility: hidden;
+        background-color: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
 
     &__item-text-blur {
@@ -98,16 +104,17 @@
         padding: 25px;
         width: 350px;
         border-radius: 10px;
-        box-shadow: 0px 0px 15px -3px rgb(255, 255, 255);
     }
 
     &__title {
         font-size: 16px;
         font-weight: 500;
-        color: rgb(89, 89, 89);
+        color: rgb(70, 70, 70);
         font-weight: 600;
         margin-bottom: 20px;
         text-align: center;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        padding-bottom: 10px;
     }
 
     @media only screen and (max-width: $mobile-width) {
@@ -119,7 +126,7 @@
         }
 
         &__item-container {
-            margin-left: 15px;
+            margin-left: 10px;
         }
 
         &__item {
