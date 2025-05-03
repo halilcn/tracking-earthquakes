@@ -3,19 +3,27 @@ import { useTranslation } from 'react-i18next'
 
 import { SOURCE_COLOR } from '../../../../constants'
 import constantsTestid from '../../../../constants/testid'
+import { getPointColorByIntensity } from '../../../../utils'
 import dayjs from '../../../../utils/dayjs'
 import './index.scss'
 import MapEarthquakePopupShareList from './map-earthquake-popup-share-list'
 
-const MapEarthquakePopup = props => {
+const MapEarthquakePopup = ({ earthquake }) => {
   const testid = constantsTestid.mapEarthquakePopup
-  const { earthquake } = props
+
   const { t } = useTranslation()
+  const magnitudeColor = getPointColorByIntensity(earthquake.mag)
 
   return (
     <div data-testid={testid.container} className="earthquake-popup">
-      <div className="earthquake-popup__mag">
-        <span className="earthquake-popup__mag-number">{earthquake.mag}</span>
+      <div
+        className="earthquake-popup__mag"
+        style={{
+          background: `linear-gradient(to bottom, ${magnitudeColor}10, ${magnitudeColor}25)`,
+        }}>
+        <span className="earthquake-popup__mag-number" style={{ color: magnitudeColor }}>
+          {earthquake.mag}
+        </span>
         <span className="earthquake-popup__mag-text">{t('Magnitude').toUpperCase()}</span>
       </div>
       <div className="earthquake-popup__tags">
