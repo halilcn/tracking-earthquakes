@@ -20,6 +20,7 @@ import useMapboxPopup from '../../hooks/useMapboxPopup'
 import useSafeEffect from '../../hooks/useSafeEffect'
 import { earthquakeActions } from '../../store/earthquake'
 import { changeURL, debounce, getPopupForFaultLine, prepareEarthquakeDistance, wrapperForSourceData } from '../../utils'
+import { isMobile } from '../../utils'
 import { getMapType } from '../../utils/localStorageActions'
 import {
   deleteEarthquakeIDQueryParam,
@@ -432,7 +433,7 @@ const TrackingMap = () => {
       <>
         <ActionList />
         <Layers />
-        <UpdateTimer />
+        {!isMobile() && <UpdateTimer />}
         <FilterList />
         <MapTools handleChangeIsEnabledMapActions={handleChangeIsEnabledMapActions} />
       </>
