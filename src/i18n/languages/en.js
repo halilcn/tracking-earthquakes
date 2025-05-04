@@ -34,7 +34,7 @@ export default {
     'Live Earthquake': 'Live Earthquake',
     Info: 'Info',
     Anywhere: 'Anywhere',
-    'Fault Line Active': 'Fault Line Active',
+    'Fault Line': 'Fault Line',
     Layer: 'Layer',
     Name: 'Name',
     'Plate A': 'Plate A',
@@ -125,5 +125,6 @@ export default {
     'Earthquake data for specific regions is collected from local sources (e.g. AFAD for Turkey)':
       'Earthquake data for specific regions is collected from local sources (e.g. AFAD for Turkey)',
     'USGS and AFAD resources are used': '<source1>USGS</source1> and <source2>AFAD</source2> resources are used',
+    layers: 'layers',
   },
 }

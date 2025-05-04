@@ -3,13 +3,10 @@ import React from 'react'
 import constantsTestid from '../../../../constants/testid'
 import { isMobile } from '../../../../utils/index'
 import ChooseLanguage from './choose-language'
-import FaultLine from './fault-line'
 import FullScreen from './full-screen'
 import './index.scss'
 import MapType from './map-type'
 import NewEarthquakeSoundNotification from './new-earthquake-sound-notification'
-import PopulationDensity from './population-density'
-import SourceColor from './source-color'
 
 const Settings = () => {
   const testid = constantsTestid.settings
@@ -21,15 +18,6 @@ const Settings = () => {
       </div>
       <div className="settings__item">
         <ChooseLanguage />
-      </div>
-      <div className="settings__item">
-        <FaultLine />
-      </div>
-      <div className="settings__item">
-        <PopulationDensity />
-      </div>
-      <div className="settings__item">
-        <SourceColor />
       </div>
       <div className="settings__item">
         <NewEarthquakeSoundNotification />

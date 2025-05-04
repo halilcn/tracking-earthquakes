@@ -29,6 +29,7 @@ import {
   setLatLongQueryParam,
 } from '../../utils/queryParamsActions'
 import { TOP_HEADER_HEIGHT } from '../app-container'
+import Layers from '../layers'
 import ActionList from './action-list'
 import FilterList from './filter-list'
 import './index.scss'
@@ -430,6 +431,7 @@ const TrackingMap = () => {
     return (
       <>
         <ActionList />
+        <Layers />
         <UpdateTimer />
         <FilterList />
         <MapTools handleChangeIsEnabledMapActions={handleChangeIsEnabledMapActions} />

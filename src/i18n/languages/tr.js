@@ -33,7 +33,7 @@ export default {
     'Live Earthquake': 'Canlı Deprem',
     Info: 'Bilgi',
     Anywhere: 'Herhangi bir yer',
-    'Fault Line Active': 'Fay Hattı Aktif',
+    'Fault Line': 'Fay Hattı',
     Layer: 'Katman',
     Name: 'İsim',
     'Plate A': 'Plaka A',
@@ -122,5 +122,6 @@ export default {
     'Earthquake data for specific regions is collected from local sources (e.g. AFAD for Turkey)':
       'Belirli bölgelerdeki deprem verileri yerel kaynaklardan toplanmaktadır (örn: Türkiye için AFAD)',
     'USGS and AFAD resources are used': '<source1>USGS</source1> ve <source2>AFAD</source2> kaynakları kullanılır',
+    layers: 'katmanlar',
   },
 }

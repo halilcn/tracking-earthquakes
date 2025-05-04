@@ -1,0 +1,129 @@
+@import '../../styles/variables.scss';
+
+.layers {
+    position: absolute;
+    bottom: 25px;
+    left: 25px;
+
+    &__button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        padding: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        z-index: 1;
+        border-radius: 20px;
+        font-size: 13px;
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+
+        &--active {
+            background-color: rgb(235, 235, 235);
+        }
+
+        &:hover {
+            background-color: rgb(235, 235, 235);
+        }
+    }
+
+    &__button-filter {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        background-color: white;
+        opacity: 0.6;
+        filter: blur(0.6px);
+        border-radius: 20px;
+    }
+
+    &__button-text {
+        font-weight: 500;
+        color: #353232;
+    }
+
+    &__close-btn {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        cursor: pointer;
+        padding: 5px;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        color: rgb(74, 74, 74);
+        background-color: #eff0f3;
+
+        &:hover {
+            background-color: #e9eaed;
+        }
+    }
+
+    &__content {
+        position: absolute;
+        padding: 10px;
+        background-color: white;
+        bottom: 50px;
+        left: 0;
+        width: 250px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    &__content-list {
+        margin-top: 34px;
+    }
+
+    &__item {
+        padding: 13px 8px;
+        border-radius: 10px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border: 1px solid transparent;
+        color: #353232;
+        margin: 6px 0;
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+
+        &:hover {
+            background-color: rgb(235, 235, 235);
+        }
+
+        &--selected {
+            background-color: rgb(235, 235, 235);
+            border-color: #616161;
+        }
+    }
+
+    &__item-text {
+        font-size: 12px;
+        font-weight: 400;
+        color: #353232;
+    }
+
+    @media only screen and (max-width: $mobile-width) {
+        left: 15px;
+        bottom: 15px;
+
+        &__button {
+            gap: 4px;
+            padding: 10px;
+            font-size: 12px;
+        }
+
+        &__button-text {
+            font-weight: 400;
+        }
+    }
+}
