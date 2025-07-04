@@ -1,11 +1,21 @@
-// TODO: it will be changed.
+// Minimal Service Worker - sadece PWA gereksinimlerini karşılar
 
-const CACHE_NAME = 'v1-cache'
-const urlsToCache = ['/']
+// Install event
 self.addEventListener('install', function (event) {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(function (cache) {
-      return cache.addAll(urlsToCache)
-    })
-  )
+  console.log('Service Worker installed')
+  // Hemen aktif hale getir
+  self.skipWaiting()
+})
+
+// Activate event
+self.addEventListener('activate', function (event) {
+  console.log('Service Worker activated')
+  // Tüm sayfalarda hemen kontrol al
+  self.clients.claim()
+})
+
+// Fetch event - PWA için gerekli (cache yapmadan)
+self.addEventListener('fetch', function (event) {
+  // Sadece network'e yönlendir, cache yapmıyoruz
+  event.respondWith(fetch(event.request))
 })

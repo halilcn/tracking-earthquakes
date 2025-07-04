@@ -3,6 +3,9 @@
   "short_name": "Tracking Earthquake",
   "description": "Tracking all earthquakes in the world with evolved features",
   "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#4d4e4f",
+  "background_color": "#3E4EB8",
   "icons": [
     {
       "src": "icons/app-icon-512x512.png",
@@ -10,17 +13,14 @@
       "type": "image/png"
     },
     {
-      "src": "icons/app-icon-128x128.png",
-      "sizes": "128x128",
-      "type": "image/png"
-    },
-    {
       "src": "icons/app-icon-256x256.png",
       "sizes": "256x256",
       "type": "image/png"
+    },
+    {
+      "src": "icons/app-icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png"
     }
-  ],
-  "background_color": "#3E4EB8",
-  "display": "standalone",
-  "theme_color": "#4d4e4f"
+  ]
 }
