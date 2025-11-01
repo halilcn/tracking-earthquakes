@@ -8,7 +8,7 @@ const getAllEarthquakesByUsingKandilliAPI = async params => {
     const responseEarthquakes = await getEarthquakesInTurkey({ ...params, skip: allEarthquakes.length })
     allEarthquakes.push(...responseEarthquakes.result)
 
-    if (responseEarthquakes.metadata.total - 1 < allEarthquakes.length) break
+    if (responseEarthquakes.metadata.count - 1 < allEarthquakes.length) break
   }
 
   return allEarthquakes
