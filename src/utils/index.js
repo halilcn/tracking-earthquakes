@@ -50,7 +50,7 @@ export const earthquakeDataStructure = earthquake => ({
 export const prepareEarthquakeKandilli = earthquake => {
   const {
     geojson: { coordinates },
-    date,
+    date_time,
     depth,
     earthquake_id,
     title,
@@ -59,10 +59,10 @@ export const prepareEarthquakeKandilli = earthquake => {
   } = earthquake
 
   const source = SOURCES.KANDILLI
-  const isNewEarthquake = checkIsNewEarthquake(date)
+  const isNewEarthquake = checkIsNewEarthquake(date_time)
   const pointColor = getPointColorByIntensity(mag)
   const pointSize = getPointSizeByIntensity(mag)
-  const convertedDate = dayjs(date, 'YYYY.MM.DD hh:mm:ss').format()
+  const convertedDate = dayjs(date_time, 'YYYY-MM-DD HH:mm:ss').format()
   const sourceColor = getSourceColorBySource(source)
 
   return earthquakeDataStructure({
